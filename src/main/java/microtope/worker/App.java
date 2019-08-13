@@ -12,7 +12,7 @@ public class App
 {
 	private static Logger logger = LogManager.getLogger(App.class);
 
-    public static void main( String[] args ) throws JMSException, IOException, InterruptedException, SQLException
+    public static void main( String[] args ) throws IOException, InterruptedException, SQLException
     {
         logger.info( "Starting AMQ-Reciever" );
         logger.debug( "Recieved " + args + " as arguments" );
@@ -107,7 +107,14 @@ public class App
             db_user_to_connect=args[7];
             db_pwd_to_connect=args[8];
         	
-            var rec = new MessageReceiver(amq_adress_to_connect, amq_port_to_connect,amq_queue_to_connect,amq_user_to_connect,amq_pwd_to_connect);
+            logger.debug("Connection to amq " + amq_adress_to_connect + " as " + amq_user_to_connect + " with pwd [REDACTED] on port " + amq_port_to_connect + " on queue " + amq_queue_to_connect );
+            
+            try {
+				var rec = new MessageReceiver(amq_adress_to_connect, amq_port_to_connect,amq_queue_to_connect,amq_user_to_connect,amq_pwd_to_connect);
+			} catch (JMSException e) {
+				logger.error("Opening the MessageReciever gone wrong! Closing Application with Error");
+				System.exit(1);
+			}
             
             logger.info("reciever worked properly, starting MariaDBWriter");
             var mariadbwriter = new MariaDBWriter(db_adress_to_connect, db_port_to_connect, db_user_to_connect, db_pwd_to_connect);
