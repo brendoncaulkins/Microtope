@@ -1,0 +1,18 @@
+FROM azul/zulu-openjdk-alpine:12.0.2
+
+ENV dir /usr/app
+ENV ActiveMQ_Adress 127.0.0.1
+ENV ActiveMQ_Port 61616
+ENV ActiveMQ_Queue game_queue
+ENV ActiveMQ_User Artemis
+ENV ActiveMQ_Pwd  Artemis
+
+RUN apk update && apk add bash
+
+RUN mkdir -p $dir
+
+COPY ./target/pulser-0.1-jar-with-dependencies.jar $dir
+
+WORKDIR $dir
+
+ENTRYPOINT ["/bin/bash", "-c", "java -jar pulser-0.1-jar-with-dependencies.jar $ActiveMQ_Adress $ActiveMQ_Port $ActiveMQ_Queue $ActiveMQ_User $ActiveMQ_Pwd "]
