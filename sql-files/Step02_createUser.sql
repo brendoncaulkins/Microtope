@@ -1,0 +1,5 @@
+CREATE USER IF NOT EXISTS micro_writer IDENTIFIED BY 'INeed2Write';
+
+CREATE USER IF NOT EXISTS micro_reader IDENTIFIED BY 'Need4Read';
+
+CREATE USER IF NOT EXISTS micro_admin IDENTIFIED BY 'admicromin';
