@@ -1,7 +1,8 @@
-# AMQ-Reciver
+# Worker
 
 This component takes simple messages from a given ActiveMQ.
-It is long running and sleeps for n-ms before it looks for new messages. 
+It is long running and sleeps for n-ms before it looks for new messages.
+
 The messages get processed and safed into an database.
 Part of the microworld-miniproject.
 
@@ -9,7 +10,7 @@ Part of the microworld-miniproject.
 
 - first, make `mvn clean package` and recognize the version number
 - alter the Dockerfile to use the new version
-- run `sudo docker build . -t amqreciever:{nextversion}`
+- run `sudo docker build . -t microtope/worker:{nextversion}`
 
 ## ToDo
 
