@@ -1,0 +1,43 @@
+version: '3.3'
+
+services:
+  amq:
+    image: vromero/activemq-artemis
+    networks: 
+        - backend
+    ports: 
+      - "8161:8161"
+    environment:
+      ARTEMIS_USERNAME: Artemis
+      ARTEMIS_PASSWORD: Artemis
+  pulser:
+    image: microtope/pulser:0.1
+    depends_on: 
+      - amq
+    environment:
+      ActiveMQ_Adress: amq
+    restart: on-failure
+    networks: 
+      - backend
+  db:
+    image: microtope/database:0.1
+    networks: 
+      - backend
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      TZ: "Europe/Berlin"
+  worker:
+    image: microtope/worker:0.1
+    networks:
+      - backend
+    environment:
+      ActiveMQ_Adress: amq
+      MariaDB_Adress: db
+      MariaDB_User: micro_writer
+      MariaDB_PW: INeed2Write
+    restart: on-failure
+    depends_on: 
+      - amq
+      - db
+networks:
+  backend:
