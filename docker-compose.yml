@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   amq:
-    image: vromero/activemq-artemis
+    image: vromero/activemq-artemis:2.4.0
     networks: 
         - backend
     ports: 
