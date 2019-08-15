@@ -1,4 +1,4 @@
-USE `Microworld`;
+USE `MicroTope`;
 
 CREATE TABLE IF NOT EXISTS health (
     status VARCHAR(40) NOT NULL

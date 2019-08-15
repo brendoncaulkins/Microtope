@@ -1,4 +1,4 @@
-USE `Microworld`;
+USE `MicroTope`;
 
 CREATE TABLE IF NOT EXISTS teams (
     team_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
