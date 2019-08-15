@@ -1,4 +1,8 @@
 package microtope.worker;
+import java.io.Closeable;
+import java.io.IOException;
+import java.util.Optional;
+
 import javax.jms.Connection;
 import javax.jms.Destination;
 import javax.jms.JMSException;
@@ -7,19 +11,21 @@ import javax.jms.MessageConsumer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
  
-import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
  
-public class MessageReceiver {
+public class AMQMessageReciever implements Closeable, MessageReciever{
 	
-	private static Logger logger = LogManager.getLogger(MessageReceiver.class);
+	private static Logger logger = LogManager.getLogger(AMQMessageReciever.class);
 
 	Connection connection; 
 	Session session;
 	
-    public MessageReceiver (String adress, String port, String queue, String user_to_connect, String pwd_to_connect) throws JMSException {
+	private Destination destination;
+	private MessageConsumer consumer;
+	
+    public AMQMessageReciever (String adress, String port, String queue, String user_to_connect, String pwd_to_connect) throws JMSException {
         
     	if(user_to_connect == null || user_to_connect.isEmpty())
     		logger.warn("recieved empty user for MessageReciever! Using anonymus user");
@@ -37,27 +43,49 @@ public class MessageReceiver {
         connection =  connectionFactory.createConnection(user_to_connect,pwd_to_connect);
         
         connection.start();
-        logger.debug( "Connection opened" ); 
-        
-        logger.debug("Opened Connection" );
+        logger.debug( "AMQ Connection opened" ); 
         
         Session session = connection.createSession(false,
                 Session.AUTO_ACKNOWLEDGE);
  
-        Destination destination = session.createQueue(queue);
+        destination = session.createQueue(queue);
         logger.debug("Opened Session and found Queue");
         // MessageConsumer is used for receiving (consuming) messages
-        MessageConsumer consumer = session.createConsumer(destination);
+        consumer = session.createConsumer(destination);
         
-        // Here we receive the message.
-        Message message = consumer.receive();
+        logger.debug("Created fully working AMQ MessageReciever");
         
-        if (message instanceof TextMessage) {
-            TextMessage textMessage = (TextMessage) message;
-            logger.info("Received message '" + textMessage.getText() + "'");
-        }
-        connection.close();
-        logger.info("closing message reciever connection");
     }
+    
+    
+    @Override
+	public Optional<TextMessage> readMessage(){
+    	try {
+			Message message = consumer.receive();
+			if (message instanceof TextMessage) {
+	            TextMessage textMessage = (TextMessage) message;
+	            logger.info("Received message '" + textMessage.getText() + "'");
+	            return Optional.of(textMessage);
+	        }
+			else logger.warn("recieved Message but it is no TextMessage");
+		} catch (JMSException e) {
+			logger.error(e);
+		}
+        
+    	return Optional.empty();
+    }
+
+
+	@Override
+	public void close() throws IOException {
+		try {
+			session.close();
+			connection.close();
+			logger.debug("Closing AMQMessageReciever");
+		} catch (JMSException e) {
+			logger.error(e);
+		}
+	}
+    
     
 }

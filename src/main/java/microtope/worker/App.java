@@ -110,8 +110,10 @@ public class App
             logger.debug("Connection to amq " + amq_adress_to_connect + " as " + amq_user_to_connect + " with pwd [REDACTED] on port " + amq_port_to_connect + " on queue " + amq_queue_to_connect );
             
             try {
-				var rec = new MessageReceiver(amq_adress_to_connect, amq_port_to_connect,amq_queue_to_connect,amq_user_to_connect,amq_pwd_to_connect);
-			} catch (JMSException e) {
+				MessageReciever rec = new AMQMessageReciever(amq_adress_to_connect, amq_port_to_connect,amq_queue_to_connect,amq_user_to_connect,amq_pwd_to_connect);
+				rec.readMessage();
+				rec.close();
+            } catch (JMSException e) {
 				logger.error("Opening the MessageReciever gone wrong! Closing Application with Error");
 				System.exit(1);
 			}
