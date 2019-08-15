@@ -2,28 +2,28 @@ Use Microworld;
 
 CREATE VIEW Microworld.steps_by_user 
 AS
-SELECT u.user_id,SUM(steps) AS steps 
-FROM users AS u
+SELECT ps.player_id,SUM(steps) AS steps 
+FROM players AS ps
 JOIN steps AS s
-ON u.user_id = s.user_id
-GROUP BY u.user_id 
+ON ps.player_id = s.player_id
+GROUP BY ps.player_id 
 ORDER BY steps DESC;
 
 CREATE VIEW Microworld.coins_by_user
 AS 
-SELECT user_id, sum(value) AS coins
+SELECT player_id, sum(value) AS coins
 FROM coins 
-GROUP BY user_id
+GROUP BY player_id
 ORDER BY coins DESC;
 
 CREATE VIEW Microworld.coins_by_team 
 AS
 SELECT t.team_id, t.team_name, SUM(value) AS coins
 FROM teams AS t
-JOIN users AS u 
+JOIN players AS ps 
 JOIN coins AS c
-ON t.team_id = u.team_id
-AND u.user_id = c.user_id
+ON t.team_id = ps.team_id
+AND ps.player_id = c.player_id
 GROUP BY t.team_id 
 ORDER BY coins DESC;
 
@@ -32,8 +32,8 @@ AS
 SELECT t.team_id,t.team_name,sum(steps) AS steps
 FROM teams as t 
 JOIN steps as s
-JOIN users as u 
-ON u.team_id = t.team_id 
-AND s.user_id = u.user_id
+JOIN players as ps 
+ON ps.team_id = t.team_id 
+AND s.player_id = ps.player_id
 GROUP BY t.team_id 
 ORDER BY steps DESC;
