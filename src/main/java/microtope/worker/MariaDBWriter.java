@@ -21,12 +21,14 @@ public class MariaDBWriter implements Closeable{
 	private static Logger logger = LogManager.getLogger(MariaDBWriter.class);
 
 	public MariaDBWriter(String adress, String port, String user, String pwd) throws SQLException {
-		var url = String.format("jdbc:mysql://%s:%s/%s",adress,port,"Microworld");
+		var url = String.format("jdbc:mysql://%s:%s/%s",adress,port,"MicroTope");
 		logger.info("Building MariaDB connection to URL " + url);
 		
 		Properties connectionProps = new Properties();
 	    connectionProps.put("user", user);
 	    connectionProps.put("password", pwd);
+	    
+	    logger.debug("Trying to connect to "+url+" as "+user+ " with Password [REDACTED] ");
 	    
 	    con = DriverManager.getConnection(url,connectionProps);
 	
@@ -65,15 +67,10 @@ public class MariaDBWriter implements Closeable{
 		if(con==null || con.isClosed())
 			logger.error("connection is null or closed!");
 		else {
-			PreparedStatement stmt = con.prepareStatement(
-					"INSERT INTO users (user_id,team_id)"
-					+ "SELECT ? , ?"
-					+ "WHERE NOT EXISTS (Select user_id From users WHERE user_id =?) LIMIT 1;"
-			);
+			PreparedStatement stmt = con.prepareStatement("INSERT INTO players (player_id, team_id) VALUES (? , ?) ON DUPLICATE KEY UPDATE player_id=player_id;");
 			
 			stmt.setInt(1, player);
 			stmt.setInt(2, teamid);
-			stmt.setInt(3, player);
 			
 		    stmt.executeQuery();
 		    
