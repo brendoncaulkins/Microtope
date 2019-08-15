@@ -12,6 +12,9 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import microtope.messages.CoinMessage;
+import microtope.messages.StepMessage;
+
 public class MariaDBWriter implements Closeable{
 	
 	Connection con;
@@ -31,7 +34,6 @@ public class MariaDBWriter implements Closeable{
 	    
 	    healthcheck();
 	    
-	    con.close();
 	}
 	
 	private void healthcheck() throws SQLException {
@@ -52,6 +54,38 @@ public class MariaDBWriter implements Closeable{
 		}
 	}
 
+	public void writeSteps(StepMessage msg) {
+		
+	}
+	
+	public void writePlayer(int player) throws SQLException {
+		int teamid = 1;
+		// This writes the player if it does not exist
+		logger.debug("writing player " + player + " with team " + teamid);
+		if(con==null || con.isClosed())
+			logger.error("connection is null or closed!");
+		else {
+			PreparedStatement stmt = con.prepareStatement(
+					"INSERT INTO users (user_id,team_id)"
+					+ "SELECT ? , ?"
+					+ "WHERE NOT EXISTS (Select user_id From users WHERE user_id =?) LIMIT 1;"
+			);
+			
+			stmt.setInt(1, player);
+			stmt.setInt(2, teamid);
+			stmt.setInt(3, player);
+			
+		    stmt.executeQuery();
+		    
+		    logger.debug("Creating Player worked - not sure if player already existed!");
+		}
+	}
+	
+	public void writeCoins(CoinMessage msg) {
+		
+	}
+	
+	
 	@Override
 	public void close() throws IOException {
 		try {

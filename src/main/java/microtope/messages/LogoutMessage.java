@@ -11,4 +11,5 @@ public class LogoutMessage implements PlayerRelatedMessage {
 	public int getPlayer() {
 		return player;
 	}
+	
 }
