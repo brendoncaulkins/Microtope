@@ -111,8 +111,6 @@ public class App
             
             try {
 				MessageReciever rec = new AMQMessageReciever(amq_adress_to_connect, amq_port_to_connect,amq_queue_to_connect,amq_user_to_connect,amq_pwd_to_connect);
-				rec.readMessage();
-				rec.close();
             } catch (JMSException e) {
 				logger.error("Opening the MessageReciever gone wrong! Closing Application with Error");
 				System.exit(1);
