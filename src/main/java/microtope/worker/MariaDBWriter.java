@@ -1,5 +1,7 @@
 package microtope.worker;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,7 +12,7 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class MariaDBWriter {
+public class MariaDBWriter implements Closeable{
 	
 	Connection con;
 	private static Logger logger = LogManager.getLogger(MariaDBWriter.class);
@@ -47,6 +49,16 @@ public class MariaDBWriter {
 		    	logger.info(rs.getString("status"));  
 		    }
 		    logger.info("healthcheck passed!");
+		}
+	}
+
+	@Override
+	public void close() throws IOException {
+		try {
+			con.close();
+			logger.debug("Closed MariaDBWriter DB Connection successfully");
+		} catch (SQLException e) {
+			logger.error(e);
 		}
 	}
 	

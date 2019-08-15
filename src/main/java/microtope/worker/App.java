@@ -118,7 +118,7 @@ public class App
             
             logger.info("reciever worked properly, starting MariaDBWriter");
             var mariadbwriter = new MariaDBWriter(db_adress_to_connect, db_port_to_connect, db_user_to_connect, db_pwd_to_connect);
-        
+            
             logger.info("mariadb writer worked properly, ending testrun");
         }
                 
