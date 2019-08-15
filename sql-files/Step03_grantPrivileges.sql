@@ -1,4 +1,4 @@
-Use Microworld;
+Use MicroTope;
 
 GRANT ALL PRIVILEGES ON MicroTope.* TO micro_admin;
 
