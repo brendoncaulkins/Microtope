@@ -16,6 +16,12 @@ public class App
     {
         logger.info( "Starting AMQ-Reciever" );
         logger.debug( "Recieved " + args + " as arguments" );
+        logger.debug( "Waiting 5 Seconds for other components to boot" );
+        
+        // The Boot is crazy fast, i need to wait a litte
+        Thread.sleep(5000);
+        
+        logger.debug( "Picking up Boot of AMQ-Reciever" );
         
         String amq_adress_to_connect = null;
         String amq_port_to_connect = null;
@@ -117,7 +123,12 @@ public class App
 			}
             
             logger.info("reciever worked properly, starting MariaDBWriter");
+            
             var mariadbwriter = new MariaDBWriter(db_adress_to_connect, db_port_to_connect, db_user_to_connect, db_pwd_to_connect);
+            
+            mariadbwriter.writePlayer(10005);
+            
+            mariadbwriter.close();
             
             logger.info("mariadb writer worked properly, ending testrun");
         }
