@@ -1,8 +1,6 @@
 package microtope.worker;
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.Optional;
-
 import javax.jms.Connection;
 import javax.jms.Destination;
 import javax.jms.JMSException;
@@ -10,6 +8,7 @@ import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
+import javax.jms.MessageListener;
  
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.logging.log4j.LogManager;
@@ -51,31 +50,20 @@ public class AMQMessageReciever implements Closeable, MessageReciever{
         destination = session.createQueue(queue);
         logger.debug("Opened Session and found Queue");
         // MessageConsumer is used for receiving (consuming) messages
+
         consumer = session.createConsumer(destination);
+        
+        logger.debug("Created Consumer, now registering message Listener...");
+        
+        consumer.setMessageListener(new DebugListener());
+        logger.debug("Registered Homebrew MessageListener");
         
         logger.debug("Created fully working AMQ MessageReciever");
         
     }
     
     
-    @Override
-	public Optional<TextMessage> readMessage(){
-    	try {
-			Message message = consumer.receive();
-			if (message instanceof TextMessage) {
-	            TextMessage textMessage = (TextMessage) message;
-	            logger.info("Received message '" + textMessage.getText() + "'");
-	            return Optional.of(textMessage);
-	        }
-			else logger.warn("recieved Message but it is no TextMessage");
-		} catch (JMSException e) {
-			logger.error(e);
-		}
-        
-    	return Optional.empty();
-    }
-
-
+   
 	@Override
 	public void close() throws IOException {
 		try {
@@ -85,6 +73,18 @@ public class AMQMessageReciever implements Closeable, MessageReciever{
 		} catch (JMSException e) {
 			logger.error(e);
 		}
+	}
+
+	@Override
+	public void registerMessageListener(MessageListener msglst) {
+		if(consumer!=null)
+			try {
+				consumer.setMessageListener(msglst);
+				logger.info("registered new MessageListener of type " + msglst.getClass().toString());
+			} catch (JMSException e) {
+				logger.error(e);
+			}
+		logger.error("Empty Consumer!");
 	}
     
     

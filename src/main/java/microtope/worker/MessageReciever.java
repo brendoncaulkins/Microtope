@@ -1,12 +1,10 @@
 package microtope.worker;
 
 import java.io.Closeable;
-import java.util.Optional;
-
-import javax.jms.TextMessage;
+import javax.jms.MessageListener;
 
 public interface MessageReciever extends Closeable{
 
-	Optional<TextMessage> readMessage();
-
+	public void registerMessageListener(MessageListener msglst);
+	
 }
