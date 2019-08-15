@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   amq:
-    image: vromero/activemq-artemis:2.4.0
+    image: vromero/activemq-artemis
     networks: 
         - backend
     ports: 
@@ -14,6 +14,8 @@ services:
     image: microtope/pulser:0.1
     depends_on: 
       - amq
+      - worker
+      - db
     environment:
       ActiveMQ_Adress: amq
     restart: on-failure
@@ -35,6 +37,8 @@ services:
       MariaDB_Adress: db
       MariaDB_User: micro_writer
       MariaDB_PW: INeed2Write
+      ActiveMQ_User: Artemis
+      ActiveMQ_Pwd: Artemis
     restart: on-failure
     depends_on: 
       - amq
