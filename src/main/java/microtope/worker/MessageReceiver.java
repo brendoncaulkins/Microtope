@@ -36,9 +36,8 @@ public class MessageReceiver {
         
         connection =  connectionFactory.createConnection(user_to_connect,pwd_to_connect);
         
-        
-        connection = (ActiveMQConnection) connectionFactory.createConnection();
         connection.start();
+        logger.debug( "Connection opened" ); 
         
         logger.debug("Opened Connection" );
         
