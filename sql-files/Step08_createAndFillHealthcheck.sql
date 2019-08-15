@@ -6,4 +6,4 @@ CREATE TABLE IF NOT EXISTS health (
 
 INSERT INTO health (status) VALUES ("alive");
 
-GRANT select ON Microworld.health to micro_writer;
+GRANT select ON MicroTope.health to micro_writer;
