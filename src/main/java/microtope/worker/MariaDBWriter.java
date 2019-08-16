@@ -23,8 +23,8 @@ public class MariaDBWriter implements Closeable{
 		var url = String.format("jdbc:mysql://%s:%s/%s",adress,port,databaseName);
 		
 	    logger.debug("Trying to connect to "+url+" as "+user+ " with Password [REDACTED] ");
-
-	    con = DriverManager.getConnection(url,user, new String(pwd));
+	    
+	    con = DriverManager.getConnection(url,user, pwd);
 	    
 	    logger.info("Connection to " + url + " established");
 	    
