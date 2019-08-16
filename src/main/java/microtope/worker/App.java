@@ -31,6 +31,7 @@ public class App
         
         String db_adress_to_connect=null;
         String db_port_to_connect=null;
+        String db_name_to_connect=null;
         String db_user_to_connect=null;
         String db_pwd_to_connect=null;
         
@@ -38,7 +39,7 @@ public class App
         // timeout only resembles the sleeptime, when woke the reciever pulls everything
         int timeout=500;
         
-        if(args.length!=10) {
+        if(args.length!=11) {
         	logger.error( "Did not get enough args!" );
         	logger.error( "The args have to be: ActiveMQ_IP ActiveMQ_Port ActiveMQ_Queue ActiveMQ_User ActiveMQ_Pwd" );
         	return;
@@ -60,6 +61,7 @@ public class App
         		logger.error( args[1] + " is not a valid Port for AMQ!");
         		return;
         	}
+        	// TODO: Check if DB Name [7] is empty or bad!
         	if(!ValueChecker.goodPort(args[6])) {
         		logger.error( args[6] + " is not a valid Port for the Database!");
         		return;
@@ -76,9 +78,9 @@ public class App
         		}
         	}
         	
-        	if(args[7] == null | args[3].isEmpty()) {
+        	if(args[8] == null | args[3].isEmpty()) {
         		logger.warn("Recieved null or empty as db user - trying to connect as anonymus");
-        		if(args[8]!=null || !args[4].isEmpty()) {
+        		if(args[9]!=null || !args[4].isEmpty()) {
         			logger.error("recieved a password for db without a user!");
         			return;
         		}
@@ -86,7 +88,7 @@ public class App
         	/*
         	 * Check Timeout to be a positve Integer
         	 */
-        	timeout = Integer.parseInt(args[9]);
+        	timeout = Integer.parseInt(args[10]);
             if(timeout==0) {
             	logger.error("recieved timeout of 0 ms! shutting done as this would be destructive!");
             	return;
@@ -110,8 +112,9 @@ public class App
             
             db_adress_to_connect=args[5];
             db_port_to_connect=args[6];
-            db_user_to_connect=args[7];
-            db_pwd_to_connect=args[8];
+            db_name_to_connect=args[7];
+            db_user_to_connect=args[8];
+            db_pwd_to_connect=args[9];
         	
             logger.debug("Connection to amq " + amq_adress_to_connect + " as " + amq_user_to_connect + " with pwd [REDACTED] on port " + amq_port_to_connect + " on queue " + amq_queue_to_connect );
             
@@ -124,7 +127,7 @@ public class App
             
             logger.info("reciever worked properly, starting MariaDBWriter");
             
-            var mariadbwriter = new MariaDBWriter(db_adress_to_connect, db_port_to_connect, db_user_to_connect, db_pwd_to_connect);
+            var mariadbwriter = new MariaDBWriter(db_adress_to_connect, db_port_to_connect,db_name_to_connect, db_user_to_connect, db_pwd_to_connect);
             
             mariadbwriter.writePlayer(10005);
             

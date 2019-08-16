@@ -9,7 +9,8 @@ ENV ActiveMQ_Pwd  Artemis
 
 ENV MariaDB_Adress 127.0.0.1
 ENV MariaDB_Port 3306
-ENV MariaDB_User micro_writer
+ENV MariaDB_DatabaseName microtope
+ENV MariaDB_User worker
 ENV MariaDB_PW INeed2Write
 
 ENV SleepTimer 1000
@@ -22,4 +23,4 @@ COPY ./target/worker-0.1-jar-with-dependencies.jar $dir
 
 WORKDIR $dir
 
-ENTRYPOINT ["/bin/bash", "-c", "java -jar worker-0.1-jar-with-dependencies.jar $ActiveMQ_Adress $ActiveMQ_Port $ActiveMQ_Queue $ActiveMQ_User $ActiveMQ_Pwd $MariaDB_Adress $MariaDB_Port $MariaDB_User $MariaDB_PW $SleepTimer"]
+ENTRYPOINT ["/bin/bash", "-c", "java -jar worker-0.1-jar-with-dependencies.jar $ActiveMQ_Adress $ActiveMQ_Port $ActiveMQ_Queue $ActiveMQ_User $ActiveMQ_Pwd $MariaDB_Adress $MariaDB_Port $MariaDB_DatabaseName $MariaDB_User $MariaDB_PW $SleepTimer"]

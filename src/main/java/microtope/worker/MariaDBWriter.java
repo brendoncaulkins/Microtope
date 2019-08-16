@@ -7,7 +7,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,22 +19,16 @@ public class MariaDBWriter implements Closeable{
 	Connection con;
 	private static Logger logger = LogManager.getLogger(MariaDBWriter.class);
 
-	public MariaDBWriter(String adress, String port, String user, String pwd) throws SQLException {
-		var url = String.format("jdbc:mysql://%s:%s/%s",adress,port,"MicroTope");
-		logger.info("Building MariaDB connection to URL " + url);
+	public MariaDBWriter(String adress, String port, String databaseName, String user, String pwd) throws SQLException {
+		var url = String.format("jdbc:mysql://%s:%s/%s",adress,port,databaseName);
 		
-		Properties connectionProps = new Properties();
-	    connectionProps.put("user", user);
-	    connectionProps.put("password", pwd);
-	    
 	    logger.debug("Trying to connect to "+url+" as "+user+ " with Password [REDACTED] ");
+
+	    con = DriverManager.getConnection(url,user, new String(pwd));
 	    
-	    con = DriverManager.getConnection(url,connectionProps);
-	
 	    logger.info("Connection to " + url + " established");
 	    
 	    healthcheck();
-	    
 	}
 	
 	private void healthcheck() throws SQLException {
