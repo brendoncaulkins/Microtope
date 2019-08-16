@@ -1,4 +1,4 @@
-USE `MicroTope`;
+USE `microtope`;
 
 INSERT INTO players (player_id, team_id)
 VALUES (100001,1), (100002,1), (200001,2);

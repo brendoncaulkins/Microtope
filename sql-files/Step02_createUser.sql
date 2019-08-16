@@ -1,5 +1,12 @@
-CREATE USER IF NOT EXISTS micro_writer IDENTIFIED BY 'INeed2Write';
+USE 'microtope';
 
-CREATE USER IF NOT EXISTS micro_reader IDENTIFIED BY 'Need4Read';
+CREATE USER IF NOT EXISTS 'worker'@'%' IDENTIFIED VIA mysql_native_password BY "INeed2Write";
+GRANT select,insert, delete, update ON 'microtope'.* to 'worker'@'%';
 
-CREATE USER IF NOT EXISTS micro_admin IDENTIFIED BY 'admicromin';
+CREATE USER IF NOT EXISTS 'api'@'%' IDENTIFIED BY 'Need4Read';
+GRANT select ON 'microtope'.* TO 'api'@'%';
+
+CREATE USER IF NOT EXISTS 'admin'@'%' IDENTIFIED BY 'admicromin';
+GRANT ALL PRIVILEGES ON 'microtope'.* TO 'admin'@'%';
+
+FLUSH PRIVILEGES;

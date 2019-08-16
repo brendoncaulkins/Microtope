@@ -1,4 +1,4 @@
-USE `MicroTope`;
+USE `microtope`;
 
 CREATE TABLE IF NOT EXISTS health (
     status VARCHAR(40) NOT NULL
@@ -6,4 +6,6 @@ CREATE TABLE IF NOT EXISTS health (
 
 INSERT INTO health (status) VALUES ("alive");
 
-GRANT select ON MicroTope.health to micro_writer;
+GRANT select ON microtope.health to micro_writer;
+
+GRANT select ON microtope.health to micro_reader;
