@@ -5,7 +5,7 @@ import java.util.Date;
 public class LogoutMessage implements PlayerRelatedMessage,AMQMessage {
 	
 	private final int player;
-	private Date timestamp =new Date() ;
+	private Date timestamp =new Date(0) ;
 	
 	public LogoutMessage(int player) {
 		this.player=player;

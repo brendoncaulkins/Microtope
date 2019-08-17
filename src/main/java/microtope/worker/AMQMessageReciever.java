@@ -4,10 +4,8 @@ import java.io.IOException;
 import javax.jms.Connection;
 import javax.jms.Destination;
 import javax.jms.JMSException;
-import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.Session;
-import javax.jms.TextMessage;
 import javax.jms.MessageListener;
  
 import org.apache.activemq.ActiveMQConnectionFactory;

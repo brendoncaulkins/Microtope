@@ -5,7 +5,7 @@ import java.util.Date;
 public class StepMessage implements PlayerRelatedMessage,AMQMessage {
 	private final int steps;
 	private final int player;
-	private Date timestamp =new Date() ;
+	private Date timestamp =new Date(0) ;
 	
 	public StepMessage(int player, int steps) {
 		this.player=player;
@@ -29,12 +29,13 @@ public class StepMessage implements PlayerRelatedMessage,AMQMessage {
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof StepMessage)) return false;
-		var otherParsed = (StepMessage) obj;
+	public boolean equals(Object o) {
+		if (!(o instanceof StepMessage)) return false;
+		var otherParsed = (StepMessage) o;
 		
-		return otherParsed.getPlayer() == getPlayer() 
-				&& otherParsed.getSteps() == getSteps()
-				&& otherParsed.getTimeStamp().equals(getTimeStamp());
+		var otherPlayer = otherParsed.getPlayer();
+		var otherSteps = otherParsed.getSteps();
+		
+		return otherPlayer == player && otherSteps == steps;
 	}
 }

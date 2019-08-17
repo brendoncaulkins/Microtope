@@ -13,7 +13,7 @@ public class LoginMessage implements PlayerRelatedMessage,AMQMessage {
 		return player;
 	}
 	
-	private Date timestamp;
+	private Date timestamp = new Date(0);
 		
 	public void setTimeStamp(Date date) {
 		this.timestamp=date;

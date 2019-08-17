@@ -58,7 +58,9 @@ class AMQMessageParserTests {
 		
 		AMQMessage parsed = AMQMessageParser.parseTextMessage(message);
 		
-		assertEquals(expected,parsed);
+		boolean equal = expected.equals(parsed);
+		
+		assertTrue(equal);
 	}
 	
 	@Test
@@ -69,6 +71,8 @@ class AMQMessageParserTests {
 		
 		AMQMessage parsed = AMQMessageParser.parseTextMessage(message);
 		
-		assertEquals(expected,parsed);
+		boolean equal = expected.equals(parsed);
+		
+		assertTrue(equal);
 	}
 }
