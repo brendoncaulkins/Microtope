@@ -16,12 +16,6 @@ public class App
     {
         logger.info( "Starting AMQ-Reciever" );
         logger.debug( "Recieved " + args + " as arguments" );
-        logger.debug( "Waiting 5 Seconds for other components to boot" );
-        
-        // The Boot is crazy fast, i need to wait a litte
-        Thread.sleep(5000);
-        
-        logger.debug( "Picking up Boot of AMQ-Reciever" );
         
         String amq_adress_to_connect = null;
         String amq_port_to_connect = null;
@@ -36,7 +30,6 @@ public class App
         String db_pwd_to_connect=null;
         
         // timeout between pulls in ms - standard is 0.5 second
-        // timeout only resembles the sleeptime, when woke the reciever pulls everything
         int timeout=500;
         
         if(args.length!=11) {
@@ -85,26 +78,11 @@ public class App
         			return;
         		}
         	}
-        	/*
-        	 * Check Timeout to be a positve Integer
-        	 */
+        	
         	timeout = Integer.parseInt(args[10]);
-            if(timeout==0) {
-            	logger.error("recieved timeout of 0 ms! shutting done as this would be destructive!");
-            	return;
-            }
-            if(timeout<0) {
-            	logger.error("recieved negative timeout");
-            	return;
-            }
-            if(timeout<100) {
-            	logger.warn("Reciever timeout of " + timeout + " ms, this is quite fast.");
-            }
-        	
-        	//TODO: ValueChecker for Queue-Names?
-        	logger.info( "args[] are ok, starting sender ..." );
-        	
-        	amq_adress_to_connect = args[0];
+            if(!checkTimeout(timeout)) return;
+            
+            amq_adress_to_connect = args[0];
             amq_port_to_connect = args[1];
             amq_queue_to_connect = args[2];
             amq_user_to_connect=args[3];
@@ -115,7 +93,17 @@ public class App
             db_name_to_connect=args[7];
             db_user_to_connect=args[8];
             db_pwd_to_connect=args[9];
+            
+            logger.info( "args[] are ok, waiting the timeout ..." );
+
         	
+            // The Boot is crazy fast, i need to wait a litte
+            Thread.sleep(timeout);	
+        	//TODO: ValueChecker for Queue-Names?
+            logger.info( "Timeout passed, starting sender ..." );
+        	
+            logger.debug( "Picking up Boot of AMQ-Reciever" );
+            
             logger.debug("Connection to amq " + amq_adress_to_connect + " as " + amq_user_to_connect + " with pwd [REDACTED] on port " + amq_port_to_connect + " on queue " + amq_queue_to_connect );
             
             try {
@@ -138,4 +126,38 @@ public class App
                 
         logger.info( "Closing AMQ-Reciever" );
     }
+
+	private static boolean checkTimeout(int timeout) {
+		if(timeout==0) {
+			logger.error("recieved timeout of 0 ms! shutting down as this would be destructive!");
+			return false;
+		}
+		if(timeout<0) {
+			logger.error("recieved negative timeout");
+			return false;
+		}
+		if(timeout<100) {
+			logger.warn("recieved a timeout of " + timeout + " ms, this is quite fast.");
+		}
+		if(timeout>30000) {
+			logger.warn("recieved a timeout of more than half a minute - is this intended?");
+		}
+		return true;
+	}
 }
+
+/*
+ * $ActiveMQ_Adress args[0]
+ * $ActiveMQ_Port args[1]
+ * $ActiveMQ_Queue args[2]
+ * $ActiveMQ_User args[3]
+ * $ActiveMQ_Pwd args[4]
+ * 
+ * $MariaDB_Adress args[5]
+ * $MariaDB_Port args[6]
+ * $MariaDB_DatabaseName args[7]
+ * $MariaDB_User args[8]
+ * $MariaDB_PW args[9]
+ * 
+ * $InitialTimeout args[10]
+*/
