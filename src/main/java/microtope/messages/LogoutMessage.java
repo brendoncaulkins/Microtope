@@ -15,7 +15,6 @@ public class LogoutMessage implements PlayerRelatedMessage,AMQMessage {
 		return player;
 	}
 	
-	
 	public void setTimeStamp(Date date) {
 		this.timestamp=date;
 	}
