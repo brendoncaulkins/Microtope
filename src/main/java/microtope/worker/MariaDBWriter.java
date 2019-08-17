@@ -51,8 +51,27 @@ public class MariaDBWriter implements Closeable, DBWriter{
 
 	@Override
 	public void writeSteps(StepMessage msg) {
-		logger.debug("TODO: Insert Step Message");
+		try {
+			if(con==null || con.isClosed())
+				logger.error("connection is null or closed!");
+			else {
+				writePlayer(msg.getPlayer());
+				logger.debug("Created Player - now inserting Steps");
+				PreparedStatement stmt = con.prepareStatement("INSERT INTO steps (player_id, steps, recorded) VALUES (? , ?, ?);");
+				
+				stmt.setInt(1, msg.getPlayer());
+				stmt.setInt(2, msg.getSteps());
+				stmt.setDate(3, convertUtilToSql(msg.getTimeStamp()));
+				
+			    stmt.executeQuery();
+
+				logger.debug("Inserted " + msg.getSteps() + " steps for player " + msg.getPlayer());
+			}
+		} catch (SQLException e) {
+			logger.error(e);
+		}
 	}
+	
 	
 	@Override
 	public void writePlayer(int player) throws SQLException {
@@ -62,7 +81,7 @@ public class MariaDBWriter implements Closeable, DBWriter{
 		if(con==null || con.isClosed())
 			logger.error("connection is null or closed!");
 		else {
-			PreparedStatement stmt = con.prepareStatement("INSERT INTO players (player_id, team_id) VALUES (? , ?) ON DUPLICATE KEY UPDATE player_id=player_id;");
+			PreparedStatement stmt = con.prepareStatement("INSERT IGNORE INTO players (player_id, team_id) VALUES (? , ?)");
 			
 			stmt.setInt(1, player);
 			stmt.setInt(2, teamid);
@@ -75,7 +94,25 @@ public class MariaDBWriter implements Closeable, DBWriter{
 	
 	@Override
 	public void writeCoins(CoinMessage msg) {
-		logger.debug("TODO: Insert Coin Message");
+		try {
+			if(con==null || con.isClosed())
+				logger.error("connection is null or closed!");
+			else {
+				writePlayer(msg.getPlayer());
+				logger.debug("Created Player - now inserting Steps");
+				PreparedStatement stmt = con.prepareStatement("INSERT INTO coins (player_id, value, recorded) VALUES (? , ?, ?);");
+				
+				stmt.setInt(1, msg.getPlayer());
+				stmt.setInt(2, msg.getCoins());
+				stmt.setDate(3, convertUtilToSql(msg.getTimeStamp()));
+				
+			    stmt.executeQuery();
+
+				logger.debug("Inserted " + msg.getCoins() + " coins for player " + msg.getPlayer());
+			}
+		} catch (SQLException e) {
+			logger.error(e);
+		}
 	}
 	
 	
@@ -89,4 +126,8 @@ public class MariaDBWriter implements Closeable, DBWriter{
 		}
 	}
 	
+	private java.sql.Date convertUtilToSql(java.util.Date uDate) {
+        java.sql.Date sDate = new java.sql.Date(uDate.getTime());
+        return sDate;
+    }
 }

@@ -47,17 +47,13 @@ public class AMQMessageReciever implements Closeable, MessageReciever{
  
         destination = session.createQueue(queue);
         logger.debug("Opened Session and found Queue");
-        // MessageConsumer is used for receiving (consuming) messages
-
-        consumer = session.createConsumer(destination);
         
-        logger.debug("Created Consumer, now registering message Listener...");
+        // MessageConsumer is used for receiving (consuming) messages
+        consumer = session.createConsumer(destination);
         
         logger.debug("Created fully working AMQ MessageReciever");
         
-    }
-    
-    
+    }    
    
 	@Override
 	public void close() throws IOException {
@@ -80,7 +76,6 @@ public class AMQMessageReciever implements Closeable, MessageReciever{
 				logger.error(e);
 			}
 		logger.error("Empty Consumer!");
-	}
-    
+	}   
     
 }

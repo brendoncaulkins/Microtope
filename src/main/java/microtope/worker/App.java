@@ -107,11 +107,6 @@ public class App
 			}
             
             
-            
-            //mariadbwriter.writePlayer(100005);
-            
-            //mariadbwriter.close();
-            
             logger.info("mariadb writer worked properly, ending testrun");
         }
                 
