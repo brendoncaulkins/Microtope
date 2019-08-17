@@ -1,9 +1,12 @@
 package microtope.messages;
 
-public class CoinMessage implements PlayerRelatedMessage {
+import java.util.Date;
+
+public class CoinMessage implements PlayerRelatedMessage,AMQMessage {
 	
 	private final int player;
 	private final int coins;
+	private Date timestamp =new Date() ;
 	
 	public CoinMessage (int player, int coins){
 		this.player=player;
@@ -17,5 +20,22 @@ public class CoinMessage implements PlayerRelatedMessage {
 	public int getCoins() {
 		return coins;
 	}
+
+	public void setTimeStamp(Date date) {
+		this.timestamp=date;
+	}
+
+	public Date getTimeStamp() {
+		return timestamp;
+	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof CoinMessage)) return false;
+		var otherParsed = (CoinMessage) obj;
+		
+		return otherParsed.getPlayer() == getPlayer() 
+				&& otherParsed.getCoins() == getCoins()
+				&& otherParsed.getTimeStamp().equals(getTimeStamp());
+	}
 }

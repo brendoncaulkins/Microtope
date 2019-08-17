@@ -1,6 +1,8 @@
 package microtope.messages;
 
-public class LoginMessage implements PlayerRelatedMessage {
+import java.util.Date;
+
+public class LoginMessage implements PlayerRelatedMessage,AMQMessage {
 	private final int player;
 	
 	public LoginMessage(int player) {
@@ -10,4 +12,15 @@ public class LoginMessage implements PlayerRelatedMessage {
 	public int getPlayer() {
 		return player;
 	}
+	
+	private Date timestamp;
+		
+	public void setTimeStamp(Date date) {
+		this.timestamp=date;
+	}
+
+	public Date getTimeStamp() {
+		return timestamp;
+	}
+		
 }
