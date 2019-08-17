@@ -74,21 +74,25 @@ public class MariaDBWriter implements Closeable, DBWriter{
 	
 	
 	@Override
-	public void writePlayer(int player) throws SQLException {
+	public void writePlayer(int player) {
 		int teamid = 1;
 		// This writes the player if it does not exist
 		logger.debug("writing player " + player + " with team " + teamid);
-		if(con==null || con.isClosed())
-			logger.error("connection is null or closed!");
-		else {
-			PreparedStatement stmt = con.prepareStatement("INSERT IGNORE INTO players (player_id, team_id) VALUES (? , ?)");
-			
-			stmt.setInt(1, player);
-			stmt.setInt(2, teamid);
-			
-		    stmt.executeQuery();
-		    
-		    logger.debug("Creating Player worked - not sure if player already existed!");
+		try {
+			if(con==null || con.isClosed())
+				logger.error("connection is null or closed!");
+			else {
+				PreparedStatement stmt = con.prepareStatement("INSERT IGNORE INTO players (player_id, team_id) VALUES (? , ?)");
+				
+				stmt.setInt(1, player);
+				stmt.setInt(2, teamid);
+				
+			    stmt.executeQuery();
+			    
+			    logger.debug("Creating Player worked - not sure if player already existed!");
+			}
+		}catch(SQLException e) {
+			logger.error("Recieved SQL Exception while Creating Player " + player,e);
 		}
 	}
 	
