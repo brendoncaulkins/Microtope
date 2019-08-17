@@ -35,10 +35,11 @@ services:
     environment:
       ActiveMQ_Adress: amq
       MariaDB_Adress: db
-      MariaDB_User: micro_writer
+      MariaDB_User: worker
       MariaDB_PW: INeed2Write
       ActiveMQ_User: Artemis
       ActiveMQ_Pwd: Artemis
+      InitialTimeout: 25000
     restart: on-failure
     depends_on: 
       - amq
