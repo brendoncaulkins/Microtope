@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 import microtope.messages.CoinMessage;
 import microtope.messages.StepMessage;
 
-public class MariaDBWriter implements Closeable{
+public class MariaDBWriter implements Closeable, DBWriter{
 	
 	Connection con;
 	private static Logger logger = LogManager.getLogger(MariaDBWriter.class);
@@ -49,10 +49,12 @@ public class MariaDBWriter implements Closeable{
 		}
 	}
 
+	@Override
 	public void writeSteps(StepMessage msg) {
-		
+		logger.debug("TODO: Insert Step Message");
 	}
 	
+	@Override
 	public void writePlayer(int player) throws SQLException {
 		int teamid = 1;
 		// This writes the player if it does not exist
@@ -71,8 +73,9 @@ public class MariaDBWriter implements Closeable{
 		}
 	}
 	
+	@Override
 	public void writeCoins(CoinMessage msg) {
-		
+		logger.debug("TODO: Insert Coin Message");
 	}
 	
 	
