@@ -6,6 +6,6 @@ CREATE TABLE IF NOT EXISTS health (
 
 INSERT INTO health (status) VALUES ("alive");
 
-GRANT select ON microtope.health TO 'worker'@'%';
+GRANT SELECT ON microtope.health TO 'worker'@'%';
 
-GRANT select ON microtope.health TO 'api'@'%';
+GRANT SELECT ON microtope.health TO 'api'@'%';

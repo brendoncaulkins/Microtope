@@ -1,6 +1,6 @@
 Use microtope;
 
-GRANT USAGE ON microtope.* to 'worker'@'%';
+GRANT SELECT,INSERT,DELETE,UPDATE ON microtope.* to 'worker'@'%';
 
 GRANT ALL PRIVILEGES ON microtope.* TO 'admin'@'%';
 
