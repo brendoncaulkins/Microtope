@@ -53,9 +53,6 @@ public class AMQMessageReciever implements Closeable, MessageReciever{
         
         logger.debug("Created Consumer, now registering message Listener...");
         
-        consumer.setMessageListener(new DebugListener());
-        logger.debug("Registered Homebrew MessageListener");
-        
         logger.debug("Created fully working AMQ MessageReciever");
         
     }

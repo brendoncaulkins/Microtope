@@ -95,18 +95,22 @@ public class App
             
             try {
 				MessageReciever rec = new AMQMessageReciever(amq_adress_to_connect, amq_port_to_connect,amq_queue_to_connect,amq_user_to_connect,amq_pwd_to_connect);
+
+	            var mariadbwriter = new MariaDBWriter(db_adress_to_connect, db_port_to_connect,db_name_to_connect, db_user_to_connect, db_pwd_to_connect);
+	            var listener = new DBInsertListener(mariadbwriter);
+	            
+	            rec.registerMessageListener(listener);
+	            
             } catch (JMSException e) {
 				logger.error("Opening the MessageReciever gone wrong! Closing Application with Error");
 				System.exit(1);
 			}
             
-            logger.info("reciever worked properly, starting MariaDBWriter");
             
-            var mariadbwriter = new MariaDBWriter(db_adress_to_connect, db_port_to_connect,db_name_to_connect, db_user_to_connect, db_pwd_to_connect);
             
-            mariadbwriter.writePlayer(100005);
+            //mariadbwriter.writePlayer(100005);
             
-            mariadbwriter.close();
+            //mariadbwriter.close();
             
             logger.info("mariadb writer worked properly, ending testrun");
         }
