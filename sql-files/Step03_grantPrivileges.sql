@@ -1,4 +1,4 @@
-Use microtope;
+Use 'microtope';
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON microtope.* to 'worker'@'%';
 
