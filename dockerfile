@@ -21,6 +21,8 @@ RUN mkdir -p $dir
 
 COPY ./target/worker-0.1-jar-with-dependencies.jar $dir
 
+COPY wait-for-it.sh $dir
+
 WORKDIR $dir
 
-ENTRYPOINT ["/bin/bash", "-c", "java -jar worker-0.1-jar-with-dependencies.jar $ActiveMQ_Adress $ActiveMQ_Port $ActiveMQ_Queue $ActiveMQ_User $ActiveMQ_Pwd $MariaDB_Adress $MariaDB_Port $MariaDB_DatabaseName $MariaDB_User $MariaDB_PW $InitialTimeout"]
+ENTRYPOINT ["/bin/bash", "-c", "./wait-for-it.sh $MariaDB_Adress:$MariaDB_Port -t 2 -- java -jar worker-0.1-jar-with-dependencies.jar $ActiveMQ_Adress $ActiveMQ_Port $ActiveMQ_Queue $ActiveMQ_User $ActiveMQ_Pwd $MariaDB_Adress $MariaDB_Port $MariaDB_DatabaseName $MariaDB_User $MariaDB_PW $InitialTimeout"]
