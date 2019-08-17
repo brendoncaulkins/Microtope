@@ -39,7 +39,6 @@ services:
       MariaDB_PW: INeed2Write
       ActiveMQ_User: Artemis
       ActiveMQ_Pwd: Artemis
-      InitialTimeout: 25000
     restart: on-failure
     depends_on: 
       - amq
