@@ -13,8 +13,6 @@ ENV MariaDB_DatabaseName microtope
 ENV MariaDB_User worker
 ENV MariaDB_PW INeed2Write
 
-ENV InitialTimeout 1000
-
 RUN apk update && apk add bash
 
 RUN mkdir -p $dir
@@ -25,4 +23,4 @@ COPY ./utils/wait-for-it.sh $dir
 
 WORKDIR $dir
 
-ENTRYPOINT ["/bin/bash", "-c", "./wait-for-it.sh -t 0 -s --host=$ActiveMQ_Adress --port=$ActiveMQ_Port -- ./wait-for-it.sh -t 0 -s --host=$MariaDB_Adress --port=$MariaDB_Port -- java -jar worker-0.1-jar-with-dependencies.jar $ActiveMQ_Adress $ActiveMQ_Port $ActiveMQ_Queue $ActiveMQ_User $ActiveMQ_Pwd $MariaDB_Adress $MariaDB_Port $MariaDB_DatabaseName $MariaDB_User $MariaDB_PW $InitialTimeout"]
+ENTRYPOINT ["/bin/bash", "-c", "./wait-for-it.sh -t 0 -s --host=$ActiveMQ_Adress --port=$ActiveMQ_Port -- ./wait-for-it.sh -t 0 -s --host=$MariaDB_Adress --port=$MariaDB_Port -- java -jar worker-0.1-jar-with-dependencies.jar $ActiveMQ_Adress $ActiveMQ_Port $ActiveMQ_Queue $ActiveMQ_User $ActiveMQ_Pwd $MariaDB_Adress $MariaDB_Port $MariaDB_DatabaseName $MariaDB_User $MariaDB_PW"]
