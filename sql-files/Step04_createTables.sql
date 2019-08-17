@@ -18,8 +18,7 @@ CREATE TABLE IF NOT EXISTS players (
 CREATE TABLE IF NOT EXISTS steps (
   `player_id` INT UNSIGNED NOT NULL,
   `steps` INT UNSIGNED  NOT NULL,
-  `recorded` DATETIME NOT NULL, 
-  PRIMARY KEY (`player_id`, `recorded`),
+  `recorded` DATETIME NOT NULL,
   CONSTRAINT `fk_steps_users`
     FOREIGN KEY (player_id) REFERENCES players (player_id)
     ON DELETE CASCADE
@@ -28,8 +27,7 @@ CREATE TABLE IF NOT EXISTS steps (
 CREATE TABLE IF NOT EXISTS coins (
   `player_id` INT UNSIGNED NOT NULL,
   `value` INT UNSIGNED  NOT NULL,
-  `recorded` DATETIME NOT NULL, 
-  PRIMARY KEY (`player_id`,`recorded`),
+  `recorded` DATETIME NOT NULL,
   CONSTRAINT `fk_coins_users`
     FOREIGN KEY (player_id) REFERENCES players (player_id)
     ON DELETE CASCADE
