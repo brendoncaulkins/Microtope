@@ -2,6 +2,7 @@ package microtope.worker;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 import javax.jms.JMSException;
 
@@ -15,7 +16,7 @@ public class App
     public static void main( String[] args ) throws IOException, InterruptedException, SQLException
     {
         logger.info( "Starting AMQ-Reciever" );
-        logger.debug( "Recieved " + args + " as arguments" );
+        logger.debug( "Recieved " + Arrays.toString(args) + " as arguments" );
         
         String amq_adress_to_connect = null;
         String amq_port_to_connect = null;
@@ -29,7 +30,7 @@ public class App
         String db_user_to_connect=null;
         String db_pwd_to_connect=null;
         
-        if(args.length!=11) {
+        if(args.length!=10) {
         	logger.error( "Did not get enough args!" );
         	logger.error( "The args have to be: ActiveMQ_IP ActiveMQ_Port ActiveMQ_Queue ActiveMQ_User ActiveMQ_Pwd" );
         	return;
@@ -103,7 +104,7 @@ public class App
             
             var mariadbwriter = new MariaDBWriter(db_adress_to_connect, db_port_to_connect,db_name_to_connect, db_user_to_connect, db_pwd_to_connect);
             
-            mariadbwriter.writePlayer(10005);
+            mariadbwriter.writePlayer(100005);
             
             mariadbwriter.close();
             

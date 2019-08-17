@@ -1,6 +1,6 @@
 package microtope.messages;
 
-public class StepMessage implements PlayerRelatedMessage {
+public class StepMessage implements PlayerRelatedMessage,AMQMessage {
 	private final int steps;
 	private final int player;
 	
