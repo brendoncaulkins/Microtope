@@ -30,12 +30,11 @@ public class StepMessage implements PlayerRelatedMessage,AMQMessage {
 	
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof StepMessage)) return false;
+		if (!(o instanceof StepMessage)) 
+			return false;
 		var otherParsed = (StepMessage) o;
 		
-		var otherPlayer = otherParsed.getPlayer();
-		var otherSteps = otherParsed.getSteps();
-		
-		return otherPlayer == player && otherSteps == steps;
+		return otherParsed.getPlayer() == getPlayer()
+				&& otherParsed.getSteps() == getSteps();
 	}
 }

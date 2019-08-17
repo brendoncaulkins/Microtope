@@ -54,7 +54,7 @@ class AMQMessageParserTests {
 	void testTextMessageParser_parseCoinsMessage_EverythingCorrect_shouldBeParsed() {
 		String message = "E: Player 37845 collected 1 coins for Team PURPLE";
 		
-		AMQMessage expected = new CoinMessage(37854,1);
+		AMQMessage expected = new CoinMessage(37845,1);
 		
 		AMQMessage parsed = AMQMessageParser.parseTextMessage(message);
 		
@@ -67,11 +67,13 @@ class AMQMessageParserTests {
 	void testTextMessageParser_parseStepsMessage_EverythingCorrect_shouldBeParsed() {
 		String message = "M: Player 37845 moved 14 steps";
 		
-		AMQMessage expected = new StepMessage(37854,14);
+		AMQMessage expected = new StepMessage(37845,14);
 		
 		AMQMessage parsed = AMQMessageParser.parseTextMessage(message);
 		
-		boolean equal = expected.equals(parsed);
+		//boolean equal = expected.equals(parsed);
+		boolean equal = parsed.equals(expected);
+		
 		
 		assertTrue(equal);
 	}

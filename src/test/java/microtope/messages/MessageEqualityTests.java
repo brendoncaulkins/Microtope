@@ -34,6 +34,12 @@ public class MessageEqualityTests {
 		assertNotEquals(first,other);
 	}
 	
+	void testCoinMessage_sameMessage_shouldBeTheSame() {
+		AMQMessage one = new CoinMessage(30705,10);
+		
+		assertEquals(one,one);
+	}
+	
 	@Test
 	void testStepMessage_sameValues_shouldBeTheSame() {
 		AMQMessage first = new StepMessage(30705,10);
@@ -41,6 +47,13 @@ public class MessageEqualityTests {
 		AMQMessage other = new StepMessage(30705,10);
 		
 		assertEquals(first,other);
+	}
+	@Test
+	
+	void testStepMessage_sameMessage_shouldBeTheSame() {
+		AMQMessage one = new StepMessage(30705,10);
+		
+		assertEquals(one,one);
 	}
 	
 	@Test
