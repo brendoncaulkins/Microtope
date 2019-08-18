@@ -5,7 +5,7 @@ import * as indexRoutes from "./routes/index";
 const log = factory.getLogger("index");
 
 const app = express();
-const port = 8080; // default port to listen
+var exposedPort:number = 8080; // default exposedPort to listen
 
 log.info("Starting API ... ")
 
@@ -27,12 +27,15 @@ if (process.argv.length === 2) {
     const DBPwd: string = process.argv[4];
     const DBPort: number = Number.parseInt(process.argv[5], 10);
     const DBName: string = process.argv[6];
+
+    exposedPort = Number.parseInt(process.argv[7], 10);
+    
     log.info("Connecting to Host:" + DBHost + ":" + DBPort);
     log.info(" as User " + DBUser + " with PWD " + "[[REDACTED]]" +  " on DB " + DBName);
     indexRoutes.register(app, DBHost, DBUser, DBPwd, DBPort, DBName );
 }
 
 // start the Express server
-app.listen( port, () => {
-    log.info( `server started at http://localhost:${ port }` );
+app.listen( exposedPort, () => {
+    log.info( `server started at http://localhost:${ exposedPort }` );
 } );
