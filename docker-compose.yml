@@ -34,10 +34,10 @@ services:
     networks:
       - backend
     environment:
-      ActiveMQ_Adress: amq
       MariaDB_Adress: db
       MariaDB_User: worker
       MariaDB_PW: INeed2Write
+      ActiveMQ_Adress: amq
       ActiveMQ_User: Artemis
       ActiveMQ_Pwd: Artemis
     restart: on-failure
@@ -52,7 +52,7 @@ services:
     environment:
       MariaDB_Adress: db
       MariaDB_User: api
-      MariaDB_PW: Need2Read
+      MariaDB_PW: Need4Read
     restart: on-failure
     ports: 
       - "8080:8080"
@@ -61,8 +61,8 @@ services:
       - db
 networks:
   backend:
-    driver: bridge
+    
   transistor:
-    driver: bridge
+    
   frontend:
-    driver: bridge
+    
