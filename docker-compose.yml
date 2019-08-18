@@ -53,9 +53,11 @@ services:
       MariaDB_Adress: db
       MariaDB_User: api
       MariaDB_PW: Need4Read
+      Exposed_Port: 3000
     restart: on-failure
+    # make sure that exposedPort is listed here!
     ports: 
-      - "8080:8080"
+      - "3000:3000"
     depends_on: 
       - amq
       - db
