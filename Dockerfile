@@ -5,8 +5,8 @@ ENV dir /usr/api
 ENV MariaDB_Adress 127.0.0.1
 ENV MariaDB_Port 3306
 ENV MariaDB_DatabaseName microtope
-ENV MariaDB_User worker
-ENV MariaDB_PW INeed2Write
+ENV MariaDB_User reader
+ENV MariaDB_PW Need2Read
 
 USER root
 RUN mkdir -p $dir
