@@ -1,7 +1,7 @@
 import * as express from "express";
 import * as api from "./api";
 
-export const register = ( app: express.Application, host:string,user:string, pwd:string, port:number, dbname:string ) => {
+export const register = ( app: express.Application, host: string, user: string, pwd: string, port: number, dbname: string ) => {
     const oidc = app.locals.oidc;
 
     // define a route handler for the default home page
@@ -9,5 +9,5 @@ export const register = ( app: express.Application, host:string,user:string, pwd
         res.send( "Hello to my API!" );
     } );
 
-    api.register( app, host, user,pwd,port,dbname );
+    api.register( app, host, user, pwd, port, dbname );
 };
