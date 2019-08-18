@@ -92,4 +92,40 @@ export const register = ( app: express.Application, host: string, user: string,
           }
         }
     } );
+
+    app.get(`/api/steps_by_player/all`,  async ( req: any, res ) => {
+        let conn;
+        try {
+          conn = await mariadb.createConnection({host:host, user:user, password: pwd, database: dbname, port:port});
+          const rows = await conn.query("SELECT player_id, steps FROM steps_by_user;");
+          
+          res.send(rows);
+        } catch (err) {
+          log.error("failed to get steps_by_user",err);
+          res.status(500);
+          res.send();
+        } finally {
+          if (conn) {
+            conn.end();
+          }
+        }
+    } );
+
+    app.get(`/api/coins_by_player/all`,  async ( req: any, res ) => {
+        let conn;
+        try {
+          conn = await mariadb.createConnection({host:host, user:user, password: pwd, database: dbname, port:port});
+          const rows = await conn.query("SELECT player_id, coins FROM coins_by_user;");
+          
+          res.send(rows);
+        } catch (err) {
+          log.error("failed to get coins_by_user",err);
+          res.status(500);
+          res.send();
+        } finally {
+          if (conn) {
+            conn.end();
+          }
+        }
+    } );
 };
