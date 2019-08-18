@@ -25,6 +25,7 @@ services:
     image: microtope/database:0.1
     networks: 
       - backend
+      - transistor
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       TZ: "Europe/Berlin"
@@ -43,5 +44,25 @@ services:
     depends_on: 
       - amq
       - db
+  api:
+    image: microtope/api:0.1
+    networks:
+      - transistor
+      - frontend
+    environment:
+      MariaDB_Adress: db
+      MariaDB_User: api
+      MariaDB_PW: Need2Read
+    restart: on-failure
+    ports: 
+      - "8080:8080"
+    depends_on: 
+      - amq
+      - db
 networks:
   backend:
+    driver: bridge
+  transistor:
+    driver: bridge
+  frontend:
+    driver: bridge
