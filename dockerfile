@@ -1,5 +1,8 @@
 FROM node:12.8.1-alpine
 
+# Adding bash, as wait-for-it needs bash
+RUN apk add --no-cache bash
+
 ENV dir /usr/api
 
 ENV MariaDB_Adress 127.0.0.1
@@ -23,4 +26,4 @@ COPY ./utils/wait-for-it.sh $dir
 
 EXPOSE 8080
 
-ENTRYPOINT [ "/bin/sh", "-c","./wait-for-it.sh -t 0 -s --host=$MariaDB_Adress --port=$MariaDB_Port -- node . ${MariaDB_Adress} ${MariaDB_User} ${MariaDB_PW} ${MariaDB_Port} ${MariaDB_DatabaseName}"]
+ENTRYPOINT [ "/bin/bash", "-c","./wait-for-it.sh -t 0 -s --host=$MariaDB_Adress --port=$MariaDB_Port -- node . ${MariaDB_Adress} ${MariaDB_User} ${MariaDB_PW} ${MariaDB_Port} ${MariaDB_DatabaseName}"]
