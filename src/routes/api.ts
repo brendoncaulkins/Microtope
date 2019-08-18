@@ -2,11 +2,12 @@ import * as express from "express";
 import * as mariadb from "mariadb";
 import {factory} from "../logging/ConfigLog4j";
 
-export const register = ( app: express.Application, host: string, user: string, pwd: string, port: number, dbname: string ) => {
+export const register = ( app: express.Application, host: string, user: string,
+                          pwd: string, port: number, dbname: string ) => {
 
     const log = factory.getLogger("routes/api");
 
-    const pool = mariadb.createPool({host: host, user: user, password: pwd, database: dbname, port: port, connectionLimit: 5});
+    const pool = mariadb.createPool({host, user, password: pwd, database: dbname, port, connectionLimit: 5});
 
     app.get(`/api/healthcheck`,  async ( req: any, res ) => {
         let conn;
