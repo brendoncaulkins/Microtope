@@ -2,9 +2,27 @@ import * as express from "express";
 import * as mariadb from "mariadb";
 import {factory} from "../logging/ConfigLog4j";
 
-export const register = ( app: express.Application ) => {
+export const register = ( app: express.Application, host:string,user:string, pwd:string, port:number,dbname:string ) => {
 
     const log = factory.getLogger("routes/api");
+
+    const pool = mariadb.createPool({host: host, user: user, password:pwd, database:dbname, port:port, connectionLimit: 5});
+    
+    app.get(`/api/healthcheck`,  async ( req: any, res ) => {
+        let conn;
+        try {
+          conn = await pool.getConnection();
+          const rows = await conn.query("SELECT status FROM health;");
+          log.info(rows); //[ {val: 1}, meta: ... ]
+          res.send(JSON.stringify(rows));
+        } catch (err) {
+          res.send("healthcheck for mariadb failed!")
+          log.error("healthcheck for mariadb failed!",err);
+        } finally {
+          if (conn) 
+            conn.end();
+        }
+    })
 
     app.get( `/api/players/all`,  async ( req: any, res ) => {
         try {
