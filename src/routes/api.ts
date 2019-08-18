@@ -25,26 +25,71 @@ export const register = ( app: express.Application, host: string, user: string,
     });
 
     app.get( `/api/players/all`,  async ( req: any, res ) => {
+        let conn;
         try {
-            // const userId = req.userContext.userinfo.sub;
-            const players = {Gay: "Hobo"};
-            // DB QUERY
-            /*await db.any( `
-            SELECT
-                    id
-                    , brand
-                    , model
-                    , year
-                    , color
-                FROM    guitars
-                WHERE   user_id = $[userId]
-                ORDER BY year, brand, model`, { userId } );
-            */
-            return res.json( players );
-        } catch ( err ) {
-            log.error(err);
-            res.json( { error: err.message || err } );
+          conn = await mariadb.createConnection({host:host, user:user, password: pwd, database: dbname, port:port});
+          const rows = await conn.query("SELECT player_id,team_id FROM players;");
+          res.send(rows);
+        } catch (err) {
+          log.error("failed to get players",err);
+          res.status(500);
+          res.send();
+        } finally {
+          if (conn) {
+            conn.end();
+          }
         }
     } );
 
+    app.get( `/api/teams`,  async ( req: any, res ) => {
+        let conn;
+        try {
+          conn = await mariadb.createConnection({host:host, user:user, password: pwd, database: dbname, port:port});
+          const rows = await conn.query("SELECT team_id,team_name FROM teams;");
+          res.send(rows);
+        } catch (err) {
+          log.error("failed to get teams",err);
+          res.status(500);
+          res.send();
+        } finally {
+          if (conn) {
+            conn.end();
+          }
+        }
+    } );
+
+    app.get(`/api/coins_by_team`,  async ( req: any, res ) => {
+        let conn;
+        try {
+          conn = await mariadb.createConnection({host:host, user:user, password: pwd, database: dbname, port:port});
+          const rows = await conn.query("SELECT team_name, coins FROM coins_by_team;");
+          
+          res.send(rows);
+        } catch (err) {
+          log.error("failed to get coins_by_team",err);
+          res.status(500);
+          res.send();
+        } finally {
+          if (conn) {
+            conn.end();
+          }
+        }
+    } );
+    app.get(`/api/steps_by_team`,  async ( req: any, res ) => {
+        let conn;
+        try {
+          conn = await mariadb.createConnection({host:host, user:user, password: pwd, database: dbname, port:port});
+          const rows = await conn.query("SELECT team_name, steps FROM steps_by_team;");
+          
+          res.send(rows);
+        } catch (err) {
+          log.error("failed to get steps_by_team",err);
+          res.status(500);
+          res.send();
+        } finally {
+          if (conn) {
+            conn.end();
+          }
+        }
+    } );
 };
