@@ -12,14 +12,10 @@ log.info("Starting API ... ")
 // Configure Express to parse incoming JSON data
 app.use( express.json() );
 
-for(var i=0;i<process.argv.length; i++){
-    log.info("Arg #" + i + " is " + process.argv[i]);
-}
-
 /*
 * The process args [0] is the node exe, the process args[1] is the file running
 * This is a little strange behaviour, but what in node is not?
-* This is why the logic starts with [2]
+* This is why the args-array-logic starts with [2]
 */
 if (process.argv.length === 2) {
     log.error("Did not find any system args - Shutting down!");

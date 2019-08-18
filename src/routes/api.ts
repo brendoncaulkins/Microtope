@@ -7,12 +7,10 @@ export const register = ( app: express.Application, host: string, user: string,
 
     const log = factory.getLogger("routes/api");
 
-    const pool = mariadb.createPool({host, user, password: pwd, database: dbname, port, connectionLimit: 5});
-
     app.get(`/api/healthcheck`,  async ( req: any, res ) => {
         let conn;
         try {
-          conn = await pool.getConnection();
+          conn = await mariadb.createConnection({host:host, user:user, password: pwd, database: dbname, port:port});
           const rows = await conn.query("SELECT status FROM health;");
           log.info(rows); // [ {val: 1}, meta: ... ]
           res.send(JSON.stringify(rows));
