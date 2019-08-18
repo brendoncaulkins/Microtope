@@ -21,9 +21,12 @@ $> docker run -p 8080:8080 microtope/api:{anyversion}
 
 You should now be able to access your api in a browser with localhost:8080 and see a hello world.
 
+If you have a database connected (and running) you can visit localhost:8080/api/healthcheck and see a status - otherwise you will log the according error.
+
 ## Build with
 
 - Docker 18
 - NPM 3.5.2
 - Node 8.10 (12.8.1 in the Docker Container!)
 - Typescript 3.5
+- [Wait-for-it](https://github.com/vishnubob/wait-for-it)
