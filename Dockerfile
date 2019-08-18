@@ -19,6 +19,8 @@ COPY . $dir
 
 RUN npm run build
 
+COPY ./utils/wait-for-it.sh $dir
+
 EXPOSE 8080
 
-CMD ["sh ","-c","node . ${DBMariaDB_Adress} ${MariaDB_User} ${MariaDB_PW} ${MariaDB_Port} ${MariaDB_DatabaseName}"]
+ENTRYPOINT [ "/bin/sh", "-c","./wait-for-it.sh -t 0 -s --host=$MariaDB_Adress --port=$MariaDB_Port -- node . ${MariaDB_Adress} ${MariaDB_User} ${MariaDB_PW} ${MariaDB_Port} ${MariaDB_DatabaseName}"]
