@@ -37,3 +37,10 @@ ON ps.team_id = t.team_id
 AND s.player_id = ps.player_id
 GROUP BY t.team_id 
 ORDER BY steps DESC;
+
+CREATE VIEW microtope.player_summary
+AS
+SELECT ps.player_id, ps.player_name, s.steps, c.coins 
+FROM players as ps, coins_by_user as c, steps_by_user as s
+WHERE ps.player_id = c.player_id 
+AND ps.player_id=s.player_id;

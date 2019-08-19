@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS teams (
 
 CREATE TABLE IF NOT EXISTS players (
   player_id INT UNSIGNED NOT NULL PRIMARY KEY ,
+  player_name VARCHAR(30),
   team_id INT UNSIGNED NOT NULL,
   CONSTRAINT `fk_user_team`
 		FOREIGN KEY (team_id) REFERENCES teams (team_id)
