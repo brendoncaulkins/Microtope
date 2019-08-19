@@ -5,6 +5,7 @@ services:
     image: vromero/activemq-artemis
     networks: 
         - backend
+        - spawn
     ports: 
       - "8161:8161"
     environment:
@@ -20,7 +21,7 @@ services:
       ActiveMQ_Adress: amq
     restart: on-failure
     networks: 
-      - backend
+      - spawn
   db:
     image: microtope/database:0.1
     networks: 
@@ -67,4 +68,5 @@ networks:
   transistor:
     
   frontend:
-    
+  
+  spawn: 
