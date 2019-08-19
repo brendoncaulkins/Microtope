@@ -41,6 +41,23 @@ export const register = ( app: express.Application, host: string, user: string,
         }
     } );
 
+    app.get( `/api/player_summary/all`,  async ( req: any, res ) => {
+      let conn;
+      try {
+        conn = await mariadb.createConnection({host:host, user:user, password: pwd, database: dbname, port:port});
+        const rows = await conn.query("SELECT player_id,player_name, steps, coins FROM player_summary;");
+        res.send(rows);
+      } catch (err) {
+        log.error("failed to get players",err);
+        res.status(500);
+        res.send();
+      } finally {
+        if (conn) {
+          conn.end();
+        }
+      }
+  } );
+
     app.get( `/api/teams`,  async ( req: any, res ) => {
         let conn;
         try {
