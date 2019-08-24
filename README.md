@@ -29,6 +29,7 @@ To validate the database, do
 root@host>docker exec -it {YourMariaContainer} /bin/bash
 root@container> su mysql
 $> mysql -u admin -p
+$> enter password: 
 admin[(none)] > USE microtope;
 admin[(Microworld)] > show tables;
 ```
@@ -51,3 +52,4 @@ You can now select and join and do everything you want with your database.
 
 - First try the validate
 - Run the container without the -d flag, or see `docker logs {your failed container}`
+- Make sure to follow the instructions given in "grantPrivileges.sql" so you dont have issues with any access
