@@ -34,7 +34,8 @@ CREATE TABLE IF NOT EXISTS coins (
     ON DELETE CASCADE
 ) engine=InnoDB default charset utf8;
 
-CREATE TABLE IF NOT EXISTS auditing (
+CREATE TABLE IF NOT EXISTS audits (
+  `audit_id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `player_id` INT UNSIGNED NOT NULL,
   `action` ENUM('login','logout') NOT NULL,
   `recorded` DATETIME NOT NULL,
