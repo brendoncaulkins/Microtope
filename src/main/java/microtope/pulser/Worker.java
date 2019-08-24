@@ -16,6 +16,7 @@ public class Worker {
 	
 	int player;
 	Team team;
+	int team_id;
 	MessageSender sender;
 	
 	int numberOfMessages=0;
@@ -31,17 +32,18 @@ public class Worker {
 		this.team=team;
 		this.sender=sender;
 		this.numberOfMessages=numberOfMessages;
+		team_id= team.ordinal();
 		
-		logger.debug("Worker created with Team " + team.toString() + " and player " + player );
+		logger.debug("Worker created with Team " + team_id + ":" + team.toString() + " and player " + player );
 	}
 	
 	public void work() throws JMSException, InterruptedException {
 		logger.debug("Worker starts work with " + numberOfMessages + " messages to send" );
-		sender.sendMessage(MessageGenerator.createLoginMessage(player));
+		sender.sendMessage(MessageGenerator.createLoginMessage(player,team_id));
 		for(int i=0;i<numberOfMessages;i++) {
 			Thread.sleep(TIMEOUT);
 			if(Math.random()<COINQUOTA)
-				sender.sendMessage(MessageGenerator.createCoinMessage(player, team, DataGenerator.getRandomCoins()));
+				sender.sendMessage(MessageGenerator.createCoinMessage(player, team_id, DataGenerator.getRandomCoins()));
 			else
 				sender.sendMessage(MessageGenerator.createStepMessage(player, DataGenerator.getRandomSteps()));
 		}
@@ -55,7 +57,7 @@ public class Worker {
 	
 	public static Worker randomWorker(MessageSender sender, int messages){
 		Team t = DataGenerator.getRandomTeam();
-		int player = DataGenerator.getRandomPlayerNumber(t);
+		int player = DataGenerator.getRandomPlayerNumber();
 		Worker w = new Worker (player,t, sender, messages);
 		return w;
 	}

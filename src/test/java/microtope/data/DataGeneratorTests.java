@@ -78,40 +78,4 @@ class DataGeneratorTests {
 		assertTrue(isInRange);
 	}
 	
-
-	@RepeatedTest(5)
-	void testGetRandomPlayerNumber_forRedTeam_shouldStartWith1() {
-		int playerNumber = DataGenerator.getRandomPlayerNumber(Team.RED);
-		
-		int prefix = playerNumber/10000;
-		
-		assertEquals(1,prefix);
-	}
-
-	@RepeatedTest(5)
-	void testGetRandomPlayerNumber_forBlueTeam_shouldStartWith2() {
-		int playerNumber = DataGenerator.getRandomPlayerNumber(Team.BLUE);
-		
-		int prefix = playerNumber/10000;
-		
-		assertEquals(2,prefix);
-	}
-	
-	@RepeatedTest(5)
-	void testGetRandomPlayerNumber_forPurpleTeam_shouldStartWith3() {
-		int playerNumber = DataGenerator.getRandomPlayerNumber(Team.PURPLE);
-		
-		int prefix = playerNumber/10000;
-		
-		assertEquals(3,prefix);
-	}
-	
-	@RepeatedTest(5)
-	void testGetRandomPlayerNumber_forBlackTeam_shouldStartWith4() {
-		int playerNumber = DataGenerator.getRandomPlayerNumber(Team.BLACK);
-		
-		int prefix = playerNumber/10000;
-		
-		assertEquals(4,prefix);
-	}
 }

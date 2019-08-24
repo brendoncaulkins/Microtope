@@ -32,25 +32,8 @@ public abstract class DataGenerator {
 		return BASECOINS+noise;
 	}
 	
-	/*
-	 * PlayerNumbers are encoded:
-	 * Red Players start with 1XXXXX
-	 * Blue Players start with 2XXXXX 
-	 * etc
-	 */
-	public static int getRandomPlayerNumber(Team t) {
-		int randomPart = makeNoise(9999);
-		
-		int prefix = 0;
-		switch(t) {
-			case RED: prefix = 1; break;
-			case BLUE: prefix = 2; break;
-			case PURPLE: prefix = 3; break;
-			case BLACK: prefix = 4; break;
-			default: prefix = 0; break;
-		}
-		
-		return randomPart+10000*prefix;
+	public static int getRandomPlayerNumber() {
+		return makeNoise(99999);
 	}
 	
 	private static int makeNoise(int range) {
