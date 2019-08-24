@@ -2,8 +2,6 @@ package microtope.worker;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Arrays;
-
 import javax.jms.JMSException;
 
 import org.apache.logging.log4j.LogManager;
@@ -15,8 +13,7 @@ public class App
 
     public static void main( String[] args ) throws IOException, InterruptedException, SQLException
     {
-        logger.info( "Starting AMQ-Reciever" );
-        logger.debug( "Recieved " + Arrays.toString(args) + " as arguments" );
+        logger.info( "Starting Worker" );
         
         String amq_adress_to_connect = null;
         String amq_port_to_connect = null;

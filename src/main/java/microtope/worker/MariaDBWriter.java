@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.time
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -51,6 +52,48 @@ public class MariaDBWriter implements Closeable, DBWriter{
 		}
 	}
 
+
+	@Override
+	public void writeLogin(LoginMessage msg) {
+		try {
+			if(con==null || con.isClosed())
+				logger.error("connection is null or closed!");
+			else {
+				writePlayer(msg.getPlayer_Id(),msg.getTeam_Id());
+				logger.debug("Created Player - now inserting login");
+				PreparedStatement stmt = con.prepareStatement("INSERT INTO audits (player_id, action, recorded) VALUES (? ,'login', ?);");
+				
+				stmt.setInt(1, msg.getPlayer_Id());
+				stmt.setTimestamp(2, convertUtilToSql(msg.getTimeStamp()));
+				
+			    stmt.executeQuery();
+
+				logger.debug("Inserted Login for player " + msg.getPlayer_Id());
+			}
+		} catch (SQLException e) {
+			logger.error(e);
+		}
+	}
+
+	@Override
+	public void writeLogout(LogoutMessage msg) {
+		try {
+			if(con==null || con.isClosed())
+				logger.error("connection is null or closed!");
+			else {
+				PreparedStatement stmt = con.prepareStatement("INSERT INTO audits (player_id, action, recorded) VALUES (? ,'logout', ?);");
+				
+				stmt.setInt(1, msg.getPlayer_Id());
+				stmt.setTimestamp(2, convertUtilToSql(msg.getTimeStamp()));
+				
+			    stmt.executeQuery();
+
+				logger.debug("Inserted Logout for player " + msg.getPlayer_Id());
+			}
+		} catch (SQLException e) {
+			logger.error(e);
+		}		
+	}
 	@Override
 	public void writeSteps(StepMessage msg) {
 		try {
@@ -61,7 +104,7 @@ public class MariaDBWriter implements Closeable, DBWriter{
 				
 				stmt.setInt(1, msg.getPlayer_Id());
 				stmt.setInt(2, msg.getSteps());
-				stmt.setDate(3, convertUtilToSql(msg.getTimeStamp()));
+				stmt.setTimestamp(3, convertUtilToSql(msg.getTimeStamp()));
 				
 			    stmt.executeQuery();
 
@@ -104,7 +147,7 @@ public class MariaDBWriter implements Closeable, DBWriter{
 				
 				stmt.setInt(1, msg.getPlayer_Id());
 				stmt.setInt(2, msg.getCoins());
-				stmt.setDate(3, convertUtilToSql(msg.getTimeStamp()));
+				stmt.setTimestamp(3, convertUtilToSql(msg.getTimeStamp()));
 				
 			    stmt.executeQuery();
 
@@ -126,50 +169,7 @@ public class MariaDBWriter implements Closeable, DBWriter{
 		}
 	}
 	
-	private java.sql.Date convertUtilToSql(java.util.Date uDate) {
-        java.sql.Date sDate = new java.sql.Date(uDate.getTime());
-        return sDate;
+	private java.sql.Timestamp convertUtilToSql(java.util.Date uDate) {
+		return new java.sql.Timestamp(uDate.getTime());
     }
-
-	@Override
-	public void writeLogin(LoginMessage msg) {
-		try {
-			if(con==null || con.isClosed())
-				logger.error("connection is null or closed!");
-			else {
-				writePlayer(msg.getPlayer_Id(),msg.getTeam_Id());
-				logger.debug("Created Player - now inserting login");
-				PreparedStatement stmt = con.prepareStatement("INSERT INTO audits (player_id, action, recorded) VALUES (? ,'login', ?);");
-				
-				stmt.setInt(1, msg.getPlayer_Id());
-				stmt.setDate(2, convertUtilToSql(msg.getTimeStamp()));
-				
-			    stmt.executeQuery();
-
-				logger.debug("Inserted Login for player " + msg.getPlayer_Id());
-			}
-		} catch (SQLException e) {
-			logger.error(e);
-		}
-	}
-
-	@Override
-	public void writeLogout(LogoutMessage msg) {
-		try {
-			if(con==null || con.isClosed())
-				logger.error("connection is null or closed!");
-			else {
-				PreparedStatement stmt = con.prepareStatement("INSERT INTO audits (player_id, action, recorded) VALUES (? ,'logout', ?);");
-				
-				stmt.setInt(1, msg.getPlayer_Id());
-				stmt.setDate(2, convertUtilToSql(msg.getTimeStamp()));
-				
-			    stmt.executeQuery();
-
-				logger.debug("Inserted Logout for player " + msg.getPlayer_Id());
-			}
-		} catch (SQLException e) {
-			logger.error(e);
-		}		
-	}
 }
