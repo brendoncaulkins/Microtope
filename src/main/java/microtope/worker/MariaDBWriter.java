@@ -72,7 +72,6 @@ public class MariaDBWriter implements Closeable, DBWriter{
 		}
 	}
 	
-	
 	@Override
 	public void writePlayer(int player_id, int team_id) {
 		// This writes the player if it does not exist

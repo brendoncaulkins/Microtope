@@ -10,6 +10,8 @@ import microtope.messages.AMQMessage;
 import microtope.messages.AMQMessageParser;
 import microtope.messages.BadMessage;
 import microtope.messages.CoinMessage;
+import microtope.messages.LoginMessage;
+import microtope.messages.LogoutMessage;
 import microtope.messages.StepMessage;
 
 public class DBInsertListener implements MessageListener {
@@ -28,6 +30,14 @@ public class DBInsertListener implements MessageListener {
 		
 		if(msg instanceof BadMessage) {
 			logger.debug("Recieved bad Message - not doing anything");
+		}
+		else if( msg instanceof LoginMessage) {
+			LoginMessage msgParsed = (LoginMessage) msg;
+			writer.writeLogin(msgParsed);
+		}
+		else if( msg instanceof LogoutMessage) {
+			LogoutMessage msgParsed = (LogoutMessage) msg;
+			writer.writeLogout(msgParsed);
 		}
 		else if (msg instanceof StepMessage) {
 			StepMessage msgParsed = (StepMessage) msg;
