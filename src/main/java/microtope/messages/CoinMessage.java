@@ -13,7 +13,7 @@ public class CoinMessage implements PlayerRelatedMessage,AMQMessage {
 		this.coins=coins;
 	}
 
-	public int getPlayer() {
+	public int getPlayer_Id() {
 		return player;
 	}
 
@@ -34,7 +34,7 @@ public class CoinMessage implements PlayerRelatedMessage,AMQMessage {
 		if (!(o instanceof CoinMessage)) return false;
 		var otherParsed = (CoinMessage) o;
 		
-		return otherParsed.getPlayer() == getPlayer() 
+		return otherParsed.getPlayer_Id() == getPlayer_Id() 
 				&& otherParsed.getCoins() == getCoins();
 	}
 }

@@ -55,17 +55,17 @@ public class MariaDBWriter implements Closeable, DBWriter{
 			if(con==null || con.isClosed())
 				logger.error("connection is null or closed!");
 			else {
-				writePlayer(msg.getPlayer());
+				writePlayer(msg.getPlayer_Id());
 				logger.debug("Created Player - now inserting Steps");
 				PreparedStatement stmt = con.prepareStatement("INSERT INTO steps (player_id, steps, recorded) VALUES (? , ?, ?);");
 				
-				stmt.setInt(1, msg.getPlayer());
+				stmt.setInt(1, msg.getPlayer_Id());
 				stmt.setInt(2, msg.getSteps());
 				stmt.setDate(3, convertUtilToSql(msg.getTimeStamp()));
 				
 			    stmt.executeQuery();
 
-				logger.debug("Inserted " + msg.getSteps() + " steps for player " + msg.getPlayer());
+				logger.debug("Inserted " + msg.getSteps() + " steps for player " + msg.getPlayer_Id());
 			}
 		} catch (SQLException e) {
 			logger.error(e);
@@ -102,17 +102,17 @@ public class MariaDBWriter implements Closeable, DBWriter{
 			if(con==null || con.isClosed())
 				logger.error("connection is null or closed!");
 			else {
-				writePlayer(msg.getPlayer());
+				writePlayer(msg.getPlayer_Id());
 				logger.debug("Created Player - now inserting Steps");
 				PreparedStatement stmt = con.prepareStatement("INSERT INTO coins (player_id, value, recorded) VALUES (? , ?, ?);");
 				
-				stmt.setInt(1, msg.getPlayer());
+				stmt.setInt(1, msg.getPlayer_Id());
 				stmt.setInt(2, msg.getCoins());
 				stmt.setDate(3, convertUtilToSql(msg.getTimeStamp()));
 				
 			    stmt.executeQuery();
 
-				logger.debug("Inserted " + msg.getCoins() + " coins for player " + msg.getPlayer());
+				logger.debug("Inserted " + msg.getCoins() + " coins for player " + msg.getPlayer_Id());
 			}
 		} catch (SQLException e) {
 			logger.error(e);

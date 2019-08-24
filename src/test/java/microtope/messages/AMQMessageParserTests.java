@@ -18,8 +18,41 @@ class AMQMessageParserTests {
 	}
 	
 	@Test
-	void testTextMessageParser_MessageStartsWithE_shouldGiveBadMessage() {
-		String message = "E: Player 37845 logged out";
+	void testTextMessageParser_MessageIsValidLoginMessage_shouldBeParsed() {
+		String message = "E: Player 50043 logged in for team 2";
+		
+		AMQMessage expected = new LoginMessage(50043,2);
+		
+		AMQMessage parsed = AMQMessageParser.parseTextMessage(message);
+		
+		assertEquals(expected,parsed);
+	}
+	
+	@Test
+	void testTextMessageParser_MessageHasVeryLongTeamID_shouldBeParsed() {
+		String message = "E: Player 50043 logged in for team 2051";
+		
+		AMQMessage expected = new LoginMessage(50043,2051);
+		
+		AMQMessage parsed = AMQMessageParser.parseTextMessage(message);
+		
+		assertEquals(expected,parsed);
+	}
+	
+	@Test
+	void testTextMessageParser_MessageHasVeryLongPlayerID_shouldBeParsed() {
+		String message = "E: Player 50043001 logged in for team 2";
+		
+		AMQMessage expected = new LoginMessage(50043001,2);
+		
+		AMQMessage parsed = AMQMessageParser.parseTextMessage(message);
+		
+		assertEquals(expected,parsed);
+	}
+	
+	@Test
+	void testTextMessageParser_LoginMessageHasTeamAsString_shouldGiveBadMessage() {
+		String message = "E: Player 50043 logged in for team BLUE";
 		
 		AMQMessage expected = new BadMessage();
 		
@@ -29,7 +62,40 @@ class AMQMessageParserTests {
 	}
 	
 	@Test
-	void testTextMessageParser_parseCoinsMessage_PlayerNrIsTooShort_shouldGiveBadMessage() {
+	void testTextMessageParser_LoginMessageHasNoTeam_shouldGiveBadMessage() {
+		String message = "E: Player 50043 logged in";
+		
+		AMQMessage expected = new BadMessage();
+		
+		AMQMessage parsed = AMQMessageParser.parseTextMessage(message);
+		
+		assertEquals(expected,parsed);
+	}
+	
+	@Test
+	void testTextMessageParser_MessageIsValidLogoutMessage_shouldBeParsed() {
+		String message = "E: Player 37845 logged out";
+		
+		AMQMessage expected = new LogoutMessage(37845);
+		
+		AMQMessage parsed = AMQMessageParser.parseTextMessage(message);
+		
+		assertEquals(expected,parsed);
+	}
+	
+	@Test
+	void testTextMessageParser_parseCoinsMessage_PlayerNrIsShort_shouldGiveCoinMessage() {
+		String message = "E: Player 374 collected 2 coins for Team 1";
+
+		AMQMessage expected = new CoinMessage(374,2);
+		
+		AMQMessage parsed = AMQMessageParser.parseTextMessage(message);
+		
+		assertEquals(expected,parsed);
+	}
+	
+	@Test
+	void testTextMessageParser_parseCoinsMessage_TeamIsStringNotNumber_shouldGiveBadMessage() {
 		String message = "E: Player 3745 collected 1 coins for Team PURPLE";
 		
 		AMQMessage expected = new BadMessage();
@@ -40,10 +106,10 @@ class AMQMessageParserTests {
 	}
 	
 	@Test
-	void testTextMessageParser_parseStepsMessage_PlayerNrIsTooShort_shouldGiveBadMessage() {
-		String message = "M: Player 3784 moved 14 steps";
+	void testTextMessageParser_parseStepsMessage_PlayerNrIsShort_shouldGiveStepMessage() {
+		String message = "M: Player 374 moved 14 steps";
 		
-		AMQMessage expected = new BadMessage();
+		AMQMessage expected = new StepMessage(374,14);
 		
 		AMQMessage parsed = AMQMessageParser.parseTextMessage(message);
 		
@@ -52,7 +118,7 @@ class AMQMessageParserTests {
 	
 	@Test
 	void testTextMessageParser_parseCoinsMessage_EverythingCorrect_shouldBeParsed() {
-		String message = "E: Player 37845 collected 1 coins for Team PURPLE";
+		String message = "E: Player 37845 collected 1 coins for Team 2";
 		
 		AMQMessage expected = new CoinMessage(37845,1);
 		
@@ -71,10 +137,6 @@ class AMQMessageParserTests {
 		
 		AMQMessage parsed = AMQMessageParser.parseTextMessage(message);
 		
-		//boolean equal = expected.equals(parsed);
-		boolean equal = parsed.equals(expected);
-		
-		
-		assertTrue(equal);
+		assertEquals(expected,parsed);
 	}
 }

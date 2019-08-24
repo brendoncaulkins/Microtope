@@ -16,7 +16,7 @@ public class StepMessage implements PlayerRelatedMessage,AMQMessage {
 		return steps;
 	}
 
-	public int getPlayer() {
+	public int getPlayer_Id() {
 		return player;
 	}
 	
@@ -34,7 +34,7 @@ public class StepMessage implements PlayerRelatedMessage,AMQMessage {
 			return false;
 		var otherParsed = (StepMessage) o;
 		
-		return otherParsed.getPlayer() == getPlayer()
+		return otherParsed.getPlayer_Id() == getPlayer_Id()
 				&& otherParsed.getSteps() == getSteps();
 	}
 }
