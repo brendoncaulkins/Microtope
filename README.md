@@ -25,7 +25,7 @@ You can also add .sh files to this folder.
 
 To validate the database, do
 
-```
+```Shell
 root@host>docker exec -it {YourMariaContainer} /bin/bash
 root@container> su mysql
 $> mysql -u admin -p
