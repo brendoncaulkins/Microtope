@@ -71,7 +71,7 @@ public class AMQMessageReciever implements Closeable, MessageReciever{
 		if(consumer!=null)
 			try {
 				consumer.setMessageListener(msglst);
-				logger.info("registered new MessageListener of type " + msglst.getClass().toString());
+				logger.info("registered new MessageListener of type " + msglst.getClass().getSimpleName());
 			} catch (JMSException e) {
 				logger.error(e);
 			}
