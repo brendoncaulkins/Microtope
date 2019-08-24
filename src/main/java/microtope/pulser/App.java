@@ -53,8 +53,6 @@ public class App
         
         AMQMessageSender sender = new AMQMessageSender(adress_to_connect,port_to_connect, queue_to_connect,user_to_connect,pwd_to_connect);
         
-        sender.sendMessage("v0.0.8 message");
-        
         logger.info( "Creating Worker...");
         Worker w = Worker.randomWorker(sender, 50);
 
