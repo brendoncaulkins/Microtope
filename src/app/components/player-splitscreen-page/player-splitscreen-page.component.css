@@ -9,9 +9,3 @@
     flex-direction: column;
     flex-wrap: nowrap;
 }
-
-.item {
-    flex-grow: 1;
-    flex-shrink: 0;
-    text-align: center;
-}
