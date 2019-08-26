@@ -8,7 +8,6 @@ import { Component, OnInit } from '@angular/core';
   `,
   styles: [`
     :host{
-      background:yellow;
       display:flex;
       justify-content: space-evenly;
     }

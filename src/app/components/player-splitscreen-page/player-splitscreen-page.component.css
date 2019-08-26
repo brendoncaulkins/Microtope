@@ -1,8 +1,6 @@
 
 :host {
     text-align: center;
-
-    border: dotted grey;
   
     flex-grow: 1;
     flex-shrink: 0;

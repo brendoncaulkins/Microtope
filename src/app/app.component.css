@@ -6,7 +6,6 @@
 
 
 .footer-badge{
-    background-color: grey;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     text-align: center;
     
@@ -18,7 +17,6 @@
   }
 
 .headline-badge{
-    background-color: navajowhite;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 
     flex-grow: 1;
