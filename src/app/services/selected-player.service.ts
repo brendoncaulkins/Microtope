@@ -7,13 +7,15 @@ import {Player} from '../models/Player.model';
 })
 export class SelectedPlayerService {
 
-  private selectedPlayer:Player;
+  private selectedPlayer?:Player;
 
   constructor() { }
 
-  public getPlayer():Player{return this.selectedPlayer;}
+  public getPlayer():Player{
+    return this.selectedPlayer;
+  }
 
-  public setPlayer(selected:Player){
+  public setPlayer(selected:Player):void{
     this.selectedPlayer=selected;
   }
 }

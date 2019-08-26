@@ -7,14 +7,20 @@ import {Team} from '../models/Team.model';
 })
 export class SelectedTeamService {
 
-  private selectedTeam:Team;
+  private selectedTeam?:Team;
 
   constructor() { }
 
 
-  public getTeam():Team{return this.selectedTeam;}
+  public getTeam():Team{
+    return this.selectedTeam;
+  }
 
-  public setTeam(selected:Team){
+  public setTeam(selected:Team):void{
     this.selectedTeam=selected;
+  }
+
+  public deselectTeam():void{
+    this.selectedTeam=null;
   }
 }
