@@ -7,8 +7,9 @@
     <span *ngIf="player.coins; else noCoinsBlock"> {{player.coins}}</span>
     <ng-template #noCoinsBlock> 0 </ng-template>
     </div>
-    <div>
-    <!--<label>name:
+    <button (click)="onClose()">close</button>
+    <!--<div>
+    <label>name:
         <input [(ngModel)]={{player.player_name}}/>
       </label>
     </div>
