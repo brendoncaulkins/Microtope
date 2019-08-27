@@ -1,1 +1,8 @@
-<p>player-list works!</p>
+<h2> All Players </h2>
+<ul class="allPlayers">
+    <li *ngFor="let player of players">
+        <span class="playerBadge">{{player.player_id}}</span> 
+        <span *ngIf="player.player_name; else elseBlock"> {{player.player_name}} </span>
+        <ng-template #elseBlock> Unnamed Player</ng-template>
+    </li>
+</ul>

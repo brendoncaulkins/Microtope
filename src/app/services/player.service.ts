@@ -11,7 +11,6 @@ export class PlayerService {
 
   constructor() { }
 
-
   public getPlayers():Observable<Player[]>{
     return of(fakePlayers);
   }
