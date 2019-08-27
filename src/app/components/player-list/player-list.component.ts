@@ -14,14 +14,21 @@ export class PlayerListComponent implements OnInit {
   constructor(private playerService:PlayerService, private selectedPlayerService:SelectedPlayerService) { }
 
   players:Player[];
+  selectedPlayer:Player;
 
   ngOnInit() {
     this.getPlayers();
+    this.selectedPlayerService.getPlayer().subscribe(x=>this.selectedPlayer=x);
   }
 
   getPlayers(): void {
     this.playerService.getPlayers()
         .subscribe(players => this.players = players);
+  }
+
+  onSelect(player:Player): void {
+    console.log("Selected Player " + player.player_id);
+    this.selectedPlayerService.setPlayer(player);
   }
 
 }

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { SelectedPlayerService } from 'src/app/services/selected-player.service';
+
+import {Player} from 'src/app/models/Player.model'
 
 @Component({
   selector: 'app-player-splitscreen-page',
@@ -7,9 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PlayerSplitscreenPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private selectedPlayerService:SelectedPlayerService) { }
+
+  selectedPlayer:Player=null;
 
   ngOnInit() {
+    this.selectedPlayerService.getPlayer().subscribe(x => this.selectedPlayer=x);
   }
 
 }

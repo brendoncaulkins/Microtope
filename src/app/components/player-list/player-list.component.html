@@ -1,6 +1,6 @@
-<h2> All Players </h2>
+<h3> All Players </h3>
 <ul class="allPlayers">
-    <li *ngFor="let player of players">
+    <li *ngFor="let player of players" (click)="onSelect(player)">
         <span class="playerBadge">{{player.player_id}}</span> 
         <span *ngIf="player.player_name; else elseBlock"> {{player.player_name}} </span>
         <ng-template #elseBlock> Unnamed Player</ng-template>
