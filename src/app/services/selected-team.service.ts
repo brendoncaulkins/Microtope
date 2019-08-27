@@ -8,6 +8,7 @@ import {Team} from '../models/Team.model';
 export class SelectedTeamService {
 
   private selectedTeam?:Team;
+  
 
   constructor() { }
 
