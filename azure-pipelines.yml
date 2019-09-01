@@ -4,7 +4,7 @@ trigger:
 
 stages:
 - stage: Compile
-  displayName: Compile Sources
+  displayName: Compile and Docker Java Sources
   jobs:
   - job: MVNWorker
     displayName: Worker
@@ -28,6 +28,7 @@ stages:
       - task: Docker@2    
         inputs:
           command: 'build'
+          repository: microptope/worker:0.1
           Dockerfile: 'worker/dockerfile'
           buildContext: 'worker/'
 
@@ -53,6 +54,7 @@ stages:
       - task: Docker@2
         inputs:
           command: 'build'
+          repository: microptope/pulser:0.1
           Dockerfile: 'pulser/dockerfile'
           buildContext: 'pulser/'
 
@@ -67,6 +69,7 @@ stages:
     - task: Docker@2
       inputs:
         command: 'build'
+        repository: microptope/api:0.1
         Dockerfile: 'api/dockerfile'
         buildContext: 'api/'
   - job: DockerDatabase
@@ -75,7 +78,7 @@ stages:
     - task: Docker@2
       inputs: 
        command: 'build'
-       repository: microptope/database
+       repository: microptope/database:0.1
        Dockerfile: 'database/Dockerfile'
        buildContext: 'database/'
 
@@ -85,5 +88,13 @@ stages:
   dependsOn: Dockerize
   displayName: Smoke Testing Items
   jobs:
-  - job: startDB
+
   - job: dockerCompose
+    displayName: Start Docker dockerCompose
+    steps:
+    - task: DockerCompose@0
+      inputs:
+        containerregistrytype: 'Container Registry'
+        dockerComposeFile: 'meta/docker-compose.yml'
+        action: 'Run a Docker Compose command'
+        dockerComposeCommand: 'up'
