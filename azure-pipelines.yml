@@ -41,3 +41,11 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'clean package'
+
+- task: Docker@2
+  inputs:
+    command: 'build'
+    Dockerfile: 'database/Dockerfile'
+    buildContext: 'database'
+    arguments: '-t microtope/database'
+
