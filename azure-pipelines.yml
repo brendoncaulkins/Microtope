@@ -1,0 +1,104 @@
+trigger:
+- master
+
+schedules:
+- cron: "0 8 * * Mon-Fri"
+  displayName: M-F 3:00 AM (UTC - 5) NC daily build
+  branches:
+    include:
+        - master
+
+stages:
+- stage: Preflight
+  displayName: Preflight Static Quality Checks 
+  jobs:
+
+  - job: WhiteSource
+    displayName: WhiteSource Scan 
+    steps:
+      - task: WhiteSource Bolt@19
+        inputs:
+          cwd: 'api'
+- stage: Compile
+  displayName: Compile and Docker Java Sources
+  jobs:
+  - job: MVNWorker
+    displayName: Worker
+    pool:
+      vmImage: 'ubuntu-16.04'
+    steps:
+      - task: Maven@3
+        inputs:
+          mavenPomFile: 'worker/pom.xml'
+          goals: 'clean package'
+          publishJUnitResults: true
+          testResultsFiles: '**/surefire-reports/TEST-*.xml'
+          testRunTitle: 'Worker MVN'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: '1.12'
+          mavenVersionOption: 'Default'
+          mavenOptions: '-Xmx3072m'
+          mavenAuthenticateFeed: false
+          effectivePomSkip: false
+          sonarQubeRunAnalysis: false
+          checkStyleRunAnalysis: false
+          findBugsRunAnalysis: false
+      - task: Docker@2    
+        inputs:
+          command: 'build'
+          repository: microptope/worker:0.1
+          Dockerfile: 'worker/dockerfile'
+          buildContext: 'worker/'
+
+  - job: MVNPulser
+    displayName: Pulser
+    pool:
+      vmImage: 'ubuntu-16.04'
+    steps:
+      - task: Maven@3
+        inputs:
+          mavenPomFile: 'pulser/pom.xml'
+          goals: 'clean package'
+          publishJUnitResults: true
+          testResultsFiles: '**/surefire-reports/TEST-*.xml'
+          testRunTitle: 'Pulser MVN'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: '1.12'
+          mavenVersionOption: 'Default'
+          mavenOptions: '-Xmx3072m'
+          mavenAuthenticateFeed: false
+          effectivePomSkip: false
+          sonarQubeRunAnalysis: false
+          checkStyleRunAnalysis: false
+          findBugsRunAnalysis: false
+      - task: Docker@2
+        inputs:
+          command: 'build'
+          repository: microptope/pulser:0.1
+          Dockerfile: 'pulser/dockerfile'
+          buildContext: 'pulser/'
+
+          
+- stage: Dockerize
+  displayName: Containerising with Docker
+  dependsOn: Compile
+  jobs:
+  - job: DockerAPI
+    displayName: Dockerize API Container
+    steps:
+    - task: Docker@2
+      inputs:
+        command: 'build'
+        repository: microptope/api:0.1
+        Dockerfile: 'api/dockerfile'
+        buildContext: 'api/'
+  - job: DockerDatabase
+    displayName: Dockerize Database Container
+    steps:
+    - task: Docker@2
+      inputs: 
+       command: 'build'
+       repository: microptope/database:0.1
+       Dockerfile: 'database/Dockerfile'
+       buildContext: 'database/'
+
