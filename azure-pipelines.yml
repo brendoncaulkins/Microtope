@@ -14,13 +14,17 @@ steps:
 - task: Maven@3
   inputs:
     mavenPomFile: 'worker/pom.xml'
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.12'
-    jdkArchitectureOption: 'x64'
+    goals: 'clean package'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'clean package'
+    testRunTitle: 'Worker MVN'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.12'
+    mavenVersionOption: 'Default'
+    mavenOptions: '-Xmx3072m'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
 
 - task: Npm@1
   inputs:
