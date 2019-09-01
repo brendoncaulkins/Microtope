@@ -20,7 +20,7 @@ stages:
   - job: B1
   - job: B2
 
-- stage: Smoke Tests
+- stage: Smokes
   dependsOn: Dockerize
   displayName: Smoke Testing Items
   jobs:
