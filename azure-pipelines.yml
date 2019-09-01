@@ -1,6 +1,12 @@
 trigger:
 - master
 
+schedules:
+- cron: "0 8 * * Mon-Fri"
+  displayName: M-F 3:00 AM (UTC - 5) NC daily build
+  branches:
+    include:
+        - master
 
 stages:
 - stage: Preflight
