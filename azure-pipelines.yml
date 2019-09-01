@@ -6,10 +6,7 @@ stages:
 - stage: Preflight
   displayName: Preflight Static Quality Checks 
   jobs:
-  - job: Sonar 
-    displayName: SonarScan
-    steps:
-      - task: SonarCloudQualityGateCheck@1
+
   - job: WhiteSource
     displayName: WhiteSource Scan 
     steps:
