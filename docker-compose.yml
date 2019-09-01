@@ -1,0 +1,72 @@
+version: '3.3'
+
+services:
+  amq:
+    image: vromero/activemq-artemis
+    networks: 
+        - backend
+        - spawn
+    ports: 
+      - "8161:8161"
+    environment:
+      ARTEMIS_USERNAME: Artemis
+      ARTEMIS_PASSWORD: Artemis
+  pulser:
+    image: microtope/pulser:0.1
+    depends_on: 
+      - amq
+      - worker
+      - db
+    environment:
+      ActiveMQ_Adress: amq
+    restart: on-failure
+    networks: 
+      - spawn
+  db:
+    image: microtope/database:0.1
+    networks: 
+      - backend
+      - transistor
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      TZ: "Europe/Berlin"
+  worker:
+    image: microtope/worker:0.1
+    networks:
+      - backend
+    environment:
+      MariaDB_Adress: db
+      MariaDB_User: worker
+      MariaDB_PW: INeed2Write
+      ActiveMQ_Adress: amq
+      ActiveMQ_User: Artemis
+      ActiveMQ_Pwd: Artemis
+    restart: on-failure
+    depends_on: 
+      - amq
+      - db
+  api:
+    image: microtope/api:0.1
+    networks:
+      - transistor
+      - frontend
+    environment:
+      MariaDB_Adress: db
+      MariaDB_User: api
+      MariaDB_PW: Need4Read
+      Exposed_Port: 3000
+    restart: on-failure
+    # make sure that exposedPort is listed here!
+    ports: 
+      - "3000:3000"
+    depends_on: 
+      - amq
+      - db
+networks:
+  backend:
+    
+  transistor:
+    
+  frontend:
+  
+  spawn: 
