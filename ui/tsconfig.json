@@ -1,25 +1,5 @@
 {
-<<<<<<< HEAD
-    "compilerOptions": {
-        "module": "commonjs",
-        "esModuleInterop": true,
-        "target": "es6",
-        "noImplicitAny": true,
-        "moduleResolution": "node",
-        "sourceMap": true,
-        "outDir": "dist",
-        "baseUrl": ".",
-        "paths": {
-            "*": [
-                "node_modules/*"
-            ]
-        }
-    },
-    "include": [
-        "src/**/*"
-    ]
-}
-=======
+
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
@@ -45,4 +25,3 @@
     "strictInjectionParameters": true
   }
 }
->>>>>>> ui/master

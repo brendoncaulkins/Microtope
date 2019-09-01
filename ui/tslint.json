@@ -1,15 +1,5 @@
 {
-<<<<<<< HEAD
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended"
-    ],
-    "jsRules": {},
-    "rules": {
-        "trailing-comma": [ false ]
-    },
-    "rulesDirectory": []
-=======
+
   "extends": "tslint:recommended",
   "rules": {
     "array-type": false,
@@ -100,5 +90,4 @@
   "rulesDirectory": [
     "codelyzer"
   ]
->>>>>>> ui/master
 }
