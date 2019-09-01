@@ -57,7 +57,7 @@ stages:
     - task: Docker@2
       inputs:
         command: 'build'
-        Dockerfile: 'api/Dockerfile'
+        Dockerfile: 'api/dockerfile'
         buildContext: 'api/'
   - job: DockerDatabase
     displayName: Dockerize Database Container
@@ -65,15 +65,15 @@ stages:
     - task: Docker@2
       inputs: 
        command: 'build'
-       Dockerfile: 'database/Dockerfile'
-       buildContext: 'database/'
+       Dockerfile: '/database/Dockerfile'
+       buildContext: '/database/'
   - job: DockerWorker
     displayName: Dockerizing Worker Container
     steps:
     - task: Docker@2
       inputs:
         command: 'build'
-        Dockerfile: 'worker/Dockerfile'
+        Dockerfile: 'worker/dockerfile'
         buildContext: 'worker/'
 
   - job: DockerPulser
@@ -82,7 +82,7 @@ stages:
     - task: Docker@2
       inputs:
         command: 'build'
-        Dockerfile: 'pulser/Dockerfile'
+        Dockerfile: 'pulser/dockerfile'
         buildContext: 'pulser/'
 
         
