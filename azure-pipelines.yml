@@ -12,7 +12,7 @@ stages:
     steps:
       - task: WhiteSource Bolt@19
         inputs:
-          cwd: './'
+          cwd: 'api'
 - stage: Compile
   displayName: Compile and Docker Java Sources
   jobs:
@@ -35,8 +35,8 @@ stages:
           mavenAuthenticateFeed: false
           effectivePomSkip: false
           sonarQubeRunAnalysis: false
-          checkStyleRunAnalysis: true
-          findBugsRunAnalysis: true
+          checkStyleRunAnalysis: false
+          findBugsRunAnalysis: false
       - task: Docker@2    
         inputs:
           command: 'build'
@@ -63,8 +63,8 @@ stages:
           mavenAuthenticateFeed: false
           effectivePomSkip: false
           sonarQubeRunAnalysis: false
-          checkStyleRunAnalysis: true
-          findBugsRunAnalysis: true
+          checkStyleRunAnalysis: false
+          findBugsRunAnalysis: false
       - task: Docker@2
         inputs:
           command: 'build'
