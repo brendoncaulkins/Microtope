@@ -82,19 +82,3 @@ stages:
        Dockerfile: 'database/Dockerfile'
        buildContext: 'database/'
 
-
-        
-- stage: Smokes
-  dependsOn: Dockerize
-  displayName: Smoke Testing Items
-  jobs:
-
-  - job: dockerCompose
-    displayName: Start Docker dockerCompose
-    steps:
-    - task: DockerCompose@0
-      inputs:
-        containerregistrytype: 'Container Registry'
-        dockerComposeFile: 'meta/docker-compose.yml'
-        action: 'Run a Docker Compose command'
-        dockerComposeCommand: 'up'
