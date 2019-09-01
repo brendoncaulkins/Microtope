@@ -1,0 +1,17 @@
+<div *ngIf="player">
+
+    <h3>Player #{{player.player_id}} Details</h3>
+    <div><span>id: </span>{{player.player_id}}</div>
+    <div><span>name:</span> placeholder for inputvar</div>
+    <div><span>coins:</span>
+    <span *ngIf="player.coins; else noCoinsBlock"> {{player.coins}}</span>
+    <ng-template #noCoinsBlock> 0 </ng-template>
+    </div>
+    <button (click)="onClose()">close</button>
+    <!--<div>
+    <label>name:
+        <input [(ngModel)]={{player.player_name}}/>
+      </label>
+    </div>
+   -->
+ </div>
