@@ -34,7 +34,10 @@ stages:
           mavenOptions: '-Xmx3072m'
           mavenAuthenticateFeed: false
           effectivePomSkip: false
-          sonarQubeRunAnalysis: false
+          sonarQubeRunAnalysis: true
+          sqMavenPluginVersionChoice: 'latest'
+          checkStyleRunAnalysis: true
+          findBugsRunAnalysis: true
       - task: Docker@2    
         inputs:
           command: 'build'
@@ -60,7 +63,10 @@ stages:
           mavenOptions: '-Xmx3072m'
           mavenAuthenticateFeed: false
           effectivePomSkip: false
-          sonarQubeRunAnalysis: false
+          sonarQubeRunAnalysis: true
+          sqMavenPluginVersionChoice: 'latest'
+          checkStyleRunAnalysis: true
+          findBugsRunAnalysis: true
       - task: Docker@2
         inputs:
           command: 'build'
