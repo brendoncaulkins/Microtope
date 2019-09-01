@@ -51,9 +51,41 @@ stages:
   displayName: Containerising with Docker
   dependsOn: Compile
   jobs:
-  - job: B1
-  - job: B2
+  - job: DockerAPI
+    displayName: Dockerize API Container
+    steps:
+    - task: Docker@2
+      inputs:
+        command: 'build'
+        Dockerfile: 'api/Dockerfile'
+        buildContext: 'api/'
+  - job: DockerDatabase
+    displayName: Dockerize Database Container
+    steps:
+    - task: Docker@2
+      inputs: 
+       command: 'build'
+       Dockerfile: 'database/Dockerfile'
+       buildContext: 'database/'
+  - job: DockerWorker
+    displayName: Dockerizing Worker Container
+    steps:
+    - task: Docker@2
+      inputs:
+        command: 'build'
+        Dockerfile: 'worker/Dockerfile'
+        buildContext: 'worker/'
 
+  - job: DockerPulser
+    displayName: Dockerizing Pulser Container
+    steps:
+    - task: Docker@2
+      inputs:
+        command: 'build'
+        Dockerfile: 'pulser/Dockerfile'
+        buildContext: 'pulser/'
+
+        
 - stage: Smokes
   dependsOn: Dockerize
   displayName: Smoke Testing Items
