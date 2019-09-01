@@ -25,6 +25,11 @@ stages:
           mavenAuthenticateFeed: false
           effectivePomSkip: false
           sonarQubeRunAnalysis: false
+      - task: Docker@2    
+        inputs:
+          command: 'build'
+          Dockerfile: 'worker/dockerfile'
+          buildContext: 'worker/'
 
   - job: MVNPulser
     displayName: Pulser
@@ -65,16 +70,13 @@ stages:
     - task: Docker@2
       inputs: 
        command: 'build'
-       Dockerfile: '/database/Dockerfile'
-       buildContext: '/database/'
+       repository: microptope/database
+       Dockerfile: 'database/Dockerfile'
+       buildContext: 'database/'
   - job: DockerWorker
     displayName: Dockerizing Worker Container
     steps:
-    - task: Docker@2
-      inputs:
-        command: 'build'
-        Dockerfile: 'worker/dockerfile'
-        buildContext: 'worker/'
+    
 
   - job: DockerPulser
     displayName: Dockerizing Pulser Container
