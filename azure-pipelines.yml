@@ -3,6 +3,13 @@ trigger:
 
 
 stages:
+- stage: Preflight
+  displayName: Preflight Static Quality Checks 
+  jobs:
+  - job: Sonar 
+    displayName: SonarScan
+    steps:
+      - task: SonarCloudQualityGateCheck@1
 - stage: Compile
   displayName: Compile and Docker Java Sources
   jobs:
