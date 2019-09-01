@@ -10,6 +10,12 @@ stages:
     displayName: SonarScan
     steps:
       - task: SonarCloudQualityGateCheck@1
+  - job: WhiteSource
+    displayName: WhiteSource Scan 
+    steps:
+      - task: WhiteSource Bolt@19
+        inputs:
+          cwd: './'
 - stage: Compile
   displayName: Compile and Docker Java Sources
   jobs:
