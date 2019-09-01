@@ -38,7 +38,7 @@ stages:
     steps:
       - task: Maven@3
         inputs:
-          mavenPomFile: 'worker/pom.xml'
+          mavenPomFile: 'pulser/pom.xml'
           goals: 'clean package'
           publishJUnitResults: true
           testResultsFiles: '**/surefire-reports/TEST-*.xml'
@@ -50,6 +50,11 @@ stages:
           mavenAuthenticateFeed: false
           effectivePomSkip: false
           sonarQubeRunAnalysis: false
+      - task: Docker@2
+        inputs:
+          command: 'build'
+          Dockerfile: 'pulser/dockerfile'
+          buildContext: 'pulser/'
 
           
 - stage: Dockerize
@@ -73,19 +78,7 @@ stages:
        repository: microptope/database
        Dockerfile: 'database/Dockerfile'
        buildContext: 'database/'
-  - job: DockerWorker
-    displayName: Dockerizing Worker Container
-    steps:
-    
 
-  - job: DockerPulser
-    displayName: Dockerizing Pulser Container
-    steps:
-    - task: Docker@2
-      inputs:
-        command: 'build'
-        Dockerfile: 'pulser/dockerfile'
-        buildContext: 'pulser/'
 
         
 - stage: Smokes
