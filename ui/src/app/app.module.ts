@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {environment} from '../environments/environment.prod'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,7 +31,11 @@ import { TeamDetailComponent } from './components/team-detail/team-detail.compon
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    {provide: 'BACKEND_API_URL', useValue: environment.backendApiUrl},
+    {provide: 'BACKEND_API_USER', useValue: environment.backendUserName},
+    {provide: 'BACKEND_API_PWD', useValue: environment.backendPassword},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
