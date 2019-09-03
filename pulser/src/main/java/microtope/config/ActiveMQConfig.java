@@ -39,6 +39,19 @@ public class ActiveMQConfig {
         var adress_to_check = args[0];
     	var port_to_check = args[1];
     	var queue_to_check = args[2];
+    	if(adress_to_check==null || adress_to_check.isEmpty()) {
+    		logger.error( "Recieved null or empty Adress" );
+        	return new ActiveMQConfig();
+    	}
+    	if(port_to_check==null || port_to_check.isEmpty()) {
+    		logger.error( "Recieved null or empty port" );
+        	return new ActiveMQConfig();
+    	}
+    	if(queue_to_check==null || queue_to_check.isEmpty()) {
+    		logger.error( "Recieved null or empty topic" );
+        	return new ActiveMQConfig();
+    	}
+    	
     	if(!ValueChecker.goodURL(adress_to_check)) {
     		logger.warn( adress_to_check + " does not look like valid IP Adress or Domain Name!");
     		logger.warn("trying to connect to " + adress_to_check + " anyway...");
