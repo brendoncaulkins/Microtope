@@ -15,7 +15,6 @@ public class Worker {
 
 	
 	int player;
-	Team team;
 	int team_id;
 	MessageSender sender;
 	
@@ -26,15 +25,14 @@ public class Worker {
 	
 	public boolean finished = false;
 	
-	public Worker(int player, Team team, MessageSender sender, int numberOfMessages){
+	public Worker(int player, int team_id, MessageSender sender, int numberOfMessages){
 		
 		this.player=player;
-		this.team=team;
 		this.sender=sender;
 		this.numberOfMessages=numberOfMessages;
-		team_id= team.ordinal();
+		this.team_id=team_id;
 		
-		logger.debug("Worker created with Team " + team_id + ":" + team.toString() + " and player " + player );
+		logger.debug("Worker created with Team " + team_id + " and player " + player );
 	}
 	
 	public void work() throws JMSException, InterruptedException {
@@ -42,10 +40,7 @@ public class Worker {
 		sender.sendMessage(MessageGenerator.createLoginMessage(player,team_id));
 		for(int i=0;i<numberOfMessages;i++) {
 			Thread.sleep(TIMEOUT);
-			if(Math.random()<COINQUOTA)
-				sender.sendMessage(MessageGenerator.createCoinMessage(player, team_id, DataGenerator.getRandomCoins()));
-			else
-				sender.sendMessage(MessageGenerator.createStepMessage(player, DataGenerator.getRandomSteps()));
+			sendRandomizedMessage();
 		}
 		logger.debug("Worker send his messages" );
 		sender.sendMessage(MessageGenerator.createLogoutMessage(player));
@@ -53,12 +48,23 @@ public class Worker {
 		logger.trace("Worker finished" );
 	}
 	
-	
+	public void sendRandomizedMessage() {
+		try {
+			String message;
+			if(Math.random()<COINQUOTA)
+				message = MessageGenerator.createCoinMessage(player, team_id, DataGenerator.getRandomCoins());
+			else
+				message = MessageGenerator.createStepMessage(player, DataGenerator.getRandomSteps());
+			sender.sendMessage(message);
+		} catch (JMSException e) {
+			logger.error(e);
+		}
+	}
 	
 	public static Worker randomWorker(MessageSender sender, int messages){
 		Team t = DataGenerator.getRandomTeam();
 		int player = DataGenerator.getRandomPlayerNumber();
-		Worker w = new Worker (player,t, sender, messages);
+		Worker w = new Worker (player,t.ordinal(), sender, messages);
 		return w;
 	}
 	

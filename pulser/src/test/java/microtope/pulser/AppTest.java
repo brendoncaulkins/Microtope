@@ -1,5 +1,7 @@
 package microtope.pulser;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -8,8 +10,16 @@ import org.junit.jupiter.api.Test;
 public class AppTest{
    
 	@Test
-	public void emptyTest() {
-		return;
+	void testMain_toLowNumberOfArguments_shouldThrowIllegalArgumentException() {
+		String[] testArgs= new String[] {"Adress","1005","Queue"};
+		
+		assertThrows(IllegalArgumentException.class, () -> App.main(testArgs));
 	}
 	
+	@Test
+	void testMain_toHighNumberOfArguments_shouldThrowIllegalArgumentException() {
+		String[] testArgs= new String[] {"Adress","1005","Queue","User","Pwd","One to high"};
+		
+		assertThrows(IllegalArgumentException.class, () -> App.main(testArgs));
+	}
 }
