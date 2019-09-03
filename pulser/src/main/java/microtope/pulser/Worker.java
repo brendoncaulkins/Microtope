@@ -48,7 +48,7 @@ public class Worker {
 		logger.trace("Worker finished" );
 	}
 	
-	private void sendRandomizedMessage() {
+	public void sendRandomizedMessage() {
 		try {
 			String message;
 			if(Math.random()<COINQUOTA)
