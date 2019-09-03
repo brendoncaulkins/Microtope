@@ -106,7 +106,7 @@ stages:
     steps:
     - task: Docker@2
       inputs: 
-      command: 'build'
-      repository: microptope/ui:0.1
-      Dockerfile: 'ui/Dockerfile'
-      buildContext: 'ui/'
+        command: 'build'
+        repository: microptope/ui:0.1
+        Dockerfile: 'ui/Dockerfile'
+        buildContext: 'ui/'
