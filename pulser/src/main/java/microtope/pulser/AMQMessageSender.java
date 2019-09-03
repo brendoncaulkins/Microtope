@@ -14,6 +14,8 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import microtope.config.ActiveMQConfig;
+
 public class AMQMessageSender implements Closeable, MessageSender {
 	
 	Connection connection;
@@ -23,27 +25,19 @@ public class AMQMessageSender implements Closeable, MessageSender {
 	private static Logger logger = LogManager.getLogger(AMQMessageSender.class);
 
 	
-	public AMQMessageSender(String ipaddress,String port, String subject, String user_to_connect, String pwd_to_connect) throws JMSException,IllegalArgumentException {
-		if(ipaddress==null || ipaddress.isEmpty()) {
-			logger.error( "Sender Constructor recieved null or empty IP Adress" );
-			throw new IllegalArgumentException( "IP Adress cannot be null or empty" );
-		}
-		if(subject == null || subject.isEmpty()) {
-			logger.error( "Sender Constructor recieved null or empty Subject" );
-			throw new IllegalArgumentException( "Subject cannot be null or empty" );
-		}
-		if(port == null || port.isEmpty()) {
-			logger.error( "Sender Constructor recieved null or empty port" );
-			throw new IllegalArgumentException( "Port cannot be null or empty" );
+	public AMQMessageSender(ActiveMQConfig amqConfig) throws JMSException {
+		if(amqConfig.isEmpty()) {
+			logger.error( "Sender Constructor recieved bad AMQConfig" );
+			throw new IllegalArgumentException( "AMQConfig was empty" );
 		}
 		
-		var url = String.format( "tcp://%s:%s" , ipaddress, port);
+		var url = String.format( "tcp://%s:%s" , amqConfig.adress_to_connect, amqConfig.port_to_connect);
 		logger.info( "Sender connecting to " + url );
 		
         // Getting JMS connection from the server and starting it
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
         
-        connection =  connectionFactory.createConnection(user_to_connect,pwd_to_connect);
+        connection =  connectionFactory.createConnection(amqConfig.user_to_connect,amqConfig.pwd_to_connect);
         
         connection.start();
         logger.debug( "Connection opened" ); 
@@ -57,7 +51,7 @@ public class AMQMessageSender implements Closeable, MessageSender {
          
         //Destination represents here our queue on the AMQ-Server. 
         //The queue will be created automatically on the server.
-        Destination destination = session.createQueue(subject); 
+        Destination destination = session.createQueue(amqConfig.queue_to_connect); 
         
         logger.debug( "Created Queue" ); 
         
@@ -67,8 +61,9 @@ public class AMQMessageSender implements Closeable, MessageSender {
         
         logger.debug( "Created Producer" ); 
         
-        logger.info( "Build a new Sender" );        
-	}
+        logger.info( "Build a new Sender" );       
+    }
+	
 	
 	@Override
 	public void sendMessage(String msg) throws JMSException {
