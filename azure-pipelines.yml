@@ -101,7 +101,7 @@ stages:
        repository: microptope/database:0.1
        Dockerfile: 'database/Dockerfile'
        buildContext: 'database/'
-  - job: DockerDatabase
+  - job: DockerUI
     displayName: Build and Dockerize UI
     steps:
     - task: Docker@2
