@@ -11,20 +11,14 @@ export class AppConfigService {
     constructor(private injector: Injector) {}
 
     loadAppConfig() {
-        console.log("Loading App Config");
-        
         let http = this.injector.get(HttpClient);
-        
-        console.log("Got HTTP Client");
-        
         return http.get('/assets/app-config.json')
         .toPromise()
         .then(data => {
-            console.log("found:" + data)  
             this.appConfig = data;
         })
         .catch(error => {
-          console.warn("Error loading app-config.json, using envrionment file instead");
+          console.warn("Error loading app-config.json, using default object instead");
           this.appConfig = {
             apiurl:"http://defaulturl.com"
           };
@@ -32,7 +26,6 @@ export class AppConfigService {
     }
 
     public getURL(){
-      console.log(this.appConfig.apiurl)
       return this.appConfig.apiurl;
     }
 }
