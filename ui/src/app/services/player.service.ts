@@ -13,6 +13,7 @@ export class PlayerService {
   constructor(private databaseproviderservice:DatabaseproviderService) { }
 
   public getPlayers():Observable<Player[]>{
+    console.log("URL Found: " + this.databaseproviderservice.getUrl())
     return of(fakePlayers);
   }
 
