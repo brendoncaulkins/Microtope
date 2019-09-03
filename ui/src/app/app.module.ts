@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { AppConfigService } from './services/app-config.service'
+
 import {environment} from '../environments/environment.prod'
 
 import { AppRoutingModule } from './app-routing.module';
@@ -13,6 +15,12 @@ import { TeamSplitscreenPageComponent } from './components/team-splitscreen-page
 import { PlayerSplitscreenPageComponent } from './components/player-splitscreen-page/player-splitscreen-page.component';
 import { PlayerDetailComponent } from './components/player-detail/player-detail.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
+
+const appInitializerFn = (appConfig: AppConfigService) => {
+  return () => {
+      return appConfig.loadAppConfig();
+  }
+};
 
 @NgModule({
   declarations: [
@@ -32,9 +40,13 @@ import { TeamDetailComponent } from './components/team-detail/team-detail.compon
     AppRoutingModule
   ],
   providers: [
-    {provide: 'BACKEND_API_URL', useValue: environment.backendApiUrl},
-    {provide: 'BACKEND_API_USER', useValue: environment.backendUserName},
-    {provide: 'BACKEND_API_PWD', useValue: environment.backendPassword},
+    AppConfigService,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: appInitializerFn,
+            multi: true,
+            deps: [AppConfigService]
+        }
   ],
   bootstrap: [AppComponent]
 })
