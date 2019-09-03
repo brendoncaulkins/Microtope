@@ -16,6 +16,8 @@ import { PlayerSplitscreenPageComponent } from './components/player-splitscreen-
 import { PlayerDetailComponent } from './components/player-detail/player-detail.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
 
+import {HttpClientModule} from "@angular/common/http";
+
 const appInitializerFn = (appConfig: AppConfigService) => {
   return () => {
       return appConfig.loadAppConfig();
@@ -37,7 +39,8 @@ const appInitializerFn = (appConfig: AppConfigService) => {
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [
     AppConfigService,
