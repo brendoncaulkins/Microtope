@@ -47,7 +47,7 @@ stages:
         inputs:
           command: 'build'
           repository: microptope/worker:0.1
-          Dockerfile: 'worker/dockerfile'
+          Dockerfile: 'worker/Dockerfile'
           buildContext: 'worker/'
 
   - job: MVNPulser
@@ -75,7 +75,7 @@ stages:
         inputs:
           command: 'build'
           repository: microptope/pulser:0.1
-          Dockerfile: 'pulser/dockerfile'
+          Dockerfile: 'pulser/Dockerfile'
           buildContext: 'pulser/'
 
           
@@ -90,7 +90,7 @@ stages:
       inputs:
         command: 'build'
         repository: microptope/api:0.1
-        Dockerfile: 'api/dockerfile'
+        Dockerfile: 'api/Dockerfile'
         buildContext: 'api/'
   - job: DockerDatabase
     displayName: Dockerize Database Container
