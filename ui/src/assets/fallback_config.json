@@ -1,3 +1,5 @@
 {
-    "apiurl":"http://lolhost:5050/api"
+        "api_url":"http://fallbackurl.com",
+        "api_user": "fallbacker",
+        "api_pwd":"fallbackpwd"
 }

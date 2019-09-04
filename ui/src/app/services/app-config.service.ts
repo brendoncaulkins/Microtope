@@ -5,21 +5,22 @@ import {catchError, tap} from 'rxjs/operators';
 
 import {environment} from '../../environments/environment';
 
+import {IConfig} from '../models/IConfig';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AppConfigService {
-  constructor(private http: HttpClient) {
-    console.log('Initializising AppConfigService');
-  }
+  
+  constructor(private http: HttpClient) {}
 
-  private getConfig(config: string): Observable<string> {
-    return this.http.get<string>(config).pipe(
+  private getConfig(configLocationURL: string): Observable<IConfig> {
+    return this.http.get<IConfig>(configLocationURL).pipe(
       tap(() => console.log('Looking for Config Files...'))
     );
   }
 
-  public loadAppConfig(): Observable<string> {
+  public loadAppConfig(): Observable<IConfig> {
     return this.getConfig(environment.configAddress).pipe(
       catchError(() => {
         console.log(`Couldn't find config, trying fallback config`);
@@ -27,9 +28,18 @@ export class AppConfigService {
       }),
       catchError(() => {
         console.log(`Couldn't find config, using default values`);
-        return of('http://defaulturl.com');
+        return this.defaultConfig();
       })
     );
 
+  }
+
+  private defaultConfig(): Observable<IConfig>{
+    const defaultConfig ={
+      api_url:"http://defaulturl.com",
+      api_user: "defaulter",
+      api_pwd:"unusable"
+    }
+    return of( defaultConfig as IConfig);
   }
 }

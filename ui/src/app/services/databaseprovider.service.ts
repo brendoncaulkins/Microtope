@@ -7,9 +7,7 @@ import {AppConfigService} from './app-config.service';
 })
 export class DatabaseproviderService {
 
-  constructor(private appConfig: AppConfigService) {
-    console.log('Initializising DatabaseproviderService');
-  }
+  constructor(private appConfig: AppConfigService) {}
 
   public getUrl(): Observable<string> {
     return this.appConfig.loadAppConfig();

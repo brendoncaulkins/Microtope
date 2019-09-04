@@ -15,9 +15,7 @@ export class PlayerService {
 
   public getPlayers(): Observable<Player[]> {
     return this.databaseproviderservice.getUrl().pipe(
-      tap(() => console.log('URL FOUND BITCH')),
       map(url => {
-        console.log('DO HERE FUCKING LOGIC TO FETCH PLAYAZ');
         return fakePlayers;
       })
     );
