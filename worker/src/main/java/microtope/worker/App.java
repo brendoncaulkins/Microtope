@@ -2,6 +2,8 @@ package microtope.worker;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
+
 import javax.jms.JMSException;
 
 import org.apache.logging.log4j.LogManager;
@@ -26,9 +28,9 @@ public class App
         	throw new IllegalArgumentException("Did not get enough args!");
         }
         else {
-        	String[] amqargs = takeFirstN(args,5);
+        	String[] amqargs = Arrays.copyOfRange(args, 0,5);
         	amqconf = ActiveMQConfig.createActiveMQConfigFromArgs(amqargs);
-        	String[] sqlargs = takeNtoM(args,5,10);
+        	String[] sqlargs = Arrays.copyOfRange(args, 5, 10);
         	sqlconf = SQLConfig.createSQLConfigFromArgs(sqlargs);
         	
             logger.info( "args[] are ok, starting worker ..." );
@@ -43,18 +45,6 @@ public class App
         }
                 
         logger.info( "Closing AMQ-Reciever" );
-    }
-    
-
-    public static String[] takeNtoM(String[] args, int n, int m) {
-    	String[] toGet = new String[m-n];
-    	for(int i = n; i<m;i++)
-    		toGet[i]=args[i];
-    	return toGet;
-    }
-    
-    public static String[] takeFirstN(String[] args, int n) {
-    	return takeNtoM(args,0,n);
     }
 
 }
