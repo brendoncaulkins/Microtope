@@ -26,9 +26,8 @@ public class App
         String db_pwd_to_connect=null;
         
         if(args.length!=10) {
-        	logger.error( "Did not get enough args!" );
         	logger.error( "The args have to be: ActiveMQ_IP ActiveMQ_Port ActiveMQ_Queue ActiveMQ_User ActiveMQ_Pwd" );
-        	return;
+        	throw new IllegalArgumentException("Did not get enough args!");
         }
         else {
         	if(!ValueChecker.goodPort(args[6])) {
@@ -77,14 +76,14 @@ public class App
     }
     
 
-    private static String[] takeNtoM(String[] args, int n, int m) {
+    public static String[] takeNtoM(String[] args, int n, int m) {
     	String[] toGet = new String[m-n];
     	for(int i = n; i<m;i++)
     		toGet[i]=args[i];
     	return toGet;
     }
     
-    private static String[] takeFirstN(String[] args, int n) {
+    public static String[] takeFirstN(String[] args, int n) {
     	return takeNtoM(args,0,n);
     }
 
