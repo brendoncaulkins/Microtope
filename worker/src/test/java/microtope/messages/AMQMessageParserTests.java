@@ -2,7 +2,13 @@ package microtope.messages;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.apache.activemq.command.ActiveMQBytesMessage;
+import org.apache.activemq.command.ActiveMQTextMessage;
 import org.junit.jupiter.api.Test;
+
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.TextMessage;
 
 class AMQMessageParserTests {
 
@@ -136,6 +142,51 @@ class AMQMessageParserTests {
 		AMQMessage expected = new StepMessage(37845,14);
 		
 		AMQMessage parsed = AMQMessageParser.parseTextMessage(message);
+		
+		assertEquals(expected,parsed);
+	}
+	
+	@Test
+	void testMessageParser_JMSTextMessage_shouldBeParsed() {
+		
+		TextMessage text = new ActiveMQTextMessage( );
+		try {
+			text.setText("M: Player 37845 moved 14 steps");
+		} catch (JMSException e) {
+			fail();
+		}
+		
+		AMQMessage expected = new StepMessage(37845,14);
+		
+		AMQMessage parsed = AMQMessageParser.parseJMSMessage(text);
+		
+		assertEquals(expected,parsed);
+	}
+	
+	@Test
+	void testMessageParser_JMSTextMessage_BadFormat_shouldBeBadMessage() {
+		
+		TextMessage text = new ActiveMQTextMessage( );
+		try {
+			text.setText("Invalid Format");
+		} catch (JMSException e) {
+			fail();
+		}
+
+		AMQMessage expected = new BadMessage();
+		
+		AMQMessage parsed = AMQMessageParser.parseJMSMessage(text);
+		
+		assertEquals(expected,parsed);
+	}
+	@Test
+	void testMessageParser_JMSOtherMessageType_shouldBeBadMessage() {
+
+		Message text = new ActiveMQBytesMessage( );
+		
+		AMQMessage expected = new BadMessage();
+		
+		AMQMessage parsed = AMQMessageParser.parseJMSMessage(text);
 		
 		assertEquals(expected,parsed);
 	}
