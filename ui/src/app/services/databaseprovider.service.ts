@@ -1,13 +1,16 @@
-import { Injectable,Inject } from '@angular/core';
-import { AppConfigService } from './app-config.service';
+import {Injectable, Inject} from '@angular/core';
+import {Observable} from 'rxjs';
+import {AppConfigService} from './app-config.service';
+import { IConfig } from '../models/IConfig';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatabaseproviderService {
 
-  constructor(private appConfig:AppConfigService
-  ) { }
+  constructor(private appConfig: AppConfigService) {}
 
-  public getUrl():string{return this.appConfig.getURL()}
+  public getUrl(): Observable<IConfig> {
+    return this.appConfig.loadAppConfig();
+  }
 }
