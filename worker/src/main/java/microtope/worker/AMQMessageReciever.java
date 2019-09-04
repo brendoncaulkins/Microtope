@@ -73,7 +73,6 @@ public class AMQMessageReciever implements Closeable, MessageReciever{
 			} catch (JMSException e) {
 				logger.error(e);
 			}
-		logger.error("Empty Consumer!");
 	}   
     
 }
