@@ -11,6 +11,8 @@ import javax.jms.MessageListener;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import microtope.config.ActiveMQConfig;
  
 public class AMQMessageReciever implements Closeable, MessageReciever{
 	
@@ -21,23 +23,19 @@ public class AMQMessageReciever implements Closeable, MessageReciever{
 	
 	private Destination destination;
 	private MessageConsumer consumer;
-	
-    public AMQMessageReciever (String adress, String port, String queue, String user_to_connect, String pwd_to_connect) throws JMSException {
+
+    public AMQMessageReciever (ActiveMQConfig amqconf) throws JMSException {
+        if(amqconf.isEmpty())
+        	throw new IllegalArgumentException("AMQConf is Empty!");
         
-    	if(user_to_connect == null || user_to_connect.isEmpty())
-    		logger.warn("recieved empty user for MessageReciever! Using anonymus user");
-    	
-    	if((pwd_to_connect == null || pwd_to_connect.isEmpty()) && !user_to_connect.isEmpty())
-    		logger.warn("Not using anonymus user - but not having pwd!");
-    	
-    	var connectionURL = String.format( "tcp://%s:%s" , adress, port);
+    	var connectionURL = String.format( "tcp://%s:%s" , amqconf.adress_to_connect, amqconf.port_to_connect);
 		
     	logger.info("Creating new MessageReciever with URL:" + connectionURL);
     	// Getting JMS connection from the server
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(connectionURL);
-        logger.debug("Connecting as " + user_to_connect + " with pwd [REDACTED]");
+        logger.debug("Connecting as " + amqconf.user_to_connect + " with pwd [REDACTED]");
         
-        connection =  connectionFactory.createConnection(user_to_connect,pwd_to_connect);
+        connection =  connectionFactory.createConnection(amqconf.user_to_connect,amqconf.pwd_to_connect);
         
         connection.start();
         logger.debug( "AMQ Connection opened" ); 
@@ -45,7 +43,7 @@ public class AMQMessageReciever implements Closeable, MessageReciever{
         Session session = connection.createSession(false,
                 Session.AUTO_ACKNOWLEDGE);
  
-        destination = session.createQueue(queue);
+        destination = session.createQueue(amqconf.queue_to_connect);
         logger.debug("Opened Session and found Queue");
         
         // MessageConsumer is used for receiving (consuming) messages
@@ -53,7 +51,7 @@ public class AMQMessageReciever implements Closeable, MessageReciever{
         
         logger.debug("Created fully working AMQ MessageReciever");
         
-    }    
+    }
    
 	@Override
 	public void close() throws IOException {
