@@ -7,7 +7,10 @@ import { AppConfigService } from './app-config.service';
 export class DatabaseproviderService {
 
   constructor(private appConfig:AppConfigService
-  ) { }
+  ) { 
+    console.log("Initializising DatabaseproviderService");}
 
-  public getUrl():string{return this.appConfig.getURL()}
+  public getUrl():string{
+    return this.appConfig.getURL();
+  }
 }
