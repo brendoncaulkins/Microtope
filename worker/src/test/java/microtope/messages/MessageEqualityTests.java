@@ -34,6 +34,7 @@ public class MessageEqualityTests {
 		assertNotEquals(first,other);
 	}
 	
+	@Test
 	void testCoinMessage_sameMessage_shouldBeTheSame() {
 		AMQMessage one = new CoinMessage(30705,10);
 		
