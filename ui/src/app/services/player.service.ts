@@ -1,28 +1,35 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+import {map, tap} from 'rxjs/operators';
 
 import {Player, IPlayer} from '../models/Player.model';
-import {fakePlayers} from '../models/fakePlayers'; 
-import { Observable,of } from 'rxjs';
-import { DatabaseproviderService } from './databaseprovider.service';
+import {fakePlayers} from '../models/fakePlayers';
+import {Observable, of} from 'rxjs';
+import {DatabaseproviderService} from './databaseprovider.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlayerService {
 
-  constructor(private databaseproviderservice:DatabaseproviderService) { }
+  constructor(private databaseproviderservice: DatabaseproviderService) { }
 
-  public getPlayers():Observable<Player[]>{
-    console.log("URL Found: " + this.databaseproviderservice.getUrl())
-    return of(fakePlayers);
+  public getPlayers(): Observable<Player[]> {
+    return this.databaseproviderservice.getUrl().pipe(
+      tap(() => console.log('URL FOUND BITCH')),
+      map(url => {
+        console.log('DO HERE FUCKING LOGIC TO FETCH PLAYAZ');
+        return fakePlayers;
+      })
+    );
   }
 
-  public getPlayerByID(player_id:number):Observable<Player>{
-    return of((fakePlayers.filter(x=>x.player_id===player_id))[0])
+  // Wenn deine Methode schon getPlayerById heißt, brauchst du deine parameter nicht player_id taufen...
+  public getPlayerByID(id: number): Observable<Player> {
+    return of((fakePlayers.filter(x => x.player_id === id))[0]);
   }
 
-  public getPlayerByName(player_name:string):Observable<Player>{
-    return of((fakePlayers.filter(x=>x.player_name===player_name))[0])
+  public getPlayerByName(name: string): Observable<Player> {
+    return of((fakePlayers.filter(x => x.player_name === name))[0]);
   }
-  
+
 }

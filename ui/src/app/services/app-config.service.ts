@@ -1,47 +1,35 @@
-import { Injectable, Injector } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable, of} from 'rxjs';
+import {catchError, tap} from 'rxjs/operators';
 
-import { environment } from '../../environments/environment';
-import { Observable,of } from 'rxjs';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppConfigService {
+  constructor(private http: HttpClient) {
+    console.log('Initializising AppConfigService');
+  }
 
-    private appConfig:any;
+  private getConfig(config: string): Observable<string> {
+    return this.http.get<string>(config).pipe(
+      tap(() => console.log('Looking for Config Files...'))
+    );
+  }
 
-    constructor(private http:HttpClient) {
-      console.log("Initializising AppConfigService");
-      this.loadAppConfig();
-      console.log("Made AppConfigService");
-    }
+  public loadAppConfig(): Observable<string> {
+    return this.getConfig(environment.configAddress).pipe(
+      catchError(() => {
+        console.log(`Couldn't find config, trying fallback config`);
+        return this.getConfig(environment.configFallback);
+      }),
+      catchError(() => {
+        console.log(`Couldn't find config, using default values`);
+        return of('http://defaulturl.com');
+      })
+    );
 
-    private loadAppConfig():void {
-        console.log("Looking for Config Files...");
-        this.http.get(environment.configAddress)
-        .toPromise()
-        .then(data => {
-            console.info("Found Primary Config File");
-            this.appConfig = data;
-        })
-        .catch(error => {
-          this.http.get(environment.configFallback)
-          .toPromise()
-          .then(fallbackdata => {
-            console.info("Found Fallback Config File");
-            this.appConfig = fallbackdata;
-          }).catch(error => {
-            console.warn("Error loading app-config.json, using default object instead");
-            this.appConfig = {
-              apiurl:"http://defaulturl.com"
-            };
-            })
-        })
-        
-    }
-
-    public getURL():string{
-      return this.appConfig.apiurl;
-    }
+  }
 }
