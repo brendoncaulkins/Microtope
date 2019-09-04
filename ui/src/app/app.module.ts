@@ -18,11 +18,6 @@ import { TeamDetailComponent } from './components/team-detail/team-detail.compon
 
 import {HttpClientModule} from "@angular/common/http";
 
-const appInitializerFn = (appConfig: AppConfigService) => {
-  return () => {
-      return appConfig.loadAppConfig();
-  }
-};
 
 @NgModule({
   declarations: [
@@ -42,15 +37,7 @@ const appInitializerFn = (appConfig: AppConfigService) => {
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [
-    AppConfigService,
-        {
-            provide: APP_INITIALIZER,
-            useFactory: appInitializerFn,
-            multi: true,
-            deps: [AppConfigService]
-        }
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

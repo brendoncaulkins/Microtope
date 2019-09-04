@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import microtope.config.SQLConfig;
 import microtope.messages.CoinMessage;
 import microtope.messages.LoginMessage;
 import microtope.messages.LogoutMessage;
@@ -20,12 +21,15 @@ public class MariaDBWriter implements Closeable, DBWriter{
 	Connection con;
 	private static Logger logger = LogManager.getLogger(MariaDBWriter.class);
 
-	public MariaDBWriter(String adress, String port, String databaseName, String user, String pwd) throws SQLException {
-		var url = String.format("jdbc:mysql://%s:%s/%s",adress,port,databaseName);
+	public MariaDBWriter(SQLConfig sqlconf) throws SQLException {
+		if(sqlconf.isEmpty())
+			throw new IllegalArgumentException("Recieved Empty SQLConf!");
 		
-	    logger.debug("Trying to connect to "+url+" as "+user+ " with Password [REDACTED] ");
+		var url = String.format("jdbc:mysql://%s:%s/%s",sqlconf.adress_to_connect,sqlconf.port_to_connect,sqlconf.database_to_connect);
+		
+	    logger.debug("Trying to connect to "+url+" as "+sqlconf.user_to_connect+ " with Password [REDACTED] ");
 	    
-	    con = DriverManager.getConnection(url,user, pwd);
+	    con = DriverManager.getConnection(url,sqlconf.user_to_connect, sqlconf.pwd_to_connect);
 	    
 	    logger.info("Connection to " + url + " established");
 	    

@@ -43,38 +43,32 @@ public abstract class AMQMessageParser {
 			logger.debug("Recieved a Message with strange format");
 			return new BadMessage();
 		}
-		
-		try {
-			
-			var loginMatcher = loginPattern.matcher(msg);
-			if(loginMatcher.matches()) {
-				int player_id = Integer.parseInt(loginMatcher.group(1));
-				int team_id = Integer.parseInt(loginMatcher.group(2));
-				return new LoginMessage(player_id,team_id);
-			}
-			
-			var logoutMatcher = logoutPattern.matcher(msg);
-			if(logoutMatcher.matches()) {
-				int player_id = Integer.parseInt(logoutMatcher.group(1));
-				return new LogoutMessage(player_id);
-			}
-			
-			var stepMatcher = stepPattern.matcher(msg);
-			if(stepMatcher.matches()) {
-				int player_id = Integer.parseInt(stepMatcher.group(1));
-				int steps = Integer.parseInt(stepMatcher.group(2));
-				return new StepMessage(player_id,steps);
-			}
-			
-			var coinMatcher = coinPattern.matcher(msg);
-			if(coinMatcher.matches()) {
-				int player_id = Integer.parseInt(coinMatcher.group(1));
-				int coins = Integer.parseInt(coinMatcher.group(2));
-				return new CoinMessage(player_id,coins);
-			}
+	
+		var loginMatcher = loginPattern.matcher(msg);
+		if(loginMatcher.matches()) {
+			int player_id = Integer.parseInt(loginMatcher.group(1));
+			int team_id = Integer.parseInt(loginMatcher.group(2));
+			return new LoginMessage(player_id,team_id);
 		}
-		catch (NumberFormatException e) {
-			logger.warn("Bad Integer Format in Message from message "+ msg +" - Saving you the exception");
+		
+		var logoutMatcher = logoutPattern.matcher(msg);
+		if(logoutMatcher.matches()) {
+			int player_id = Integer.parseInt(logoutMatcher.group(1));
+			return new LogoutMessage(player_id);
+		}
+		
+		var stepMatcher = stepPattern.matcher(msg);
+		if(stepMatcher.matches()) {
+			int player_id = Integer.parseInt(stepMatcher.group(1));
+			int steps = Integer.parseInt(stepMatcher.group(2));
+			return new StepMessage(player_id,steps);
+		}
+		
+		var coinMatcher = coinPattern.matcher(msg);
+		if(coinMatcher.matches()) {
+			int player_id = Integer.parseInt(coinMatcher.group(1));
+			int coins = Integer.parseInt(coinMatcher.group(2));
+			return new CoinMessage(player_id,coins);
 		}
 		
 		return new BadMessage();
