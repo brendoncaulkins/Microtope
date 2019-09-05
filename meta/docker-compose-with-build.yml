@@ -1,0 +1,97 @@
+version: '3.3'
+
+# This is a mirror of the normal docker-compose but with a build-in-built.
+# Beware: For the Java Sources you still need to do the maven goals locally first!
+
+services:
+  ui:
+    build:
+      context: ../ui/
+      dockerfile: Dockerfile
+    volumes:
+      - ./configs/docker_compose/ui/:/usr/share/nginx/html/config/
+    ports:
+      - "80:80"
+    networks:
+      - frontend
+    depends_on: 
+      - api
+
+  amq:
+    image: vromero/activemq-artemis
+    networks: 
+        - backend
+        - spawn
+    ports: 
+      - "8161:8161"
+    environment:
+      ARTEMIS_USERNAME: Artemis
+      ARTEMIS_PASSWORD: Artemis
+      
+  pulser:
+    build:
+      context: ../pulser/
+      dockerfile: Dockerfile
+    depends_on: 
+      - amq
+      - worker
+      - db
+    environment:
+      ActiveMQ_Adress: amq
+    restart: on-failure
+    networks: 
+      - spawn
+  db:
+    build:
+      context: ../database/
+      dockerfile: Dockerfile
+    networks: 
+      - backend
+      - transistor
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      TZ: "Europe/Berlin"
+  worker:
+    build:
+      context: ../worker/
+      dockerfile: Dockerfile
+    networks:
+      - backend
+    environment:
+      MariaDB_Adress: db
+      MariaDB_User: worker
+      MariaDB_PW: INeed2Write
+      ActiveMQ_Adress: amq
+      ActiveMQ_User: Artemis
+      ActiveMQ_Pwd: Artemis
+    restart: on-failure
+    depends_on: 
+      - amq
+      - db
+  api:
+    build:
+      context: ../api/
+      dockerfile: Dockerfile
+    networks:
+      - transistor
+      - frontend
+    environment:
+      MariaDB_Adress: db
+      MariaDB_User: api
+      MariaDB_PW: Need4Read
+      Exposed_Port: 3000
+    restart: on-failure
+    # make sure that exposedPort is listed here!
+    ports: 
+      - "3000:3000"
+    depends_on: 
+      - amq
+      - db
+networks:
+  backend:
+    
+  transistor:
+    
+  frontend:
+  
+  spawn: 
