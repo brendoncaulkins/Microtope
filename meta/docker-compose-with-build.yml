@@ -1,8 +1,13 @@
 version: '3.3'
 
+# This is a mirror of the normal docker-compose but with a build-in-built.
+# Beware: For the Java Sources you still need to do the maven goals locally first!
+
 services:
   ui:
-    image: microtope/ui
+    build:
+      context: ../ui/
+      dockerfile: Dockerfile
     volumes:
       - ./configs/docker_compose/ui/:/usr/share/nginx/html/config/
     ports:
@@ -24,7 +29,9 @@ services:
       ARTEMIS_PASSWORD: Artemis
       
   pulser:
-    image: microtope/pulser
+    build:
+      context: ../pulser/
+      dockerfile: Dockerfile
     depends_on: 
       - amq
       - worker
@@ -35,7 +42,9 @@ services:
     networks: 
       - spawn
   db:
-    image: microtope/database
+    build:
+      context: ../database/
+      dockerfile: Dockerfile
     networks: 
       - backend
       - transistor
@@ -43,7 +52,9 @@ services:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       TZ: "Europe/Berlin"
   worker:
-    image: microtope/worker
+    build:
+      context: ../worker/
+      dockerfile: Dockerfile
     networks:
       - backend
     environment:
@@ -58,7 +69,9 @@ services:
       - amq
       - db
   api:
-    image: microtope/api
+    build:
+      context: ../api/
+      dockerfile: Dockerfile
     networks:
       - transistor
       - frontend
