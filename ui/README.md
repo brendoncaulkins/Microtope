@@ -1,27 +1,24 @@
 # Ui
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.2.
+This is the Angular-Project for Microtopes UI.
 
-## Development server
+## Building
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+The build is done in the docker container - however you can use your normal `ng build --prod` to run your tsc and linter without overhead.
+If you want to do it that way, you need to `npm install` first.
 
-## Code scaffolding
+## Running
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+To run this simply start the docker-container.
 
-## Build
+If not provided another config, it will use the built-in [fallback-config](./src/app/assets/fallback_config.json).
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Deployment
 
-## Running unit tests
+To run with the *real* Api there needs to be a config imported into the NGinx-Container. The Config will be read the first time required (e.g. first-time loading the page).
+The config file must be under `/usr/share/nginx/html/config/app_config.json` inside the container. Best way to supply this is to mount a volume.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+The location of the config file is specified in [the environment-file](./src/app/environments/environment.ts) and is *hardcoded* for the built container.
+The config will be typechecked and needs to implement [a specified interface](./src/app/models/IConfig.ts).
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+An example will be provided in a small [docker-compose file](./docker-compose.yml) and inside the meta folder of this project.
