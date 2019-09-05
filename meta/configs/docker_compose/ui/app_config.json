@@ -1,5 +1,5 @@
 {
-        "api_url":"http://api",
+        "api_url":"http://api:3000",
         "api_user": "ui_to_api",
         "api_pwd":"ui_to_api_secrect_pwd"
 }
