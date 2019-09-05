@@ -24,7 +24,7 @@ services:
       ARTEMIS_PASSWORD: Artemis
       
   pulser:
-    image: microtope/pulser:0.1
+    image: microtope/pulser
     depends_on: 
       - amq
       - worker
@@ -35,7 +35,7 @@ services:
     networks: 
       - spawn
   db:
-    image: microtope/database:0.1
+    image: microtope/database
     networks: 
       - backend
       - transistor
@@ -43,7 +43,7 @@ services:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       TZ: "Europe/Berlin"
   worker:
-    image: microtope/worker:0.1
+    image: microtope/worker
     networks:
       - backend
     environment:
@@ -58,7 +58,7 @@ services:
       - amq
       - db
   api:
-    image: microtope/api:0.1
+    image: microtope/api
     networks:
       - transistor
       - frontend
