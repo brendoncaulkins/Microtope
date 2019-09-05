@@ -15,6 +15,7 @@ export class PlayerService {
 
   public getPlayers(): Observable<Player[]> {
     return this.databaseproviderservice.getUrl().pipe(
+      tap(config => console.log("using api:"+config.api_url)),
       map(url => {
         return fakePlayers;
       })
