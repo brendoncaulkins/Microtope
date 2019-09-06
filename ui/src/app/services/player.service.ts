@@ -14,9 +14,16 @@ export class PlayerService {
   constructor(private config:AppConfigService, private http: HttpClient) { }
 
   public getPlayers(): Observable<Player[]> {
+    var health = this.config.loadAppConfig().pipe(
+      tap(x=> console.log(" I am healthchecking")),
+      switchMap( conf => this.http.get(conf.api_url+"/api/healthcheck")),
+      tap(x => console.log("Found:" + JSON.stringify(x)))
+    )
+
     return this.config.loadAppConfig().pipe(
       tap(con => console.log("Got Config with base_url:" + con.api_url)),
-      map(con => con.api_url+"api/players/all"),
+      map(con => con.api_url+"/api/players/all"),
+      tap(url=> console.log("HTTPRequesting:" +url)),
       switchMap(url => this.http.get<Player[]>(url))
     );
   }

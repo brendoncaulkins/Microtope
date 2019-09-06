@@ -19,6 +19,7 @@ export class PlayerListComponent implements OnInit, OnDestroy {
 
 
   selectedPlayerSubscription: Subscription;
+  
 
   ngOnInit() {
     this.getPlayers();
