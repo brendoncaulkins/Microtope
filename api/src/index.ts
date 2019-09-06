@@ -1,3 +1,5 @@
+// import * as cors from "cors";
+import cors = require("cors");
 import express from "express";
 import {factory} from "./logging/ConfigLog4j";
 import * as indexRoutes from "./routes/index";
@@ -5,12 +7,14 @@ import * as indexRoutes from "./routes/index";
 const log = factory.getLogger("index");
 
 const app = express();
-var exposedPort:number = 8080; // default exposedPort to listen
+let exposedPort: number = 8080; // default exposedPort to listen
 
-log.info("Starting API ... ")
+log.info("Starting API ... ");
 
 // Configure Express to parse incoming JSON data
 app.use( express.json() );
+
+app.use(cors());
 
 /*
 * The process args [0] is the node exe, the process args[1] is the file running
@@ -20,7 +24,7 @@ app.use( express.json() );
 if (process.argv.length === 2) {
     log.error("Did not find any system args - Shutting down!");
   } else {
-    //${DBMariaDB_Adress} ${MariaDB_User} ${MariaDB_PW} ${MariaDB_Port} ${MariaDB_DatabaseName}
+    // ${DBMariaDB_Adress} ${MariaDB_User} ${MariaDB_PW} ${MariaDB_Port} ${MariaDB_DatabaseName}
     log.debug("Found Systemargs ... ");
     const DBHost: string = process.argv[2];
     const DBUser: string = process.argv[3];
@@ -29,11 +33,12 @@ if (process.argv.length === 2) {
     const DBName: string = process.argv[6];
 
     exposedPort = Number.parseInt(process.argv[7], 10);
-    
+
     log.info("Connecting to Host:" + DBHost + ":" + DBPort);
     log.info(" as User " + DBUser + " with PWD " + "[[REDACTED]]" +  " on DB " + DBName);
     indexRoutes.register(app, DBHost, DBUser, DBPwd, DBPort, DBName );
-}
+
+  }
 
 // start the Express server
 app.listen( exposedPort, () => {
