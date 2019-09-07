@@ -8,7 +8,7 @@ services:
     build:
       context: ../ui/
       dockerfile: Dockerfile
-      image: microtope/ui:latest
+    image: microtope/ui:latest
     volumes:
       - ./configs/docker_compose/ui/:/usr/share/nginx/html/config/
     ports:
@@ -33,7 +33,7 @@ services:
     build:
       context: ../pulser/
       dockerfile: Dockerfile
-      image: microtope/pulser:latest
+    image: microtope/pulser:latest
     depends_on: 
       - amq
       - worker
@@ -48,7 +48,7 @@ services:
     build:
       context: ../database/
       dockerfile: Dockerfile
-      image: microtope/database:latest
+    image: microtope/database:latest
     networks: 
       - backend
       - transistor
@@ -60,7 +60,7 @@ services:
     build:
       context: ../worker/
       dockerfile: Dockerfile
-      image: microtope/worker:latest
+    image: microtope/worker:latest
     networks:
       - backend
     environment:
@@ -79,7 +79,7 @@ services:
     build:
       context: ../api/
       dockerfile: Dockerfile
-      image: microtope/api:latest
+    image: microtope/api:latest
     networks:
       - transistor
     environment:
