@@ -41,6 +41,7 @@ services:
     restart: on-failure
     networks: 
       - spawn
+    
   db:
     build:
       context: ../database/
@@ -51,6 +52,7 @@ services:
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       TZ: "Europe/Berlin"
+  
   worker:
     build:
       context: ../worker/
@@ -68,6 +70,7 @@ services:
     depends_on: 
       - amq
       - db
+  
   api:
     build:
       context: ../api/
@@ -87,6 +90,7 @@ services:
     depends_on: 
       - amq
       - db
+  
 networks:
   backend:
     
