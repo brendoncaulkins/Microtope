@@ -18,7 +18,7 @@ RUN mkdir -p $dir
 WORKDIR $dir
 
 COPY package.json $dir
-RUN npm install
+RUN npm ci
 
 COPY . $dir
 
