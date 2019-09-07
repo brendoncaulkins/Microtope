@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {map, tap, switchMap} from 'rxjs/operators';
 
+import {filterByName,filterByID} from "../shared/IPreviewableUtis";
+
 import {Player} from '../models/Player.model';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
@@ -23,17 +25,11 @@ export class PlayerService {
   }
 
   public getPlayerByID(id: number): Observable<Player> {
-    return this.getPlayers().pipe(
-      map(obs => obs.filter(p=>p.id===id)),
-      map(obs => obs[0])
-    );
+    return filterByID(this.getPlayers(),id);
   }
 
   public getPlayerByName(name: string): Observable<Player> {
-    return this.getPlayers().pipe(
-      map(obs => obs.filter(p=>p.name===name)),
-      map(obs => obs[0])
-    );
+    return filterByName(this.getPlayers(),name);
   }
 
 }

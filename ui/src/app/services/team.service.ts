@@ -1,26 +1,37 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {map, tap, switchMap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 
-import {Team, ITeam} from '../models/Team.model';
-import {fakeTeams} from '../models/faketeams'; 
-import { Observable,of } from 'rxjs';
+import { AppConfigService } from './app-config.service';
+
+import {Team} from "../models/Team.model";
+
+import {filterByName,filterByID} from "../shared/IPreviewableUtis";
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class TeamService {
 
-  constructor() { }
+  constructor(private config:AppConfigService, private http: HttpClient) { }
 
   public getTeams():Observable<Team[]>{
-    return of(fakeTeams);
+    return this.config.loadAppConfig().pipe(
+      tap(con => console.log("Got Config with base_url:" + con.api_url)),
+      map(con => con.api_url+"/api/player_summary"),
+      tap(url=> console.log("HTTPRequesting:" +url)),
+      switchMap(url => this.http.get<Team[]>(url))
+    );
   }
 
-  public getTeamByID(team_id:number):Observable<Team>{
-    return of((fakeTeams.filter(x=>x.team_id===team_id))[0])
+  public getTeamByID(id:number):Observable<Team>{
+    return filterByID(this.getTeams(),id);
   }
 
-  public getTeamByName(team_name:string):Observable<Team>{
-    return of((fakeTeams.filter(x=>x.team_name===team_name))[0])
+  public getTeamByName(name:string):Observable<Team>{
+    return filterByName(this.getTeams(),name);
   }
   
 }
