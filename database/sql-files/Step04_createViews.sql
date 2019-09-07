@@ -44,3 +44,12 @@ SELECT ps.player_id, ps.player_name, s.steps, c.coins
 FROM players as ps, coins_by_user as c, steps_by_user as s
 WHERE ps.player_id = c.player_id 
 AND ps.player_id=s.player_id;
+
+CREATE VIEW microtope.team_summary
+AS 
+SELECT t.team_id as team_id, t.team_name as team_name, sbt.steps as steps, cbt.coins as coins
+FROM teams as t 
+JOIN steps_by_team as sbt
+JOIN coins_by_team as cbt 
+WHERE t.team_id=sbt.team_id
+AND t.team_id =cbt.team_id

@@ -1,16 +1,12 @@
-import { IPlayer } from './Player.model';
-
-export interface ITeam {
-    team_id:number;
-    team_name:string;
-}
-
-export class Team implements ITeam {
-    team_id:number;
-    team_name:string;
+import { Player } from './Player.model';
+import {IPreviewable} from "./IPreviewable";
+import {IRankable} from "./IRankable";
+export class Team implements IPreviewable,IRankable {
+    id:number;
+    name?:string;
 
     steps?:number;
     coins?:number;
 
-    players?:IPlayer;
+    players?:Player[];
 }

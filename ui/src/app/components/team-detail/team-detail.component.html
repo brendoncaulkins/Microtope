@@ -1,1 +1,17 @@
-<p>team-detail works!</p>
+<div *ngIf="team">
+
+    <h3>Team #{{team.id}} Details</h3>
+    <div><span>id: </span>{{team.id}}</div>
+    <div><span>name:</span> placeholder for inputvar</div>
+    <div><span>coins:</span>
+    <span *ngIf="team.coins; else noCoinsBlock"> {{team.coins}}</span>
+    <ng-template #noCoinsBlock> 0 </ng-template>
+    </div>
+    <button (click)="onClose()">close</button>
+    <!--<div>
+    <label>name:
+        <input [(ngModel)]={{player.player_name}}/>
+      </label>
+    </div>
+   -->
+ </div>

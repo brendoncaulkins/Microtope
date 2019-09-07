@@ -22,6 +22,7 @@ GRANT SELECT ON  microtope.player_summary TO 'api'@'%';
 GRANT SELECT ON  microtope.coins_by_team TO 'api'@'%';               
 GRANT SELECT ON  microtope.steps TO 'api'@'%';                       
 GRANT SELECT ON  microtope.coins_by_user TO 'api'@'%';
+GRANT SELECT ON  microtope.team_summary TO 'api'@'%';
 /*
 The worker can CRUD on every Table but not on views. He cannot read or alter audits table. 
 SELECT CONCAT("GRANT SELECT,INSERT,DELETE,UPDATE ON  microtope.", table_name, " TO 'worker'@'%';")

@@ -1,0 +1,8 @@
+<h3>Top Elements </h3>
+<ul class="topRankers">
+    <li *ngFor="let t of topN(items,3)" (click)="onSelect(t)">
+        <span class="idBadge">{{t.id}}</span> 
+        <span *ngIf="t.name; else elseBlock"> {{t.name}} </span>
+        <ng-template #elseBlock> Unnamed</ng-template>
+    </li>
+</ul>
