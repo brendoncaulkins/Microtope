@@ -13,7 +13,7 @@ export const register = ( app: express.Application, host: string, user: string,
         let conn;
         try {
           conn = await mariadb.createConnection({host, user, password: pwd, database: dbname, port});
-          const rows = await conn.query("SELECT team_id,team_name FROM teams;");
+          const rows = await conn.query("SELECT team_id AS id,team_name AS name FROM teams;");
           res.send(rows);
         } catch (err) {
           send500Error(err, res);
@@ -27,7 +27,7 @@ export const register = ( app: express.Application, host: string, user: string,
       try {
         conn = await mariadb.createConnection({host, user, password: pwd, database: dbname, port});
         const id: number = req.params.id;
-        const rows = await conn.query("SELECT team_id,team_name FROM teams WHERE team_id = (?);", [id]);
+        const rows = await conn.query("SELECT team_id AS id,team_name AS name FROM teams WHERE team_id = (?);", [id]);
         res.send(rows);
       } catch (err) {
         send500Error(err, res);
@@ -40,7 +40,7 @@ export const register = ( app: express.Application, host: string, user: string,
         let conn;
         try {
           conn = await mariadb.createConnection({host, user, password: pwd, database: dbname, port});
-          const rows = await conn.query("SELECT team_name, coins FROM coins_by_team;");
+          const rows = await conn.query("SELECT team_name AS name, coins FROM coins_by_team;");
 
           res.send(rows);
         } catch (err) {
@@ -53,7 +53,7 @@ export const register = ( app: express.Application, host: string, user: string,
         let conn;
         try {
           conn = await mariadb.createConnection({host, user, password: pwd, database: dbname, port});
-          const rows = await conn.query("SELECT team_name, steps FROM steps_by_team;");
+          const rows = await conn.query("SELECT team_name AS name, steps FROM steps_by_team;");
 
           res.send(rows);
         } catch (err) {
