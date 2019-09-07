@@ -1,0 +1,5 @@
+{
+        "api_url":"http://fallbackurl.com",
+        "api_user": "fallbacker",
+        "api_pwd":"fallbackpwd"
+}

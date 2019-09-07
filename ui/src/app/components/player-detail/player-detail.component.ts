@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { SelectedPlayerService } from 'src/app/services/selected-player.service';
+import { SelectedService } from 'src/app/services/selected.service';
 import { Player } from 'src/app/models/Player.model';
 import { Subscription } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 })
 export class PlayerDetailComponent implements OnInit, OnDestroy {
 
-  constructor( private selectedPlayerService:SelectedPlayerService) { }
+  constructor( private selectedPlayerService:SelectedService<Player>) { }
 
 
   @Input() player:Player;
@@ -18,7 +18,7 @@ export class PlayerDetailComponent implements OnInit, OnDestroy {
   selectedPlayerSubscription: Subscription;
 
   ngOnInit() {
-    this.selectedPlayerSubscription= this.selectedPlayerService.player$.subscribe(
+    this.selectedPlayerSubscription= this.selectedPlayerService.subject$.subscribe(
       newlySelectedPlayer => {this.player = newlySelectedPlayer}
     );
   }
@@ -28,7 +28,7 @@ export class PlayerDetailComponent implements OnInit, OnDestroy {
   }
 
   onClose(){
-    this.selectedPlayerService.deselectPlayer();
+    this.selectedPlayerService.deselect();
   }
 
 }
