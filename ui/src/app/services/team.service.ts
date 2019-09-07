@@ -6,32 +6,23 @@ import {Observable} from 'rxjs';
 import { AppConfigService } from './app-config.service';
 
 import {Team} from "../models/Team.model";
-
-import {filterByName,filterByID} from "../shared/IPreviewableUtis";
+import { IPreviewableService } from './IPreviewable.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class TeamService {
+export class TeamService extends IPreviewableService<Team> {
 
-  constructor(private config:AppConfigService, private http: HttpClient) { }
+  constructor(private config:AppConfigService, private http: HttpClient) {super();}
 
-  public getTeams():Observable<Team[]>{
+  public getAll(): Observable<Team[]> {
     return this.config.loadAppConfig().pipe(
       tap(con => console.log("Got Config with base_url:" + con.api_url)),
-      map(con => con.api_url+"/api/player_summary"),
+      map(con => con.api_url+"/api/team_summary"),
       tap(url=> console.log("HTTPRequesting:" +url)),
       switchMap(url => this.http.get<Team[]>(url))
     );
   }
 
-  public getTeamByID(id:number):Observable<Team>{
-    return filterByID(this.getTeams(),id);
-  }
-
-  public getTeamByName(name:string):Observable<Team>{
-    return filterByName(this.getTeams(),name);
-  }
-  
 }
