@@ -13,10 +13,13 @@ export abstract class Rankable implements IRankable{
             else if (other.coins<this.coins)
                 return 1;
             else 
-                if(other.steps>this.steps)
-                    return -1;
-                else if (other.steps<this.steps)
-                    return 1;
+                if(other.steps && this.steps)
+                    if(other.steps>this.steps)
+                        return -1;
+                    else if (other.steps<this.steps)
+                        return 1;
+                    else 
+                        return 0;
                 else 
                     return 0;
         }
