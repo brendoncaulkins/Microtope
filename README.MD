@@ -34,3 +34,7 @@ I'll add a Contribution Guideline shortly! Until then, you're perfect if you mak
 If that is the case, open up a pull request and once it passes my azure-pipeline there is little reason to deny your changes.
 
 Also I'm always happy about bugs and idea-issues.
+
+## Preview Image
+
+The Preview Image was taken from [Iconfinder](https://www.iconfinder.com/icons/3285297/andromeda_astronomy_cosmos_galaxy_space_spiral_universe_icon) in respect to the [Creative-Commons 3 Licence](https://creativecommons.org/licenses/by/3.0/). If you're the artist and ever encounter this repository, please reach out to me and maybe we can drink a coffee!
