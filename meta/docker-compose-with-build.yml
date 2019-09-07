@@ -8,6 +8,7 @@ services:
     build:
       context: ../ui/
       dockerfile: Dockerfile
+      image: microtope/ui:latest
     volumes:
       - ./configs/docker_compose/ui/:/usr/share/nginx/html/config/
     ports:
@@ -32,6 +33,7 @@ services:
     build:
       context: ../pulser/
       dockerfile: Dockerfile
+      image: microtope/pulser:latest
     depends_on: 
       - amq
       - worker
@@ -41,20 +43,24 @@ services:
     restart: on-failure
     networks: 
       - spawn
+
   db:
     build:
       context: ../database/
       dockerfile: Dockerfile
+      image: microtope/database:latest
     networks: 
       - backend
       - transistor
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       TZ: "Europe/Berlin"
+  
   worker:
     build:
       context: ../worker/
       dockerfile: Dockerfile
+      image: microtope/worker:latest
     networks:
       - backend
     environment:
@@ -68,13 +74,14 @@ services:
     depends_on: 
       - amq
       - db
+
   api:
     build:
       context: ../api/
       dockerfile: Dockerfile
+      image: microtope/api:latest
     networks:
       - transistor
-      - frontend
     environment:
       MariaDB_Adress: db
       MariaDB_User: api
@@ -87,6 +94,7 @@ services:
     depends_on: 
       - amq
       - db
+
 networks:
   backend:
     
