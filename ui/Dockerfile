@@ -10,11 +10,7 @@ COPY . .
 
 RUN npm install @angular/cli@latest -g
 
-RUN npm install
-
-# SET ENVIRONMENT VARIABLES
-ENV BACKEND_API_URL="https://www.google.com/lol"
-# ENV SomeOtherAPIKey="This is not another API Key"
+RUN npm ci
 
 # Build Angular Application in Production
 RUN ng build --prod

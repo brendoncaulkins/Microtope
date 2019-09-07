@@ -18,7 +18,8 @@ RUN mkdir -p $dir
 WORKDIR $dir
 
 COPY package.json $dir
-RUN npm install
+COPY package-lock.json $dir
+RUN npm ci
 
 COPY . $dir
 
