@@ -22,7 +22,7 @@ export class PlayerService {
 
     return this.config.loadAppConfig().pipe(
       tap(con => console.log("Got Config with base_url:" + con.api_url)),
-      map(con => con.api_url+"/api/players/all"),
+      map(con => con.api_url+"/api/player_summary"),
       tap(url=> console.log("HTTPRequesting:" +url)),
       switchMap(url => this.http.get<Player[]>(url))
     );
