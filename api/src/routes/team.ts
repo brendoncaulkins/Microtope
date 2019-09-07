@@ -36,6 +36,34 @@ export const register = ( app: express.Application, host: string, user: string,
       }
   } );
 
+  app.get( `/api/team_summary`,  async ( req: any, res ) => {
+    let conn;
+    try {
+      conn = await mariadb.createConnection({host, user, password: pwd, database: dbname, port});
+      const rows = await conn.query("SELECT team_id AS id,team_name AS name, steps, coins FROM team_summary;");
+      res.send(rows);
+    } catch (err) {
+      send500Error(err, res);
+    } finally {
+      closeConnIfExists(conn);
+    }
+  } );
+
+  app.get( `/api/team_summary/:id`,  async ( req: any, res ) => {
+      let conn;
+      try {
+        conn = await mariadb.createConnection({host, user, password: pwd, database: dbname, port});
+        const id: number = req.params.id;
+        const rows = await conn.query("SELECT team_id AS id,team_name AS name, steps, coins FROM team_summary WHERE team_id = (?);", [id]);
+        res.send(rows);
+      } catch (err) {
+        send500Error(err, res);
+      } finally {
+        closeConnIfExists(conn);
+      }
+    } );
+
+
     app.get(`/api/coins_by_team`,  async ( req: any, res ) => {
         let conn;
         try {
