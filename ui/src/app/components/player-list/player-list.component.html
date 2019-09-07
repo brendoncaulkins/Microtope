@@ -1,8 +1,0 @@
-<h3> All Players </h3>
-<ul class="allPlayers">
-    <li *ngFor="let player of players" (click)="onSelect(player)">
-        <span class="playerBadge">{{player.id}}</span> 
-        <span *ngIf="player.name; else elseBlock"> {{player.name}} </span>
-        <ng-template #elseBlock> Unnamed Player</ng-template>
-    </li>
-</ul>
