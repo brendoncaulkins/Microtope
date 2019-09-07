@@ -7,7 +7,6 @@ import {environment} from '../environments/environment.prod'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SplitscreenComponent } from './components/splitscreen/splitscreen.component';
-import { TeamListComponent } from './components/team-list/team-list.component';
 import { TopTeamsComponent } from './components/top-teams/top-teams.component';
 import { TopPlayersComponent } from './components/top-players/top-players.component';
 import { TeamSplitscreenPageComponent } from './components/team-splitscreen-page/team-splitscreen-page.component';
@@ -23,7 +22,6 @@ import { IPreviewableListComponent } from './components/ipreviewable-list/iprevi
   declarations: [
     AppComponent,
     SplitscreenComponent,
-    TeamListComponent,
     TopTeamsComponent,
     TopPlayersComponent,
     TeamSplitscreenPageComponent,
