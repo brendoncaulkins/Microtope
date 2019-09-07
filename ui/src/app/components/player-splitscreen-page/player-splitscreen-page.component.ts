@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
-import {SelectedService} from '../../services/selected.service';
-import {Player} from '../../models/Player.model';
+import { SelectedPlayerService } from 'src/app/services/selected-player.service';
 
 @Component({
   selector: 'app-player-splitscreen-page',
   templateUrl: './player-splitscreen-page.component.html',
-  styleUrls: ['./player-splitscreen-page.component.css'],
-  providers: [SelectedService]
+  styleUrls: ['./player-splitscreen-page.component.css']
 })
 export class PlayerSplitscreenPageComponent implements OnInit {
 

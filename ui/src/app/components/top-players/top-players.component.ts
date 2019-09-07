@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Player } from 'src/app/models/Player.model';
 
 import { PlayerService } from 'src/app/services/player.service';
-import { SelectedService } from 'src/app/services/selected.service';
+import { SelectedPlayerService } from 'src/app/services/selected-player.service';
 
 import { Subscription } from 'rxjs';
 
@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 })
 export class TopPlayersComponent implements OnInit, OnDestroy {
 
-  constructor(private playerService:PlayerService, private selectedPlayerService:SelectedService<Player>) { }
+  constructor(private playerService:PlayerService, private selectedPlayerService:SelectedPlayerService) { }
 
   selectedPlayer:Player;
 
@@ -22,7 +22,7 @@ export class TopPlayersComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.selectedPlayerSubscription= this.selectedPlayerService.subject$.subscribe(
+    this.selectedPlayerSubscription= this.selectedPlayerService.player$.subscribe(
       newlySelectedPlayer => {this.selectedPlayer = newlySelectedPlayer});
   }
 
