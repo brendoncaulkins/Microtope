@@ -1,5 +1,3 @@
-// import * as cors from "cors";
-import cors = require("cors");
 import express from "express";
 import {factory} from "./logging/ConfigLog4j";
 import * as indexRoutes from "./routes/index";
@@ -14,8 +12,6 @@ log.info("Starting API ... ");
 // Configure Express to parse incoming JSON data
 app.use( express.json() );
 
-app.use(cors());
-
 /*
 * The process args [0] is the node exe, the process args[1] is the file running
 * This is a little strange behaviour, but what in node is not?
@@ -24,7 +20,6 @@ app.use(cors());
 if (process.argv.length === 2) {
     log.error("Did not find any system args - Shutting down!");
   } else {
-    // ${DBMariaDB_Adress} ${MariaDB_User} ${MariaDB_PW} ${MariaDB_Port} ${MariaDB_DatabaseName}
     log.debug("Found Systemargs ... ");
     const DBHost: string = process.argv[2];
     const DBUser: string = process.argv[3];

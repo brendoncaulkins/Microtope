@@ -130,7 +130,6 @@ export const register = ( app: express.Application, host: string, user: string,
         }
     } );
 
-
     function send500Error(err:Error,res:any):void{
       log.error("failed to get coins_by_user",err);
       res.status(500);
