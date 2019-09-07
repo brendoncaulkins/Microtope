@@ -24,14 +24,14 @@ export class PlayerService {
 
   public getPlayerByID(id: number): Observable<Player> {
     return this.getPlayers().pipe(
-      map(obs => obs.filter(p=>p.player_id===id)),
+      map(obs => obs.filter(p=>p.id===id)),
       map(obs => obs[0])
     );
   }
 
   public getPlayerByName(name: string): Observable<Player> {
     return this.getPlayers().pipe(
-      map(obs => obs.filter(p=>p.player_name===name)),
+      map(obs => obs.filter(p=>p.name===name)),
       map(obs => obs[0])
     );
   }
