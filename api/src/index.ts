@@ -1,6 +1,7 @@
 import express from "express";
 import {factory} from "./logging/ConfigLog4j";
 import * as indexRoutes from "./routes/index";
+import cors = require("cors");
 
 const log = factory.getLogger("index");
 
@@ -11,6 +12,7 @@ log.info("Starting API ... ");
 
 // Configure Express to parse incoming JSON data
 app.use( express.json() );
+app.use(cors())
 
 /*
 * The process args [0] is the node exe, the process args[1] is the file running
