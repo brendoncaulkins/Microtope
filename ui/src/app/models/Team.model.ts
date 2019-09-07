@@ -1,7 +1,7 @@
 import { Player } from './Player.model';
 import {IPreviewable} from "./IPreviewable";
-
-export class Team implements IPreviewable {
+import {IRankable} from "./IRankable";
+export class Team implements IPreviewable,IRankable {
     id:number;
     name?:string;
 
