@@ -32,12 +32,11 @@ export class PlayerListComponent implements OnInit, OnDestroy {
   }
 
   getPlayers(): void {
-    this.playerService.getPlayers()
+    this.playerService.getAll()
         .subscribe(players => this.players = players);
   }
 
   onSelect(player:Player): void {
-    console.log("Selected Player " + player.player_id);
     this.selectedPlayerService.setPlayer(player);
   }
 

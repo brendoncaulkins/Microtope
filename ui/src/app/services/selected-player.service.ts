@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import {Player} from '../models/Player.model';
-import { Observable,of,BehaviorSubject } from 'rxjs';
+import { Observable,BehaviorSubject } from 'rxjs';
 
-import {  } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,13 +22,11 @@ export class SelectedPlayerService {
   public setPlayer(selected:Player):void{
     this.playerValue=selected;
     this.player.next(this.playerValue);
-    console.log("PServ Selected Player " + selected.player_id);
   }
 
   public deselectPlayer():void{
     this.playerValue=null;
     this.player.next(this.playerValue);
-    console.log("PServ deselected Player");
   }
 
 }
