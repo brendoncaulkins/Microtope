@@ -11,9 +11,6 @@ import { Subscription } from 'rxjs';
 export class TopRankableComponent<T extends Rankable,IPreviewable> implements OnInit,OnDestroy {
   
   @Input() items: T[];
-
-  top3Items:T[];
-
   constructor(private selection:SelectedService<T>) { }
 
   selectionSub: Subscription;
@@ -22,9 +19,6 @@ export class TopRankableComponent<T extends Rankable,IPreviewable> implements On
   ngOnInit() {
     this.selectionSub= this.selection.subject$.subscribe(
       newSelection => {this.selectedItem = newSelection});
-    //Sort the rankable items according to their logic and select top 3
-    this.top3Items=
-      this.items.sort((i1,i2)=> i1.compare(i2)).slice(0,3);
   }
 
   ngOnDestroy(){
@@ -35,4 +29,8 @@ export class TopRankableComponent<T extends Rankable,IPreviewable> implements On
     this.selection.set(item);
   }
 
+  topN(items:T[],n:number):T[]{
+    return items.slice(0,n);
+    //return items.sort((i1,i2)=> i1.compare(i2)).slice(0,n);
+  }
 }
