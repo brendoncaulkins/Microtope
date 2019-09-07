@@ -17,7 +17,7 @@ USER root
 RUN mkdir -p $dir
 WORKDIR $dir
 
-COPY package.json $dir
+COPY package-lock.json $dir
 RUN npm ci
 
 COPY . $dir
