@@ -34,15 +34,8 @@ public class AMQMessageSender implements Closeable, MessageSender {
 		this.amqConfig=amqConfig;
     }
 	
-	public void open() throws IOException, JMSException{
-		var url = String.format( "tcp://%s:%s" , amqConfig.adress_to_connect, amqConfig.port_to_connect);
-		logger.info( "Sender connecting to " + url );
-		
-        // Getting JMS connection from the server and starting it
-        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
-        
-        connection =  connectionFactory.createConnection(amqConfig.user_to_connect,amqConfig.pwd_to_connect);
-        
+	public void open(Connection connection) throws IOException, JMSException{
+		this.connection=connection;
         connection.start();
         
         //Creating a non transactional session to send/receive JMS message.
@@ -57,6 +50,16 @@ public class AMQMessageSender implements Closeable, MessageSender {
         producer = session.createProducer(destination);
                 
         logger.info( "Opened the sender successfully - connection, session and producer are running" );       
+	}
+	
+	public Connection createConnectionFromConfig() throws JMSException {
+		var url = String.format( "tcp://%s:%s" , amqConfig.adress_to_connect, amqConfig.port_to_connect);
+		logger.info( "Sender connecting to " + url );
+		
+        // Getting JMS connection from the server
+        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
+        
+        return connectionFactory.createConnection(amqConfig.user_to_connect,amqConfig.pwd_to_connect);
 	}
 	
 	@Override

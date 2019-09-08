@@ -8,6 +8,7 @@ import javax.jms.JMSException;
 
 import org.junit.jupiter.api.Test;
 
+
 import microtope.config.ActiveMQConfig;
 
 class AMQMessageSenderTests {
@@ -36,9 +37,9 @@ class AMQMessageSenderTests {
 	@Test
 	void testOpen_ConfigIsOk_ButSenderIsOffline_shouldThrowJMSException() {
 		try {
-			AMQMessageSender sender= new AMQMessageSender(validConf());
+			AMQMessageSender sender= new AMQMessageSender(AMQHelpers.validConf());
 			
-			assertThrows(JMSException.class, () -> sender.open());
+			assertThrows(JMSException.class, () -> sender.open(sender.createConnectionFromConfig()));
 		} catch (JMSException e) {
 			fail();
 		}
@@ -47,7 +48,7 @@ class AMQMessageSenderTests {
 	@Test
 	void testClose_WasNeverOpened_shouldNotThrowAnyExceptions() {
 		try {
-			AMQMessageSender sender= new AMQMessageSender(validConf());
+			AMQMessageSender sender= new AMQMessageSender(AMQHelpers.validConf());
 			sender.close();
 			
 			return;
@@ -61,7 +62,7 @@ class AMQMessageSenderTests {
 	@Test
 	void testSendMessage_WasNeverOpened_shouldNotThrowAnyExceptions() {
 		try {
-			AMQMessageSender sender= new AMQMessageSender(validConf());
+			AMQMessageSender sender= new AMQMessageSender(AMQHelpers.validConf());
 			sender.sendMessage("Hello World");
 			
 			return;
@@ -72,8 +73,4 @@ class AMQMessageSenderTests {
 	
 	
 	
-	private ActiveMQConfig validConf() {
-		String[] testArgs= new String[] {"Adress","1005","Queue","User","Pwd"};
-		return ActiveMQConfig.createActiveMQConfigFromArgs(testArgs);
-	}
 }
