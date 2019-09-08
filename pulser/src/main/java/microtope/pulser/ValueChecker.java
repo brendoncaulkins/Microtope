@@ -34,7 +34,7 @@ public abstract class ValueChecker {
 			// Loop in the domain String array.
 			for(int i=0;i<size;i++)
 			{
-				// If one domain part string is empty, then reutrn false.
+				// If one domain part string is empty, then return false.
 				String domainEleStr = domainEle[i];
 				if("".equals(domainEleStr.trim()))
 				{
