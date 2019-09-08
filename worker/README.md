@@ -8,9 +8,11 @@ Part of the microworld-miniproject.
 
 ## To Build
 
-- first, make `mvn clean package` and recognize the version number
+- first, make `mvn clean package verify` and recognize the version number
 - alter the Dockerfile to use the new version
 - run `sudo docker build . -t microtope/worker:{nextversion}`
+
+The `verify` in maven is very important! It checks for your coverage.
 
 ## ToDo
 
