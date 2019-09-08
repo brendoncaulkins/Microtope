@@ -43,6 +43,12 @@ stages:
           sonarQubeRunAnalysis: false
           checkStyleRunAnalysis: false
           findBugsRunAnalysis: false
+          # Publish code coverage results
+      # Publish Cobertura or JaCoCo code coverage results from a build
+      - task: PublishCodeCoverageResults@1
+        inputs:
+          codeCoverageTool: 'JaCoCo'
+          summaryFileLocation: "./target/jacoco-reports"
       - task: Docker@2    
         inputs:
           command: 'build'
