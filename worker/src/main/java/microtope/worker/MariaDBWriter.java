@@ -20,27 +20,31 @@ public class MariaDBWriter implements Closeable, DBWriter{
 	
 	Connection con;
 	private static Logger logger = LogManager.getLogger(MariaDBWriter.class);
+	private SQLConfig sqlconf;
+	
 
-	public MariaDBWriter(SQLConfig sqlconf) throws SQLException {
+	public MariaDBWriter(SQLConfig sqlconf){
 		if(sqlconf.isEmpty())
 			throw new IllegalArgumentException("Recieved Empty SQLConf!");
-		
+		this.sqlconf=sqlconf;
+	}
+	
+	public void open(Connection con) throws SQLException {
+		this.con=con;
+		healthcheck();
+	}
+	
+	protected Connection buildConnectionFromConfig() throws SQLException {
 		var url = String.format("jdbc:mysql://%s:%s/%s",sqlconf.adress_to_connect,sqlconf.port_to_connect,sqlconf.database_to_connect);
-		
 	    logger.debug("Trying to connect to "+url+" as "+sqlconf.user_to_connect+ " with Password [REDACTED] ");
-	    
-	    con = DriverManager.getConnection(url,sqlconf.user_to_connect, sqlconf.pwd_to_connect);
-	    
+	    var con =  DriverManager.getConnection(url,sqlconf.user_to_connect, sqlconf.pwd_to_connect);
 	    logger.info("Connection to " + url + " established");
-	    
-	    healthcheck();
+	    return con;
 	}
 	
 	private void healthcheck() throws SQLException {
 		logger.info("performing healthcheck for mariadb writer");
-		if(con==null || con.isClosed())
-			logger.error("connection is null or closed!");
-		else {
+		if(isOpenAndReady()) {
 			PreparedStatement stmt = con.prepareStatement("SELECT status from health;");
 			
 			logger.debug("executing prepared statement for healthcheck...");
@@ -58,9 +62,7 @@ public class MariaDBWriter implements Closeable, DBWriter{
 	@Override
 	public void writeLogin(LoginMessage msg) {
 		try {
-			if(con==null || con.isClosed())
-				logger.error("connection is null or closed!");
-			else {
+			if(isOpenAndReady()) {
 				writePlayer(msg.getPlayer_Id(),msg.getTeam_Id());
 				logger.debug("Created Player - now inserting login");
 				PreparedStatement stmt = con.prepareStatement("INSERT INTO audits (player_id, action, recorded) VALUES (? ,'login', ?);");
@@ -80,9 +82,7 @@ public class MariaDBWriter implements Closeable, DBWriter{
 	@Override
 	public void writeLogout(LogoutMessage msg) {
 		try {
-			if(con==null || con.isClosed())
-				logger.error("connection is null or closed!");
-			else {
+			if(isOpenAndReady()) {
 				PreparedStatement stmt = con.prepareStatement("INSERT INTO audits (player_id, action, recorded) VALUES (? ,'logout', ?);");
 				
 				stmt.setInt(1, msg.getPlayer_Id());
@@ -99,9 +99,7 @@ public class MariaDBWriter implements Closeable, DBWriter{
 	@Override
 	public void writeSteps(StepMessage msg) {
 		try {
-			if(con==null || con.isClosed())
-				logger.error("connection is null or closed!");
-			else {
+			if(isOpenAndReady()) {
 				PreparedStatement stmt = con.prepareStatement("INSERT INTO steps (player_id, steps, recorded) VALUES (? , ?, ?);");
 				
 				stmt.setInt(1, msg.getPlayer_Id());
@@ -122,9 +120,7 @@ public class MariaDBWriter implements Closeable, DBWriter{
 		// This writes the player if it does not exist
 		logger.debug("writing player " + player_id + " with team " + team_id);
 		try {
-			if(con==null || con.isClosed())
-				logger.error("connection is null or closed!");
-			else {
+			if(isOpenAndReady()) {
 				PreparedStatement stmt = con.prepareStatement("INSERT IGNORE INTO players (player_id, team_id) VALUES (? , ?)");
 				
 				stmt.setInt(1, player_id);
@@ -142,9 +138,7 @@ public class MariaDBWriter implements Closeable, DBWriter{
 	@Override
 	public void writeCoins(CoinMessage msg) {
 		try {
-			if(con==null || con.isClosed())
-				logger.error("connection is null or closed!");
-			else {
+			if(isOpenAndReady()) {
 				PreparedStatement stmt = con.prepareStatement("INSERT INTO coins (player_id, value, recorded) VALUES (? , ?, ?);");
 				
 				stmt.setInt(1, msg.getPlayer_Id());
@@ -160,6 +154,17 @@ public class MariaDBWriter implements Closeable, DBWriter{
 		}
 	}
 	
+	private boolean isOpenAndReady() {
+		try {
+			if(con==null || con.isClosed()) {
+				logger.error("connection is null or closed!");
+				return false;
+			}
+		} catch (SQLException e) {
+			return false;
+		}
+		return true;
+	}
 	
 	@Override
 	public void close() throws IOException {
@@ -168,6 +173,8 @@ public class MariaDBWriter implements Closeable, DBWriter{
 			logger.debug("Closed MariaDBWriter DB Connection successfully");
 		} catch (SQLException e) {
 			logger.error(e);
+		} catch (NullPointerException ne) {
+			logger.warn("Tried closing MariadbWriter-but was never open!");
 		}
 	}
 	

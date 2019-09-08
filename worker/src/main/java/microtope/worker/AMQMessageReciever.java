@@ -24,7 +24,7 @@ public class AMQMessageReciever implements Closeable, MessageReciever{
 	private ActiveMQConfig amqConfig;
 	private MessageConsumer consumer;
 
-    public AMQMessageReciever (ActiveMQConfig amqconf) throws JMSException {
+    public AMQMessageReciever (ActiveMQConfig amqconf){
         if(amqconf.isEmpty())
         	throw new IllegalArgumentException("AMQConf is Empty!");
         amqConfig=amqconf;        

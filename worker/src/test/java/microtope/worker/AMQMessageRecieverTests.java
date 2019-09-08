@@ -22,36 +22,24 @@ class AMQMessageRecieverTests {
 	
 	@Test
 	void testConstructor_validActiveMQConfig_ButNoConnection_shouldBeBuild() {
-		try {
-			var testRec = new AMQMessageReciever(MessageRecieverHelpers.validConf());
-			return;
-		} catch (JMSException e) {
-			fail();
-		}
+		var testRec = new AMQMessageReciever(MessageRecieverHelpers.validConf());
+		return;
 	}
 	
 	@Test
 	void testCreateConnectionFromConfig_validActiveMQConfig_ButNoConnection_shouldThrowJMSException() {
-		try {
-			var testRec = new AMQMessageReciever(MessageRecieverHelpers.validConf());
+		var testRec = new AMQMessageReciever(MessageRecieverHelpers.validConf());
 
-			assertThrows(JMSException.class,
-					() -> testRec.createConnectionFromConfig());
-		} catch (JMSException e) {
-			fail();
-		}
+		assertThrows(JMSException.class,
+				() -> testRec.createConnectionFromConfig());
 	}
 	
 	@Test
 	void testOpen_validActiveMQConfig_ButNoConnection_shouldThrowJMSException() {
-		try {
-			var testRec = new AMQMessageReciever(MessageRecieverHelpers.validConf());
+		var testRec = new AMQMessageReciever(MessageRecieverHelpers.validConf());
 
-			assertThrows(JMSException.class,
-					() -> testRec.open(testRec.createConnectionFromConfig()));
-		} catch (JMSException e) {
-			fail();
-		}
+		assertThrows(JMSException.class,
+				() -> testRec.open(testRec.createConnectionFromConfig()));
 	}
 	
 	@Test
@@ -60,9 +48,8 @@ class AMQMessageRecieverTests {
 			var testRec = new AMQMessageReciever(MessageRecieverHelpers.validConf());
 			testRec.close();
 			return;
-		} catch (JMSException e) {
-			fail();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			fail();
 		}
 	}
@@ -70,16 +57,12 @@ class AMQMessageRecieverTests {
 
 	@Test
 	void testRegisterMessageListener_WasNeverOpen_ShouldNotThrowException() {
-		try {
-			var testRec = new AMQMessageReciever(MessageRecieverHelpers.validConf());
-			
-			var fakeListener = new FakeMessageListener();
-			testRec.registerMessageListener(fakeListener);
-			
-			return;
-		} catch (JMSException e) {
-			fail();
-		}
+		var testRec = new AMQMessageReciever(MessageRecieverHelpers.validConf());
+		
+		var fakeListener = new FakeMessageListener();
+		testRec.registerMessageListener(fakeListener);
+		
+		return;
 	}
 	
 }
