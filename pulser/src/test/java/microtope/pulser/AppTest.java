@@ -2,6 +2,8 @@ package microtope.pulser;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import javax.jms.JMSException;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -21,5 +23,12 @@ public class AppTest{
 		String[] testArgs= new String[] {"Adress","1005","Queue","User","Pwd","One to high"};
 		
 		assertThrows(IllegalArgumentException.class, () -> App.main(testArgs));
+	}
+	
+	@Test
+	void testMain_goodArguments_butOffline_shouldThrowJMSException() {
+		String[] testArgs= new String[] {"Adress","1005","Queue","User","Pwd"};
+		
+		assertThrows(JMSException.class, () -> App.main(testArgs));
 	}
 }

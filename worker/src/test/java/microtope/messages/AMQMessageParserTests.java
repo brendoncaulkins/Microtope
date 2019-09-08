@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.apache.activemq.command.ActiveMQBytesMessage;
 import org.apache.activemq.command.ActiveMQTextMessage;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import javax.jms.JMSException;
@@ -187,6 +188,27 @@ class AMQMessageParserTests {
 		AMQMessage expected = new BadMessage();
 		
 		AMQMessage parsed = AMQMessageParser.parseJMSMessage(text);
+		
+		assertEquals(expected,parsed);
+	}
+	
+	@Test
+	@Disabled
+	void testMessageParser_MessageThrowsJMSException_shouldReturnBadMessage() {
+		// This does not produce an JMS Exception
+		// If i could get this exception anyhow in my message, i would have 100% coverage of parser
+		TextMessage faulty = new ActiveMQTextMessage( );
+		try {
+			faulty.setText("M: Player 37845 moved 14 steps");
+			faulty.setJMSCorrelationID("Kuchenbär");
+			faulty.setJMSTimestamp(0);
+		} catch (JMSException e) {
+			fail();
+		}
+
+		AMQMessage expected = new BadMessage();
+		
+		AMQMessage parsed = AMQMessageParser.parseJMSMessage(faulty);
 		
 		assertEquals(expected,parsed);
 	}

@@ -25,18 +25,13 @@ public class App
         
         logger.info( "Creating Worker...");
         Worker w = Worker.randomWorker(sender, 50);
-
-        logger.info( "Created Worker. Start working.");
+        
+        sender.open(sender.createConnectionFromConfig());
+        
         w.work();
         
-        while(!w.finished)
-        {
-        	logger.trace("waiting for worker");
-        }
-        logger.info("Worker finished");
+        while(!w.finished){}
         
         sender.close();
-        
-        logger.info( "Closing AMQ-Sender" );
     }
 }

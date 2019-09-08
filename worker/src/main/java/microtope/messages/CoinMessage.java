@@ -1,12 +1,9 @@
 package microtope.messages;
 
-import java.util.Date;
-
-public class CoinMessage implements PlayerRelatedMessage,AMQMessage {
+public class CoinMessage extends AMQBaseMessage implements PlayerRelatedMessage {
 	
 	private final int player;
 	private final int coins;
-	private Date timestamp =new Date(0) ;
 	
 	public CoinMessage (int player, int coins){
 		this.player=player;
@@ -21,13 +18,6 @@ public class CoinMessage implements PlayerRelatedMessage,AMQMessage {
 		return coins;
 	}
 
-	public void setTimeStamp(Date date) {
-		this.timestamp=date;
-	}
-
-	public Date getTimeStamp() {
-		return timestamp;
-	}
 	
 	@Override
 	public boolean equals(Object o) {

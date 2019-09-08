@@ -16,9 +16,17 @@ Additional environment parameters:
 
 ## To Build
 
-- first, make `mvn clean package` and recognize the version number
+With docker: `docker build -f BuildDockerfile . -t microtope/pulser`
+
+Manually:
+
+- first, make `mvn clean package verify` and recognize the version number
 - alter the Dockerfile to use the new version
-- run `sudo docker build . -t microtope/pulser:{nextversion}`
+- run `sudo docker build . -t microtope/pulser`
+
+The `verify` in maven is very important! It checks for your coverage.
+
+You maybe want to skip it and can even build your docker image with it - but the build pipeline wont be cheated :)
 
 ## ToDo
 

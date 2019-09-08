@@ -1,11 +1,8 @@
 package microtope.messages;
 
-import java.util.Date;
-
-public class StepMessage implements PlayerRelatedMessage,AMQMessage {
+public class StepMessage extends AMQBaseMessage  implements PlayerRelatedMessage {
 	private final int steps;
 	private final int player;
-	private Date timestamp =new Date(0) ;
 	
 	public StepMessage(int player, int steps) {
 		this.player=player;
@@ -18,14 +15,6 @@ public class StepMessage implements PlayerRelatedMessage,AMQMessage {
 
 	public int getPlayer_Id() {
 		return player;
-	}
-	
-	public void setTimeStamp(Date date) {
-		this.timestamp=date;
-	}
-
-	public Date getTimeStamp() {
-		return timestamp;
 	}
 	
 	@Override
