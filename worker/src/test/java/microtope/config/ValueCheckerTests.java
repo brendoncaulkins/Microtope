@@ -98,6 +98,24 @@ class ValueCheckerTests {
 		
 		assertFalse(result);
 	}
+
+	@Test
+	public void testURLChecker_nullURL_shouldBeFalse() {
+		String url_to_check=null;
+		
+		boolean result = ValueChecker.goodURL(url_to_check);
+		
+		assertFalse(result);
+	}
+	
+	@Test
+	public void testURLChecker_emptyURL_shouldBeFalse() {
+		String url_to_check="";
+		
+		boolean result = ValueChecker.goodURL(url_to_check);
+		
+		assertFalse(result);
+	}
 	
 	@Test
 	public void testIP4ValueChecker_validIP4_shouldBeTrue() {
@@ -143,6 +161,62 @@ class ValueCheckerTests {
 		
 		assertFalse(result);
 	}
+
+	@Test
+	public void testIP4ValueChecker_IPEndsWithDot_shouldBeFalse() {
+		String ip_to_check = "172.172.211.";
+		
+		boolean result = ValueChecker.goodIPv4(ip_to_check);
+		
+		assertFalse(result);
+	}
+
+	@Test
+	public void testIP4ValueChecker_IPEndsWithDot2_shouldBeFalse() {
+		String ip_to_check = "172.172.211.172.";
+		
+		boolean result = ValueChecker.goodIPv4(ip_to_check);
+		
+		assertFalse(result);
+	}
+	
+	@Test
+	public void testIP4ValueChecker_IPstartsWithDot_shouldBeFalse() {
+		String ip_to_check = ".172.172.211";
+		
+		boolean result = ValueChecker.goodIPv4(ip_to_check);
+		
+		assertFalse(result);
+	}
+	
+	@Test
+	public void testIP4ValueChecker_IPHasTooHighNumber_shouldBeFalse() {
+		String ip_to_check = "256.172.172.211";
+		
+		boolean result = ValueChecker.goodIPv4(ip_to_check);
+		
+		assertFalse(result);
+	}
+	
+	@Test
+	public void testIP4ValueChecker_emptyIP_shouldBeFalse() {
+		String ip_to_check = "";
+		
+		boolean result = ValueChecker.goodIPv4(ip_to_check);
+		
+		assertFalse(result);
+	}
+	
+
+	@Test
+	public void testIP4ValueChecker_nullIP_shouldBeFalse() {
+		String ip_to_check = null;
+		
+		boolean result = ValueChecker.goodIPv4(ip_to_check);
+		
+		assertFalse(result);
+	}
+	
 	
 	@Test
 	public void testIP4ValueChecker_otherDelimiter_shouldBeFalse() {
@@ -201,6 +275,24 @@ class ValueCheckerTests {
 	@Test
 	public void testPortChecker_negativePort_shouldBeFalse() {
 		String port_to_check = "-85";
+		
+		boolean result = ValueChecker.goodPort(port_to_check);
+		
+		assertFalse(result);
+	}
+	
+	@Test
+	public void testPortChecker_nullPort_shouldBeFalse() {
+		String port_to_check = null;
+		
+		boolean result = ValueChecker.goodPort(port_to_check);
+		
+		assertFalse(result);
+	}
+
+	@Test
+	public void testPortChecker_emptyPort_shouldBeFalse() {
+		String port_to_check = "";
 		
 		boolean result = ValueChecker.goodPort(port_to_check);
 		

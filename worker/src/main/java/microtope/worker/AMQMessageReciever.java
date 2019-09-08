@@ -21,38 +21,35 @@ public class AMQMessageReciever implements Closeable, MessageReciever{
 	Connection connection; 
 	Session session;
 	
-	private Destination destination;
+	private ActiveMQConfig amqConfig;
 	private MessageConsumer consumer;
 
     public AMQMessageReciever (ActiveMQConfig amqconf) throws JMSException {
         if(amqconf.isEmpty())
         	throw new IllegalArgumentException("AMQConf is Empty!");
-        
-    	var connectionURL = String.format( "tcp://%s:%s" , amqconf.adress_to_connect, amqconf.port_to_connect);
-		
-    	logger.info("Creating new MessageReciever with URL:" + connectionURL);
-    	// Getting JMS connection from the server
-        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(connectionURL);
-        logger.debug("Connecting as " + amqconf.user_to_connect + " with pwd [REDACTED]");
-        
-        connection =  connectionFactory.createConnection(amqconf.user_to_connect,amqconf.pwd_to_connect);
-        
+        amqConfig=amqconf;        
+    }
+
+	public void open(Connection connection) throws IOException, JMSException{
+		this.connection=connection;
         connection.start();
-        logger.debug( "AMQ Connection opened" ); 
         
-        Session session = connection.createSession(false,
+        //Creating a non transactional session to send/receive JMS message.
+        session = connection.createSession(false,
                 Session.AUTO_ACKNOWLEDGE);
- 
-        destination = session.createQueue(amqconf.queue_to_connect);
-        logger.debug("Opened Session and found Queue");
+        
+        //Destination represents here our queue on the AMQ-Server. 
+        //The queue will be created automatically on the server.
+        Destination destination = session.createQueue(amqConfig.queue_to_connect); 
         
         // MessageConsumer is used for receiving (consuming) messages
         consumer = session.createConsumer(destination);
         
         logger.debug("Created fully working AMQ MessageReciever");
-        
-    }
-   
+                
+        logger.info( "Opened the sender successfully - connection, session and producer are running" );       
+	}
+	
 	@Override
 	public void close() throws IOException {
 		try {
@@ -61,9 +58,22 @@ public class AMQMessageReciever implements Closeable, MessageReciever{
 			logger.debug("Closing AMQMessageReciever");
 		} catch (JMSException e) {
 			logger.error(e);
+		} catch (NullPointerException ne) {
+			logger.warn("Tryed closing MessasgeReceiver - but was never opened!");
 		}
 	}
 
+	
+	public Connection createConnectionFromConfig() throws JMSException {
+		var url = String.format( "tcp://%s:%s" , this.amqConfig.adress_to_connect, amqConfig.port_to_connect);
+		logger.info( "Sender connecting to " + url );
+		
+        // Getting JMS connection from the server
+        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
+        
+        return connectionFactory.createConnection(amqConfig.user_to_connect,amqConfig.pwd_to_connect);
+	}
+	
 	@Override
 	public void registerMessageListener(MessageListener msglst) {
 		if(consumer!=null)

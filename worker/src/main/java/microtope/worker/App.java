@@ -35,13 +35,13 @@ public class App
         	
             logger.info( "args[] are ok, starting worker ..." );
 
-			MessageReciever rec = new AMQMessageReciever(amqconf);
+            AMQMessageReciever rec = new AMQMessageReciever(amqconf);
+			rec.open(rec.createConnectionFromConfig());
+            
             var mariadbwriter = new MariaDBWriter(sqlconf);
             var listener = new DBInsertListener(mariadbwriter);
             
             rec.registerMessageListener(listener);
-            
-            logger.info("mariadb writer worked properly, ending testrun");
         }
                 
         logger.info( "Closing AMQ-Reciever" );
