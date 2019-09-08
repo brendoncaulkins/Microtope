@@ -30,12 +30,8 @@ public class App
         
         w.work();
         
-        while(!w.finished)
-        {
-        	logger.trace("waiting for worker");
-        }
+        while(!w.finished){}
         
         sender.close();
-        logger.info( "Closing AMQ-Sender" );
     }
 }
