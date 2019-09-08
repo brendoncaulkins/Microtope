@@ -96,11 +96,9 @@
                     <goals>
                         <goal>report</goal>
                     </goals>
-                    <!-- 
                     <configuration>
 						<outputDirectory>target/jacoco-report</outputDirectory>
 					</configuration>
-					 -->
                 </execution>
                 <execution>
                     <id>jacoco-check</id>
@@ -109,6 +107,32 @@
                     </goals>
                     <configuration>
                        	<rules>
+                       	<rule>
+						    <element>BUNDLE</element>
+						    <!-- <excludes>
+						      <exclude>*Test</exclude>
+						    </excludes>  -->
+						    <limits>
+						      <limit>
+						        <counter>LINE</counter>
+						        <value>COVEREDRATIO</value>
+						        <minimum>80%</minimum>
+						      </limit>
+						    </limits>
+						  </rule>
+						  <rule>
+						    <element>PACKAGE</element>
+						    <!-- <excludes>
+						      <exclude>*Test</exclude>
+						    </excludes>  -->
+						    <limits>
+						      <limit>
+						        <counter>LINE</counter>
+						        <value>COVEREDRATIO</value>
+						        <minimum>75%</minimum>
+						      </limit>
+						    </limits>
+						  </rule>
 						  <rule>
 						    <element>CLASS</element>
 						    <excludes>

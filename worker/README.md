@@ -14,6 +14,8 @@ Part of the microworld-miniproject.
 
 The `verify` in maven is very important! It checks for your coverage.
 
+You maybe want to skip it and can even build your docker image with it - but the build pipeline wont be cheated :)
+
 ## ToDo
 
 - Logging with Log4j2
