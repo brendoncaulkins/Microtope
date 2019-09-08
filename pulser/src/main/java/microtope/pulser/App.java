@@ -25,7 +25,9 @@ public class App
         
         logger.info( "Creating Worker...");
         Worker w = Worker.randomWorker(sender, 50);
-
+        
+        sender.open();
+        
         logger.info( "Created Worker. Start working.");
         w.work();
         
