@@ -28,17 +28,14 @@ public class App
         
         sender.open(sender.createConnectionFromConfig());
         
-        logger.info( "Created Worker. Start working.");
         w.work();
         
         while(!w.finished)
         {
         	logger.trace("waiting for worker");
         }
-        logger.info("Worker finished");
         
         sender.close();
-        
         logger.info( "Closing AMQ-Sender" );
     }
 }
