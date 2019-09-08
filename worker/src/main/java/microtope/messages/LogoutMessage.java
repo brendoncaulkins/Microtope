@@ -1,11 +1,8 @@
 package microtope.messages;
 
-import java.util.Date;
-
-public class LogoutMessage implements PlayerRelatedMessage,AMQMessage {
+public class LogoutMessage extends AMQBaseMessage implements PlayerRelatedMessage {
 	
 	private final int player_id;
-	private Date timestamp =new Date(0) ;
 	
 	public LogoutMessage(int player_id) {
 		this.player_id=player_id;
@@ -13,14 +10,6 @@ public class LogoutMessage implements PlayerRelatedMessage,AMQMessage {
 	
 	public int getPlayer_Id() {
 		return player_id;
-	}
-	
-	public void setTimeStamp(Date date) {
-		this.timestamp=date;
-	}
-
-	public Date getTimeStamp() {
-		return timestamp;
 	}
 	
 	@Override

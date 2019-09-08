@@ -84,4 +84,86 @@ public class MessageEqualityTests {
 		assertNotEquals(first,other);	
 	}
 	
+	@Test
+	void testEquals_twoBadMessages_shouldBeTheSame() {
+		var bad1 = new BadMessage();
+		var bad2 = new BadMessage();
+		
+		assertEquals(bad1,bad2);
+	}
+
+	@Test
+	void testEquals_CompareMessageToBadMessage_shouldBeNotTheSame() {
+		AMQMessage good = new StepMessage(30705,10);
+		var bad = new BadMessage();
+		
+		assertNotEquals(bad,good);
+	}
+
+	@Test
+	void testEquals_CompareBadMessageToGoodMessage_shouldBeNotTheSame() {
+		AMQMessage good = new StepMessage(30705,10);
+		var bad = new BadMessage();
+		
+		assertNotEquals(good,bad);
+	}
+	
+
+	@Test
+	void testEquals_compareStepMessageToOtherMessageKind_shouldBeNotTheSame() {
+		AMQMessage first = new StepMessage(30705,10);
+		var bad = new BadMessage();
+		
+		assertNotEquals(first,bad);
+	}
+
+	@Test
+	void testEquals_compareCoinMessageToOtherMessageKind_shouldBeNotTheSame() {
+		AMQMessage first = new CoinMessage(30705,10);
+		var bad = new BadMessage();
+		
+		assertNotEquals(first,bad);
+	}
+	
+	@Test
+	void testEquals_compareLoginMessageToOtherMessageKind_shouldBeNotTheSame() {
+		AMQMessage first = new LoginMessage(30705,10);
+		var bad = new BadMessage();
+		
+		assertNotEquals(first,bad);
+	}
+	
+	@Test
+	void testEquals_compareLogoutMessageToOtherMessageKind_shouldBeNotTheSame() {
+		AMQMessage first = new LogoutMessage(30705);
+		var bad = new BadMessage();
+		
+		assertNotEquals(first,bad);
+	}
+	
+
+	@Test
+	void testEquals_compareLogoutMessageToOtherLogoutMessage_shouldBeNotTheSame() {
+		AMQMessage first = new LogoutMessage(30705);
+		AMQMessage second = new LogoutMessage(30710);
+		
+		assertNotEquals(first,second);
+	}
+	
+
+	@Test
+	void testEquals_compareLoginMessageToLoginMessageWithOtherPlayer_shouldNotBeTheSame() {
+		AMQMessage first = new LoginMessage(30705,10);
+		AMQMessage second = new LoginMessage(30710,10);
+		
+		assertNotEquals(first,second);
+	}
+	@Test
+	void testEquals_compareLoginMessageToLoginMessageWithSamePlayer_ButWithOtherTeam_shouldNotBeTheSame() {
+
+		AMQMessage first = new LoginMessage(30705,10);
+		AMQMessage second = new LoginMessage(30705,11);
+		
+		assertNotEquals(first,second);
+	}
 }
