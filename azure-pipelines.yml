@@ -30,7 +30,7 @@ stages:
       - task: Maven@3
         inputs:
           mavenPomFile: 'worker/pom.xml'
-          goals: 'clean package'
+          goals: 'clean package verify'
           publishJUnitResults: true
           testResultsFiles: '**/surefire-reports/TEST-*.xml'
           testRunTitle: 'Worker MVN'
@@ -58,7 +58,7 @@ stages:
       - task: Maven@3
         inputs:
           mavenPomFile: 'pulser/pom.xml'
-          goals: 'clean package'
+          goals: 'clean package verify'
           publishJUnitResults: true
           testResultsFiles: '**/surefire-reports/TEST-*.xml'
           testRunTitle: 'Pulser MVN'
@@ -79,8 +79,8 @@ stages:
           buildContext: 'pulser/'
 
           
-- stage: Dockerize
-  displayName: Containerising with Docker
+- stage: DockerizedBuilds
+  displayName: Build Containers with Docker
   dependsOn: Compile
   jobs:
   - job: DockerAPI
@@ -110,3 +110,21 @@ stages:
         repository: microptope/ui:0.1
         Dockerfile: 'ui/Dockerfile'
         buildContext: 'ui/'
+  - job: DockerBuildPulser
+    displayName: Fullbuild Pulser
+    steps:
+    - task: Docker@2
+      inputs: 
+        command: 'build'
+        repository: microptope/pulser:0.1
+        Dockerfile: 'pulser/BuildDockerfile'
+        buildContext: 'pulser/'
+  - job: DockerBuildWorker
+    displayName: Fullbuild Worker
+    steps:
+    - task: Docker@2
+      inputs: 
+        command: 'build'
+        repository: microptope/worker:0.1
+        Dockerfile: 'worker/BuildDockerfile'
+        buildContext: 'worker/'
