@@ -15,9 +15,11 @@ import org.junit.jupiter.api.Test;
 
 class AMQMessageRecieverIntegrationTests {
 
+	private static final int WAIT_TIMER=20;
+	
 	@Tag("Integration")
 	@Test
-	void testVMSettings() throws JMSException {
+	void testVMSettings() throws JMSException, InterruptedException {
 		// This is a simple test to see if i can open connections, create sessions, create producers ...
 		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("vm://localhost?broker.persistent=false");
 
@@ -38,9 +40,9 @@ class AMQMessageRecieverIntegrationTests {
         
         producer.send(session.createTextMessage("Hola"));
         
-        while(!fakeListener.touched) {
-        	// Ooof, this feels hacky!
-        }
+        // Take some time for processing
+        Thread.sleep(WAIT_TIMER);
+        
         connection.close();
         assertTrue(fakeListener.touched);
 	}
@@ -93,7 +95,7 @@ class AMQMessageRecieverIntegrationTests {
 	
 	@Tag("Integration")
 	@Test
-	void testFullCycle_sendOneMessage_ListenerShouldBeTouched(){
+	void testFullCycle_sendOneMessage_ListenerShouldBeTouched() throws InterruptedException{
 		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("vm://localhost?broker.persistent=false");
 
 			try {
@@ -111,11 +113,8 @@ class AMQMessageRecieverIntegrationTests {
 		        Destination destination = session.createQueue(MessageRecieverHelpers.validConf().queue_to_connect); 
 		        var producer = session.createProducer(destination);
 		        producer.send(session.createTextMessage("Hello World!"));
-				
-		        while(!fake.touched) {
-		        	
-		        }
-		        
+			     // Take some time for processing
+			        Thread.sleep(WAIT_TIMER);
 				reciever.close();
 				assertTrue(fake.touched);
 				
