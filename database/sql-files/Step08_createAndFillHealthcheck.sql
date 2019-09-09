@@ -9,3 +9,5 @@ INSERT INTO health (status) VALUES ("alive");
 GRANT SELECT ON microtope.health TO 'worker'@'%';
 
 GRANT SELECT ON microtope.health TO 'api'@'%';
+
+GRANT SELECT ON microtope.health TO 'docker_health'@'localhost';

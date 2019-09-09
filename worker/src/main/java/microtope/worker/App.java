@@ -39,12 +39,11 @@ public class App
 			rec.open(rec.createConnectionFromConfig());
             
             var mariadbwriter = new MariaDBWriter(sqlconf);
+            mariadbwriter.open(mariadbwriter.buildConnectionFromConfig());
             var listener = new DBInsertListener(mariadbwriter);
             
             rec.registerMessageListener(listener);
         }
-                
-        logger.info( "Closing AMQ-Reciever" );
     }
 
 }

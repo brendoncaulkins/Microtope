@@ -2,6 +2,8 @@ FROM node:12.8.1-alpine
 
 # Adding bash, as wait-for-it needs bash
 RUN apk add --no-cache bash
+# Adding curl for healthcheck
+RUN apk add --no-cache curl
 
 ENV dir /usr/api
 
@@ -26,5 +28,7 @@ COPY . $dir
 RUN npm run build
 
 COPY ./utils/wait-for-it.sh $dir
+
+HEALTHCHECK --interval=3m --timeout=5s --start-period=5s CMD ["bash","-c","curl -f http://localhost:3000/api/healthcheck || exit 1"]
 
 ENTRYPOINT [ "/bin/bash", "-c","./wait-for-it.sh -t 0 -s --host=$MariaDB_Adress --port=$MariaDB_Port -- node . ${MariaDB_Adress} ${MariaDB_User} ${MariaDB_PW} ${MariaDB_Port} ${MariaDB_DatabaseName} ${Exposed_Port}"]

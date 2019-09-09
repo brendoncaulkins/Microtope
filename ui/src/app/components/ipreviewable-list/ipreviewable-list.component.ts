@@ -1,36 +1,22 @@
 
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SelectedService } from 'src/app/services/selected.service';
 
-import { Subscription } from 'rxjs';
 import { IPreviewable } from 'src/app/models/IPreviewable';
+
+import {selectionComponent} from "../selectionComponent";
 
 @Component({
   selector: 'app-ipreviewable-list',
   templateUrl: './ipreviewable-list.component.html',
   styleUrls: ['./ipreviewable-list.component.css']
 })
-export class IPreviewableListComponent<T extends IPreviewable> implements OnInit, OnDestroy {
+export class IPreviewableListComponent<T extends IPreviewable> extends selectionComponent<T>  {
 
   
   @Input() items: T[];
 
-  constructor(private selection:SelectedService<T>) { }
+  constructor(private injectedSelectionService:SelectedService<T>) {super(injectedSelectionService);}
 
-  selectionSub: Subscription;
-  selectedItem:T;
-
-  ngOnInit() {
-    this.selectionSub= this.selection.subject$.subscribe(
-      newSelection => {this.selectedItem = newSelection});
-  }
-
-  ngOnDestroy(){
-    this.selectionSub && this.selectionSub.unsubscribe();
-  }
-
-  onSelect(item:T): void {
-    this.selection.set(item);
-  }
 
 }
