@@ -1,7 +1,6 @@
-import {Component, OnInit, OnDestroy, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Rankable} from 'src/app/models/IRankable';
 import {SelectedService} from 'src/app/services/selected.service';
-import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-top-rankable',
