@@ -32,9 +32,9 @@ RUN apk update && apk add bash
 
 RUN mkdir -p $dir
 
-COPY --from=builder ./target/worker-0.1-jar-with-dependencies.jar $dir
+COPY --from=builder /app/target/worker-0.1-jar-with-dependencies.jar $dir
 
-COPY --from=builder ./utils/wait-for-it.sh $dir
+COPY --from=builder /app/utils/wait-for-it.sh $dir
 
 WORKDIR $dir
 
