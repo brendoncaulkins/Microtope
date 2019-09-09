@@ -25,6 +25,11 @@ services:
         - spawn
     ports: 
       - "8161:8161"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8161"]
+      interval: 3m
+      timeout: 10s
+      retries: 3
     environment:
       ARTEMIS_USERNAME: Artemis
       ARTEMIS_PASSWORD: Artemis
