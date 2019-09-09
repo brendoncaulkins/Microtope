@@ -4,7 +4,7 @@ import { SelectedService } from 'src/app/services/selected.service';
 
 import { IPreviewable } from 'src/app/models/IPreviewable';
 
-import {selectionComponent} from "../selectionComponent";
+import {selectionComponent} from '../selectionComponent';
 
 @Component({
   selector: 'app-ipreviewable-list',
@@ -12,11 +12,9 @@ import {selectionComponent} from "../selectionComponent";
   styleUrls: ['./ipreviewable-list.component.css']
 })
 export class IPreviewableListComponent<T extends IPreviewable> extends selectionComponent<T>  {
-
-  
   @Input() items: T[];
 
-  constructor(private injectedSelectionService:SelectedService<T>) {super(injectedSelectionService);}
-
-
+  constructor(private injectedSelectionService: SelectedService<T>) {
+    super(injectedSelectionService);
+  }
 }

@@ -17,7 +17,7 @@ export class TeamDetailComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.selectedTeamSub= this.selectionService.subject$.subscribe(
+    this.selectedTeamSub= this.selectionService.selected$.subscribe(
       x => {this.team = x}
     );
   }

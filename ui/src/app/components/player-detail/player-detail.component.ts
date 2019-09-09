@@ -18,7 +18,7 @@ export class PlayerDetailComponent implements OnInit, OnDestroy {
   selectedPlayerSubscription: Subscription;
 
   ngOnInit() {
-    this.selectedPlayerSubscription= this.selectedPlayerService.subject$.subscribe(
+    this.selectedPlayerSubscription= this.selectedPlayerService.selected$.subscribe(
       newlySelectedPlayer => {this.player = newlySelectedPlayer}
     );
   }
