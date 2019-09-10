@@ -6,21 +6,27 @@
 
 
 .footer-badge{
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    text-align: center;
-    
-    flex-grow: 1;
-    flex-basis: auto;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  text-align: center;
+  
+  flex-grow: 1;
+  flex-basis: auto;
   }
-  h1 {
-    font-size: 3em;
-  }
+  
+h1 {
+  font-size: 3em;
+}
+
+.splitscreen-badge{
+  display:flex;
+  justify-content: space-evenly;
+}
 
 .headline-badge{
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 
-    flex-grow: 1;
-    flex-shrink: 0;
-    flex-basis: auto;
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: auto;
 }
   

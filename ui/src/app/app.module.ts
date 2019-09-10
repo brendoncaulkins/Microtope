@@ -1,12 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { AppConfigService } from './services/app-config.service'
-
-import {environment} from '../environments/environment.prod'
+import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SplitscreenComponent } from './components/splitscreen/splitscreen.component';
 import { TeamSplitscreenPageComponent } from './components/team-splitscreen-page/team-splitscreen-page.component';
 import { PlayerSplitscreenPageComponent } from './components/player-splitscreen-page/player-splitscreen-page.component';
 import { PlayerDetailComponent } from './components/player-detail/player-detail.component';
@@ -20,7 +16,6 @@ import { TopRankableComponent } from './components/top-rankable/top-rankable.com
 @NgModule({
   declarations: [
     AppComponent,
-    SplitscreenComponent,
     TeamSplitscreenPageComponent,
     PlayerSplitscreenPageComponent,
     PlayerDetailComponent,
