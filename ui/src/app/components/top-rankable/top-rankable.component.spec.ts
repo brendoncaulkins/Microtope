@@ -14,7 +14,7 @@ describe(`${TopRankableComponent.constructor.name}`, () => {
     });
   });
 
-  it('should suck dicks', () => {
+  it('should return empty Array if given empty Array', () => {
     const fixture = TestBed.createComponent(TopRankableComponent);
     const comp = fixture.componentInstance;
 
