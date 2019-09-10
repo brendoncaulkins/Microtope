@@ -14,7 +14,7 @@ export abstract class selectionComponent<T> implements OnInit,OnDestroy {
   }
 
   ngOnInit() {
-    this.selectionSub= this.selection.subject$.subscribe(
+    this.selectionSub= this.selection.selected$.subscribe(
       newSelection => {this.selectedItem = newSelection});
   }
 
@@ -23,6 +23,6 @@ export abstract class selectionComponent<T> implements OnInit,OnDestroy {
   }
 
   onSelect(item:T): void {
-    this.selection.set(item);
+    this.selection.select(item);
   }
 }
