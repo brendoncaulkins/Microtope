@@ -5,7 +5,6 @@ import {TopRankableComponent} from './top-rankable.component';
 describe(`${TopRankableComponent.constructor.name}`, () => {
   beforeAll(() => {
     const spy = jasmine.createSpyObj('select', 'selected$');
-
     TestBed.configureTestingModule({
       declarations: [TopRankableComponent],
       providers: [
@@ -15,6 +14,7 @@ describe(`${TopRankableComponent.constructor.name}`, () => {
   });
 
   it('should return empty Array if given empty Array', () => {
+    
     const fixture = TestBed.createComponent(TopRankableComponent);
     const comp = fixture.componentInstance;
 
