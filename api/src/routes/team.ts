@@ -9,7 +9,7 @@ export const register = ( app: express.Application, host: string, user: string,
 
     const log = factory.getLogger("routes/team");
 
-    app.get( `/api/team`,  async ( req:express.Request, res:express.Response ) => {
+    app.get( `/api/team`,  async ( req: express.Request, res: express.Response ) => {
         let conn;
         try {
           conn = await mariadb.createConnection({host, user, password: pwd, database: dbname, port});
@@ -22,11 +22,11 @@ export const register = ( app: express.Application, host: string, user: string,
         }
     } );
 
-    app.get( `/api/team/:id`,  async ( req:express.Request, res:express.Response ) => {
+    app.get( `/api/team/:id`,  async ( req: express.Request, res: express.Response ) => {
       let conn: mariadb.Connection;
       try {
         conn = await mariadb.createConnection({host, user, password: pwd, database: dbname, port});
-        const id: number = parseInt(req.params.id);
+        const id: number = parseInt(req.params.id, 10);
         const rows = await conn.query("SELECT team_id AS id,team_name AS name FROM teams WHERE team_id = (?);", [id]);
         res.send(rows);
       } catch (err) {
@@ -36,7 +36,7 @@ export const register = ( app: express.Application, host: string, user: string,
       }
   } );
 
-  app.get( `/api/team_summary`,  async ( req:express.Request, res:express.Response ) => {
+    app.get( `/api/team_summary`,  async ( req: express.Request, res: express.Response ) => {
     let conn;
     try {
       conn = await mariadb.createConnection({host, user, password: pwd, database: dbname, port});
@@ -49,11 +49,11 @@ export const register = ( app: express.Application, host: string, user: string,
     }
   } );
 
-  app.get( `/api/team_summary/:id`,  async ( req:express.Request, res:express.Response ) => {
+    app.get( `/api/team_summary/:id`,  async ( req: express.Request, res: express.Response ) => {
       let conn;
       try {
         conn = await mariadb.createConnection({host, user, password: pwd, database: dbname, port});
-        const id: number = parseInt(req.params.id);
+        const id: number = parseInt(req.params.id, 10);
         const rows = await conn.query("SELECT team_id AS id,team_name AS name, steps, coins FROM team_summary WHERE team_id = (?);", [id]);
         res.send(rows);
       } catch (err) {
@@ -63,8 +63,7 @@ export const register = ( app: express.Application, host: string, user: string,
       }
     } );
 
-
-    app.get(`/api/coins_by_team`,  async ( req:express.Request, res:express.Response ) => {
+    app.get(`/api/coins_by_team`,  async ( req: express.Request, res: express.Response ) => {
         let conn;
         try {
           conn = await mariadb.createConnection({host, user, password: pwd, database: dbname, port});
@@ -77,7 +76,8 @@ export const register = ( app: express.Application, host: string, user: string,
           closeConnIfExists(conn);
         }
     } );
-    app.get(`/api/steps_by_team`,  async ( req:express.Request, res:express.Response ) => {
+    
+    app.get(`/api/steps_by_team`,  async ( req: express.Request, res: express.Response ) => {
         let conn;
         try {
           conn = await mariadb.createConnection({host, user, password: pwd, database: dbname, port});
