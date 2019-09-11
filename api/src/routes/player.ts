@@ -37,7 +37,27 @@ export const register = ( app: express.Application, host: string, user: string,
     } );
 
     app.put( "/api/player/:id", async (req: express.Request, res: express.Response) => {
-      return 5;
+      let conn;
+      try {
+        conn = await mariadb.createConnection({host, user, password: pwd, database: dbname, port});
+
+        const toChange = req.body;
+
+        const id: number = parseInt(req.params.id, 10);
+        if (toChange || toChange.id || toChange.id !== id) {
+          send500Error(null, res);
+        }
+
+        await conn.query("UPDATE players SET player_name = (?) WHERE player_id=(?);", [toChange.name, toChange.id]);
+
+        res.status(102);
+        res.send();
+
+      } catch (err) {
+        send500Error(err, res);
+      } finally {
+        closeConnIfExists(conn);
+      }
     });
 
     app.get( `/api/player_summary`,  async ( req: express.Request, res: express.Response ) => {

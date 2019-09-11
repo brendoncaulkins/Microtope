@@ -13,7 +13,6 @@ export const register = ( app: express.Application, host: string, user: string,
         try {
           conn = await mariadb.createConnection({host, user, password: pwd, database: dbname, port});
           const rows = await conn.query("SELECT status FROM health;");
-          log.info(rows); // [ {val: 1}, meta: ... ]
           res.send(JSON.stringify(rows));
         } catch (err) {
           res.send("healthcheck for database failed!");

@@ -36,6 +36,30 @@ export const register = ( app: express.Application, host: string, user: string,
       }
   } );
 
+  app.put( "/api/team/:id", async (req: express.Request, res: express.Response) => {
+    let conn;
+    try {
+      conn = await mariadb.createConnection({host, user, password: pwd, database: dbname, port});
+
+      const toChange = req.body;
+
+      const id: number = parseInt(req.params.id, 10);
+      if (toChange || toChange.id || toChange.id !== id) {
+        send500Error(null, res);
+      }
+
+      await conn.query("UPDATE teams SET team_name = (?) WHERE team_id=(?);", [toChange.name, toChange.id]);
+
+      res.status(102);
+      res.send();
+
+    } catch (err) {
+      send500Error(err, res);
+    } finally {
+      closeConnIfExists(conn);
+    }
+  });
+
     app.get( `/api/team_summary`,  async ( req: express.Request, res: express.Response ) => {
     let conn;
     try {
@@ -76,7 +100,7 @@ export const register = ( app: express.Application, host: string, user: string,
           closeConnIfExists(conn);
         }
     } );
-    
+
     app.get(`/api/steps_by_team`,  async ( req: express.Request, res: express.Response ) => {
         let conn;
         try {
