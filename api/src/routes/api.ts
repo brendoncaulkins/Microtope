@@ -8,7 +8,7 @@ export const register = ( app: express.Application, host: string, user: string,
 
     const log = factory.getLogger("routes/api");
 
-    app.get(`/api/healthcheck`,  async ( req: any, res ) => {
+    app.get(`/api/healthcheck`,  async ( req:express.Request, res:express.Response ) => {
         let conn;
         try {
           conn = await mariadb.createConnection({host, user, password: pwd, database: dbname, port});
