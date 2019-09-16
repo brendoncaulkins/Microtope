@@ -1,0 +1,42 @@
+
+.allPreviewables {
+    margin:0 0 2em;
+    list-style-type:none;
+    padding:0;
+    margin-left:  25%;
+    margin-right: 25%;
+    align-content: center;
+    max-width: 50%;
+}
+
+.allPreviewables li {
+    cursor: pointer;
+    position: relative;
+    left: 0;
+    background-color: #EEE;
+    margin: .5em;
+    padding: .3em 0;
+    height: 1.6em;
+    border-radius: 4px;
+}
+.allPreviewables li:hover {
+    color: #607D8B;
+    background-color: #DDD;
+    left: .1em;
+}
+.allPreviewables li.selected {
+    background-color: #CFD8DC;
+    color: white;
+}
+.allPreviewables li.selected:hover {
+    background-color: #BBD8DC;
+    color: white;
+}
+.allPreviewables .badge {
+    display:inline-block;
+    color:#000;
+    position: relative;
+    margin: 1px  5px  5px 1px;
+    padding: 3px  3px 3px 3px;
+    border-radius:4px 0 0 4px;
+}
