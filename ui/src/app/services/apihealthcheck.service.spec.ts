@@ -3,30 +3,28 @@ import { TestBed } from '@angular/core/testing';
 import { APIHealthcheckService } from './apihealthcheck.service';
 import { AppConfigService } from './app-config.service';
 import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('APIHealthcheckService', () => {
 
 
   let masterService: APIHealthcheckService;
   let valueServiceSpy: jasmine.SpyObj<AppConfigService>;
-  let httpClientSpy: jasmine.SpyObj<HttpClient>;
 
   beforeEach(() => {
     const confSpy = jasmine.createSpyObj('AppConfigService', ['loadAppConfig']);
-    const httpSpy = jasmine.createSpyObj('HttpClient', ['get','put','push']);
 
     TestBed.configureTestingModule({
+      imports:[ HttpClientTestingModule ],
       // Provide both the service-to-test and its (spy) dependency
       providers: [
         APIHealthcheckService,
-        { provide: AppConfigService, useValue: confSpy },
-        { provide: HttpClient, useValue: httpSpy}
+        { provide: AppConfigService, useValue: confSpy }
       ]
     });
     // Inject both the service-to-test and its (spy) dependency
     masterService = TestBed.get(APIHealthcheckService);
     valueServiceSpy = TestBed.get(AppConfigService);
-    httpClientSpy = TestBed.get(HttpClient);
   });
 
   it('should be created', () => {
