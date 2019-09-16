@@ -171,7 +171,7 @@ describe(`IRankable topN`, () => {
         
       const picked = topN(toPick,5);
       
-      expect(picked).toBe([]);
+      expect(picked).toEqual([]);
     });
     
     it('should return empty Array if asked for Top0', () => {
@@ -179,7 +179,7 @@ describe(`IRankable topN`, () => {
           
         const picked = topN(toPick,0);
         
-        expect(picked).toBe([]);
+        expect(picked).toEqual([]);
     });
 
     it('should return Array of one when asked for Top2 on array of size one', () => {

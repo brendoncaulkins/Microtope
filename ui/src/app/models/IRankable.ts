@@ -6,5 +6,4 @@ export interface IRankable {
 export abstract class Rankable implements IRankable {
   public abstract coins?: number;
   public abstract steps?: number;
-
 }
