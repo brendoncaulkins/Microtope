@@ -1,20 +1,42 @@
-import {Component, Input} from '@angular/core';
-import {Rankable} from 'src/app/models/IRankable';
+import {Component, Input, OnInit, OnDestroy} from '@angular/core';
+import { IRankable} from 'src/app/models/IRankable';
 import {SelectedService} from 'src/app/services/selected.service';
+import { Observable, Subscription } from 'rxjs';
+import { topN } from 'src/app/utils/IRankable.functions';
 
 @Component({
   selector: 'app-top-rankable',
   templateUrl: './top-rankable.component.html',
   styleUrls: ['./top-rankable.component.css']
 })
-export class TopRankableComponent<T extends Rankable, IPreviewable> {
+export class TopRankableComponent implements OnInit,OnDestroy{
   private TOP_COUNT = 3;
-  sortedItems: Array<T> = [];
 
-  @Input()
-  public set items(items: Array<T>) {
-    this.sortedItems = items.slice(0, this.TOP_COUNT);
+  selectionSub: Subscription;
+  selectedItem:IRankable;
+  
+  rankingSub: Subscription;
+  sortedItems: Array<IRankable> = [];
+
+  @Input() items: Observable<IRankable[]>;
+
+  constructor(public selection: SelectedService<IRankable>) { }
+
+  ngOnInit() {
+    this.selectionSub= this.selection.selected$.subscribe(
+      newSelection => {this.selectedItem = newSelection});
+    this.rankingSub = this.items.subscribe(
+      newItems => {this.sortedItems = topN(newItems,this.TOP_COUNT)} 
+    )
   }
 
-  constructor(public selection: SelectedService<T>) { }
+  ngOnDestroy(){
+    this.selectionSub && this.selectionSub.unsubscribe();
+    this.rankingSub && this.rankingSub.unsubscribe();
+  }
+
+  onSelect(item:IRankable): void {
+    this.selection.select(item);
+  }
+
 }
