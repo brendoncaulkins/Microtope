@@ -161,18 +161,73 @@ describe(`IRankable Compare`, () => {
     expect(result).toBe(0);
   });
 
-
 });
 
 
 describe(`IRankable topN`, () => {
   
     it('should return empty Array if given empty Array', () => {
-      const input:Team[] = [];
+      const toPick:IRankable[] = [];
         
-      const output = topN(input,5);
+      const picked = topN(toPick,5);
       
-      expect(output).toBe([]);
+      expect(picked).toBe([]);
+    });
+    
+    it('should return empty Array if asked for Top0', () => {
+        const toPick:IRankable[] = [{coins:1}];
+          
+        const picked = topN(toPick,0);
+        
+        expect(picked).toBe([]);
+    });
+
+    it('should return Array of one when asked for Top2 on array of size one', () => {
+        const toPick:IRankable[] = [{coins:1}];
+          
+        const picked = topN(toPick,2);
+        
+        expect(picked).toEqual(toPick);
+    });
+
+    it('should return Array of size 3 when asked for Top3 on array of size 4', () => {
+        const toPick:IRankable[] = [{coins:1},{coins:2},{coins:3},{coins:4}];
+          
+        const picked = topN(toPick,3);
+        
+        expect(picked.length).toBe(3);
+    });
+
+    it('should return the array if array was already sorted', () => {
+        const toPick:IRankable[] = [{coins:3},{coins:2},{coins:1}];
+          
+        const picked = topN(toPick,toPick.length);
+        
+        expect(picked).toEqual(toPick);
+    });
+
+    it('should return the biggest value with top1', () => {
+        const toPick:IRankable[] = [{coins:1},{coins:2},{coins:3}];
+          
+        const picked = topN(toPick,1);
+        
+        expect(picked).toEqual([{coins:3}]);
+    });
+
+    it('should return a sorted array', () => {
+        const toPick:IRankable[] = [{coins:1},{coins:2},{coins:3}];
+          
+        const picked = topN(toPick,toPick.length);
+        
+        expect(picked).toEqual([{coins:3},{coins:2},{coins:1}]);
+    });
+
+    it('should not sort the inputarray', () => {
+        const toPick:IRankable[] = [{coins:1},{coins:2},{coins:3}];
+          
+        topN(toPick,toPick.length);
+        
+        expect(toPick).toEqual([{coins:1},{coins:2},{coins:3}]);
     });
     
   });
