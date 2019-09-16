@@ -4,27 +4,26 @@ import { PlayerService } from './player.service';
 import { HttpClient } from '@angular/common/http';
 import { AppConfigService } from './app-config.service';
 
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+
 describe('PlayerService', () => {
 
   let playerService: PlayerService;
   let valueServiceSpy: jasmine.SpyObj<AppConfigService>;
-  let httpClientSpy: jasmine.SpyObj<HttpClient>;
 
   beforeAll(async () => {
     const confSpy = jasmine.createSpyObj('AppConfigService', ['getValue']);
-    const httpSpy = jasmine.createSpyObj('HttpClient', ['get','put','push']);
   
     TestBed.configureTestingModule({
+      imports:[ HttpClientTestingModule ],
       providers: [
         PlayerService,
-        { provide: AppConfigService, useValue: confSpy },
-        { provide: HttpClient, useValue: httpSpy}
+        { provide: AppConfigService, useValue: confSpy }
       ]
     });
 
     // Inject both the service-to-test and its (spy) dependency
       valueServiceSpy = TestBed.get(AppConfigService);
-      httpClientSpy = TestBed.get(HttpClient);
       playerService = TestBed.get(PlayerService);
   });
 
