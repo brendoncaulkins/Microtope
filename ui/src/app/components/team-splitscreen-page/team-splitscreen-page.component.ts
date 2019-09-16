@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TeamService } from 'src/app/services/team.service';
 import { Team } from 'src/app/models/Team.model';
 import { SelectedService } from 'src/app/services/selected.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-team-splitscreen-page',
@@ -13,12 +14,10 @@ export class TeamSplitscreenPageComponent implements OnInit {
 
   constructor(private teamService:TeamService) { }
 
-  teams:Team[];
+  teamsObs:Observable<Team[]>;
 
   ngOnInit() {
-    this.teamService.getAll().subscribe(
-      ts => this.teams=ts
-    )
+    this.teamsObs=this.teamService.getAll();
   }
 
 }
