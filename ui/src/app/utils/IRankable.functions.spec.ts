@@ -14,25 +14,12 @@ describe(`IRankable Compare`, () => {
     expect(result).toBe(0);
   });
 
-  it('should return 1 if first has more coins', () => {
+  it('should return -1 if first has more coins', () => {
     const first:IRankable = {
         coins : 10
     };
     const second: IRankable = {
         coins : 5
-    };
-    
-    const result = compare(first,second);
-
-    expect(result).toBe(1);
-  });
-
-  it('should return -1 if second has more coins', () => {
-    const first:IRankable = {
-        coins : 5
-    };
-    const second: IRankable = {
-        coins : 10
     };
     
     const result = compare(first,second);
@@ -40,7 +27,20 @@ describe(`IRankable Compare`, () => {
     expect(result).toBe(-1);
   });
 
-  it('should return 1 if first has coins second has not', () => {
+  it('should return 1 if second has more coins', () => {
+    const first:IRankable = {
+        coins : 5
+    };
+    const second: IRankable = {
+        coins : 10
+    };
+    
+    const result = compare(first,second);
+
+    expect(result).toBe(1);
+  });
+
+  it('should return -1 if first has coins second has not', () => {
     const first:IRankable = {
         coins : 10
     };
@@ -48,10 +48,10 @@ describe(`IRankable Compare`, () => {
     
     const result = compare(first,second);
 
-    expect(result).toBe(1);
+    expect(result).toBe(-1);
   });
 
-  it('should return -1 if second coins and first has not', () => {
+  it('should return 1 if second coins and first has not', () => {
     const first:IRankable = {};
     const second: IRankable = {
         coins : 10
@@ -59,7 +59,7 @@ describe(`IRankable Compare`, () => {
     
     const result = compare(first,second);
 
-    expect(result).toBe(-1);
+    expect(result).toBe(1);
   });
 
   it('should return 0 if both have same coins but no steps', () => {
@@ -76,7 +76,7 @@ describe(`IRankable Compare`, () => {
   });
 
 
-  it('should return 1 if both have same coins but first has more steps', () => {
+  it('should return -1 if both have same coins but first has more steps', () => {
     const first:IRankable = {
         coins : 10,
         steps: 101
@@ -84,26 +84,26 @@ describe(`IRankable Compare`, () => {
     const second: IRankable = {
         coins : 10,
         steps: 100
-    };
-    
-    const result = compare(first,second);
-
-    expect(result).toBe(1);
-  });
-
-  it('should return -1 if both have same coins but second has more steps', () => {
-    const first:IRankable = {
-        coins : 10,
-        steps: 100
-    };
-    const second: IRankable = {
-        coins : 10,
-        steps: 101
     };
     
     const result = compare(first,second);
 
     expect(result).toBe(-1);
+  });
+
+  it('should return 1 if both have same coins but second has more steps', () => {
+    const first:IRankable = {
+        coins : 10,
+        steps: 100
+    };
+    const second: IRankable = {
+        coins : 10,
+        steps: 101
+    };
+    
+    const result = compare(first,second);
+
+    expect(result).toBe(1);
   });
   
   it('should return 0 if both have same coins and steps', () => {
@@ -122,32 +122,32 @@ describe(`IRankable Compare`, () => {
   });
 
 
-  it('should return 1 if both have same coins but first has steps and second has not', () => {
+  it('should return -1 if both have same coins but first has steps and second has not', () => {
     const first:IRankable = {
         coins : 10,
         steps: 101
     };
     const second: IRankable = {
         coins : 10
-    };
-    
-    const result = compare(first,second);
-
-    expect(result).toBe(1);
-  });
-
-  it('should return 1 if both have same coins but first has steps and second has not', () => {
-    const first:IRankable = {
-        coins : 10
-    };
-    const second: IRankable = {
-        coins : 10,
-        steps: 101
     };
     
     const result = compare(first,second);
 
     expect(result).toBe(-1);
+  });
+
+  it('should return 1 if both have same coins but second has steps and first has not', () => {
+    const first:IRankable = {
+        coins : 10
+    };
+    const second: IRankable = {
+        coins : 10,
+        steps: 101
+    };
+    
+    const result = compare(first,second);
+
+    expect(result).toBe(1);
   });
 
   it('should return 0 if object is compared to itself', () => {
