@@ -16,7 +16,7 @@ export class TopRankableComponent implements OnInit,OnDestroy{
   selectedItem:IRankable;
   
   rankingSub: Subscription;
-  sortedItems: Array<IRankable> = [];
+  sortedItems: IRankable[] = [];
 
   @Input() items: Observable<IRankable[]>;
 

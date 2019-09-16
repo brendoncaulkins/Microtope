@@ -15,6 +15,9 @@ export class IPreviewableListComponent{
 
   @Input() items: Observable<IPreviewable[]>;
 
+  previewSub:Subscription;
+  previewItems: IPreviewable[];
+
   private selectionSub: Subscription;
   selectedItem:IPreviewable;
   
@@ -24,10 +27,14 @@ export class IPreviewableListComponent{
   ngOnInit() {
     this.selectionSub= this.selection.selected$.subscribe(
       newSelection => {this.selectedItem = newSelection});
+    this.previewSub = this.items.subscribe(
+      newItems => {this.previewItems = newItems}
+    )
   }
 
   ngOnDestroy(){
     this.selectionSub && this.selectionSub.unsubscribe();
+    this.previewSub && this.previewSub.unsubscribe();
   }
 
   onSelect(item:IPreviewable): void {
