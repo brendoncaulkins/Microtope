@@ -1,7 +1,8 @@
-<h3>Everything found</h3>
+<h3 class="splitscreenh3">All Elements</h3>
 <ul class="allPreviewables">
-    <li *ngFor="let i of previewItems" (click)="onSelect(i)">
-        <span class="idBadge">{{i.id}}</span> 
+    <li *ngFor="let i of previewItems" (click)="onSelect(i)"
+    [class.selected]="i === selectedItem">
+        <span class="badge">{{i.id}}</span> 
         <span *ngIf="i.name; else elseBlock"> {{i.name}} </span>
         <ng-template #elseBlock> Unnamed</ng-template>
     </li>
