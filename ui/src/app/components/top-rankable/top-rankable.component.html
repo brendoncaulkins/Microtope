@@ -1,6 +1,6 @@
 <h3>Top Elements </h3>
 <ul class="topRankers">
-    <li *ngFor="let item of sortedItems" (click)="this.selection.select(item)">
+    <li *ngFor="let item of sortedItems" (click)="onSelect(item)">
         <span class="idBadge">{{item.id}}</span>
         <span *ngIf="item.name; else elseBlock"> {{item.name}} </span>
         <ng-template #elseBlock> Unnamed</ng-template>

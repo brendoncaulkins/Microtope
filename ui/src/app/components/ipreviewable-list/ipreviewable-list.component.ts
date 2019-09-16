@@ -4,17 +4,34 @@ import { SelectedService } from 'src/app/services/selected.service';
 
 import { IPreviewable } from 'src/app/models/IPreviewable';
 
-import {selectionComponent} from '../selectionComponent';
+import { Subscription, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-ipreviewable-list',
   templateUrl: './ipreviewable-list.component.html',
   styleUrls: ['./ipreviewable-list.component.css']
 })
-export class IPreviewableListComponent<T extends IPreviewable> extends selectionComponent<T>  {
-  @Input() items: T[];
+export class IPreviewableListComponent{
 
-  constructor(private injectedSelectionService: SelectedService<T>) {
-    super(injectedSelectionService);
+  @Input() items: Observable<IPreviewable[]>;
+
+  private selectionSub: Subscription;
+  selectedItem:IPreviewable;
+  
+    
+  constructor(private selection:SelectedService<IPreviewable>) {}
+
+  ngOnInit() {
+    this.selectionSub= this.selection.selected$.subscribe(
+      newSelection => {this.selectedItem = newSelection});
   }
+
+  ngOnDestroy(){
+    this.selectionSub && this.selectionSub.unsubscribe();
+  }
+
+  onSelect(item:IPreviewable): void {
+    this.selection.select(item);
+  }
+  
 }
