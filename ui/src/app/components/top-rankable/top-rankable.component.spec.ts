@@ -19,7 +19,7 @@ describe(`${TopRankableComponent.constructor.name}`, () => {
     const comp = fixture.componentInstance;
 
     // Simulate "Input"
-    comp.items = [];
+    //comp.items = [];
 
     // Trigger change detection, this is where ngOninit runs
     fixture.detectChanges();
