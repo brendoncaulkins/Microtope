@@ -1,4 +1,4 @@
-<div *ngIf="player">
+<div *ngIf="this.selectedPlayerService.selected$ | async as player">
 
     <h3 class="splitscreenh3">Player #{{player.id}} Details</h3>
     <div><span>id: </span>{{player.id}}</div>
@@ -10,5 +10,5 @@
     <div>coins:{{player.coins ? player.coins : 0}}</div>
     <div>steps:{{player.steps ? player.steps : 0}}</div>
     <button (click)="onClose()">close</button>
-    <button (click)="onSave()">safe</button>
+    <button (click)="onSave(player)">safe</button>
  </div>
