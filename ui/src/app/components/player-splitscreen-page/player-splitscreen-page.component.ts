@@ -11,14 +11,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./player-splitscreen-page.component.css'],
   providers: [SelectedService]
 })
-export class PlayerSplitscreenPageComponent implements OnInit {
+export class PlayerSplitscreenPageComponent {
+  players: Observable<Player[]> = this.playerService.getAll();
 
-  constructor(private playerService:PlayerService) { }
-
-  players:Observable<Player[]>;
-
-  ngOnInit() {
-    this.players = this.playerService.getAll();
-  }
-
+  constructor(private playerService: PlayerService) { }
 }
