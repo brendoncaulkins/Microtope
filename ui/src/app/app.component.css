@@ -12,10 +12,6 @@
   flex-grow: 1;
   flex-basis: auto;
   }
-  
-h1 {
-  font-size: 3em;
-}
 
 .splitscreen-badge{
   display:flex;
@@ -30,23 +26,3 @@ h1 {
   flex-basis: auto;
 }
 
-
-h3{
-  color:whitesmoke;
-  background: darkgrey;
-  padding: 15px 0px 15px 0px;
-  margin: 10px 20% 10px 20%;
-  border-radius:10px 10px 10px 10px;
-}
-
-h2{
-  font-size:2em;
-  color:black;
-  margin: 30px 10% 5px 10%;
-  padding: 15px 0 20px 0;
-  border: dotted;
-  border-color: lightgrey;
-  border-radius:10px 10px 10px 10px;
-  background: whitesmoke;
-  
-}

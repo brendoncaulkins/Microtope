@@ -1,17 +1,14 @@
 <div *ngIf="team">
 
-    <h3>Team #{{team.id}} Details</h3>
+    <h3 class="splitscreenh3">Team #{{team.id}} Details</h3>
     <div><span>id: </span>{{team.id}}</div>
-    <div><span>name:</span> placeholder for inputvar</div>
-    <div><span>coins:</span>
-    <span *ngIf="team.coins; else noCoinsBlock"> {{team.coins}}</span>
-    <ng-template #noCoinsBlock> 0 </ng-template>
-    </div>
-    <button (click)="onClose()">close</button>
-    <!--<div>
-    <label>name:
-        <input [(ngModel)]={{player.player_name}}/>
+    <div>
+      <label>name:
+        <input [(ngModel)]="team.name" placeholder="unnamed"/>
       </label>
     </div>
-   -->
+    <div>coins:{{team.coins ? team.coins : 0}}</div>
+    <div>steps:{{team.steps ? team.steps : 0}}</div>
+    <button (click)="onClose()">close</button>
+    <button (click)="onSave()">safe</button>
  </div>

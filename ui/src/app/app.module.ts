@@ -11,7 +11,7 @@ import { TeamDetailComponent } from './components/team-detail/team-detail.compon
 import {HttpClientModule} from "@angular/common/http";
 import { IPreviewableListComponent } from './components/ipreviewable-list/ipreviewable-list.component';
 import { TopRankableComponent } from './components/top-rankable/top-rankable.component';
-
+import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
 
 @NgModule({
   declarations: [
@@ -26,7 +26,8 @@ import { TopRankableComponent } from './components/top-rankable/top-rankable.com
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
