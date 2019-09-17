@@ -14,10 +14,10 @@ export class TeamSplitscreenPageComponent implements OnInit {
 
   constructor(private teamService:TeamService) { }
 
-  teamsObs:Observable<Team[]>;
+  teams$:Observable<Team[]>;
 
   ngOnInit() {
-    this.teamsObs=this.teamService.getAll();
+    this.teams$=this.teamService.getAll();
   }
 
 }
