@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { SelectedService } from 'src/app/services/selected.service';
 import { Player } from 'src/app/models/Player.model';
 import { Subscription } from 'rxjs';
+import { PlayerService } from 'src/app/services/player.service';
 
 @Component({
   selector: 'app-player-detail',
@@ -10,7 +11,7 @@ import { Subscription } from 'rxjs';
 })
 export class PlayerDetailComponent implements OnInit, OnDestroy {
 
-  constructor( private selectedPlayerService:SelectedService<Player>) { }
+  constructor( private selectedPlayerService:SelectedService<Player>, private playerService:PlayerService) { }
 
 
   @Input() player:Player;
@@ -28,7 +29,14 @@ export class PlayerDetailComponent implements OnInit, OnDestroy {
   }
 
   onClose(){
+    console.log("Closing current player without safe...")
     this.selectedPlayerService.deselect();
   }
+
+  onSave(){
+    console.log("Saving current player...")
+    this.playerService.updatePlayer(this.player);
+  }
+  
 
 }
