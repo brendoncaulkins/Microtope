@@ -1,6 +1,7 @@
 <h3 class="splitscreenh3">Top Elements </h3>
-<ul class="topRankers">
-    <li *ngFor="let item of sortedItems" (click)="onSelect(item)">
+<ul class="rankbox">
+    <li class="rankitem" *ngFor="let item of sortedItems; let n = index" (click)="onSelect(item)" [class.selected]="item === selectedItem">
+        <div>rank: {{n+1}}</div>
         <span class="idBadge">{{item.id}}</span>
         <span *ngIf="item.name; else elseBlock"> {{item.name}} </span>
         <ng-template #elseBlock> Unnamed</ng-template>

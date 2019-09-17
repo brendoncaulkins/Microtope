@@ -4,6 +4,7 @@ import {SelectedService} from 'src/app/services/selected.service';
 import { Observable, Subscription } from 'rxjs';
 import { topN } from 'src/app/utils/IRankable.functions';
 import { IPreviewable } from 'src/app/models/IPreviewable';
+import { tap,filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-top-rankable',
@@ -38,7 +39,10 @@ export class TopRankableComponent<T extends IPreviewable & IRankable> implements
   }
 
   onSelect(item:T): void {
-    this.selection.select(item);
+    this.items.pipe(
+      map(xs=>xs.filter(x=> x===item)),
+      tap(xs=> this.selection.select(xs[0]))
+    )
   }
 
 }
