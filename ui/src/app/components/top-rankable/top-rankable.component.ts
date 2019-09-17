@@ -40,9 +40,9 @@ export class TopRankableComponent<T extends IPreviewable & IRankable> implements
 
   onSelect(item:T): void {
     this.items.pipe(
-      map(xs=>xs.filter(x=> x===item)),
-      tap(xs=> this.selection.select(xs[0]))
-    )
+      map(xs=>xs.filter(x=> x==item)),
+      map(xs=>xs[0])
+    ).subscribe(x=>this.selection.select(x))
   }
 
 }
