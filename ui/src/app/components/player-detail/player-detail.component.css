@@ -1,0 +1,5 @@
+.playercard{
+    background: var(--darker-bg-color);
+    border: 10px 10px 10px 10px;
+    margin: 3px;
+}

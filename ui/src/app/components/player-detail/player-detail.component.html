@@ -1,4 +1,4 @@
-<div *ngIf="this.selectedPlayerService.selected$ | async as player">
+<div *ngIf="this.selectedPlayerService.selected$ | async as player" class="playercard">
 
     <h3 class="splitscreenh3">Player #{{player.id}} Details</h3>
     <div><span>id: </span>{{player.id}}</div>
