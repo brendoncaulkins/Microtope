@@ -26,13 +26,16 @@ export class TopRankableComponent<T extends IPreviewable & IRankable> implements
     ) as Observable<T[]>;
   }
 
-
   onSelect(item: T): void {
     this.sortedItems.pipe(
       take(1),      // this will cause automatic unsubscribe after first emit
       flatMap(items => items),  // flatten array
-      filter(i => item === i)
+      filter(i => this.helperEquals(i,item))
     ).subscribe(x => this.selection.select(x));
+  }
+
+  private helperEquals(first:T,second:T):boolean{
+    return first.id==second.id && first.name == second.name  && first.coins == second.coins && first.steps == second.steps
   }
 
 }
