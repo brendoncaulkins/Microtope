@@ -1,0 +1,16 @@
+workflow "Welcome Newcomers" {
+  on = "pull_request"
+  resolves = "Post Welcome Comment"
+}
+
+action "Filter Newcomers" {
+  uses = "actions/first-contribution@v1.0.1"
+  secrets = ["GITHUB_TOKEN"]
+}
+
+action "Post Welcome Comment" {
+  uses = "actions/github@v1.0.0"
+  needs = "Filter Newcomers"
+  args = "Thank you for Contributing! Take the time until I check your appreciated Pull Request to see if any labels are missing and watch the pipeline :) "
+  secrets = ["GITHUB_TOKEN"]
+}
