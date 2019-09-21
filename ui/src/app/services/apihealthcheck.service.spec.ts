@@ -15,7 +15,7 @@ describe('APIHealthcheckService', () => {
     const confSpy = jasmine.createSpyObj('AppConfigService', ['loadAppConfig']);
 
     TestBed.configureTestingModule({
-      imports:[ HttpClientTestingModule ],
+      imports: [ HttpClientTestingModule ],
       // Provide both the service-to-test and its (spy) dependency
       providers: [
         APIHealthcheckService,

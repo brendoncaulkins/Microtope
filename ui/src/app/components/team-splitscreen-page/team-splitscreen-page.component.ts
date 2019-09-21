@@ -12,12 +12,12 @@ import { Observable } from 'rxjs';
 })
 export class TeamSplitscreenPageComponent implements OnInit {
 
-  constructor(private teamService:TeamService) { }
+  constructor(private teamService: TeamService) { }
 
-  teams$:Observable<Team[]>;
+  teams$: Observable<Team[]>;
 
   ngOnInit() {
-    this.teams$=this.teamService.getAll();
+    this.teams$ = this.teamService.getAll();
   }
 
 }

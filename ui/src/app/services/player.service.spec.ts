@@ -4,7 +4,7 @@ import { PlayerService } from './player.service';
 import { HttpClient } from '@angular/common/http';
 import { AppConfigService } from './app-config.service';
 
-import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('PlayerService', () => {
 
@@ -13,9 +13,9 @@ describe('PlayerService', () => {
 
   beforeAll(async () => {
     const confSpy = jasmine.createSpyObj('AppConfigService', ['getValue']);
-  
+
     TestBed.configureTestingModule({
-      imports:[ HttpClientTestingModule ],
+      imports: [ HttpClientTestingModule ],
       providers: [
         PlayerService,
         { provide: AppConfigService, useValue: confSpy }
@@ -23,8 +23,8 @@ describe('PlayerService', () => {
     });
 
     // Inject both the service-to-test and its (spy) dependency
-      valueServiceSpy = TestBed.get(AppConfigService);
-      playerService = TestBed.get(PlayerService);
+    valueServiceSpy = TestBed.get(AppConfigService);
+    playerService = TestBed.get(PlayerService);
   });
 
   it('should be created', () => {

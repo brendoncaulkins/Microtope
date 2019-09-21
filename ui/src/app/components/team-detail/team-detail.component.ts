@@ -12,11 +12,11 @@ import { TeamService } from 'src/app/services/team.service';
 export class TeamDetailComponent {
 
   constructor(
-    public selectedTeamService:SelectedService<Team>
-    ,private teamService:TeamService
+    public selectedTeamService: SelectedService<Team>
+    , private teamService: TeamService
   ) { }
 
-  onClose(){
+  onClose() {
     this.selectedTeamService.deselect();
   }
 
