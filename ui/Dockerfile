@@ -1,7 +1,7 @@
 ##### Stage 1
 # Taken from: https://github.com/coding-latte/using-angular-docker-environment-variables/blob/master/dockerfile
 
-FROM node:12.9.1 as builder
+FROM node:12.10.0 as builder
 
 WORKDIR /app
 
