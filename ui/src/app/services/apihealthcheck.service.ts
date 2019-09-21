@@ -8,13 +8,13 @@ import {tap, switchMap} from 'rxjs/operators';
 })
 export class APIHealthcheckService {
 
-  constructor(private config:AppConfigService, private http: HttpClient) { }
+  constructor(private config: AppConfigService, private http: HttpClient) { }
 
-  public healthCheck():void{
-    var health = this.config.loadAppConfig().pipe(
-      tap(x=> console.log("Starting Healthcheck!")),
-      switchMap( conf => this.http.get(conf.api_url+"/api/healthcheck")),
-      tap(x => console.log("Found:" + JSON.stringify(x)))
+  public healthCheck(): void {
+    let health = this.config.loadAppConfig().pipe(
+      tap(x => console.log('Starting Healthcheck!')),
+      switchMap( conf => this.http.get(conf.api_url + '/api/healthcheck')),
+      tap(x => console.log('Found:' + JSON.stringify(x)))
     );
     }
 

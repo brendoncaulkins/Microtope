@@ -1,22 +1,22 @@
+import {Component, Input} from '@angular/core';
+import {Observable} from 'rxjs';
 
-import { Component, Input } from '@angular/core';
-import { SelectedService } from 'src/app/services/selected.service';
-
-import { IPreviewable } from 'src/app/models/IPreviewable';
-
-import {selectionComponent} from "../selectionComponent";
+import {IPreviewable} from 'src/app/models/IPreviewable';
+import {SelectedService} from 'src/app/services/selected.service';
 
 @Component({
   selector: 'app-ipreviewable-list',
   templateUrl: './ipreviewable-list.component.html',
   styleUrls: ['./ipreviewable-list.component.css']
 })
-export class IPreviewableListComponent<T extends IPreviewable> extends selectionComponent<T>  {
+export class IPreviewableListComponent {
 
-  
-  @Input() items: T[];
+  @Input() items: Observable<IPreviewable[]>;
 
-  constructor(private injectedSelectionService:SelectedService<T>) {super(injectedSelectionService);}
+  constructor(public selection: SelectedService<IPreviewable>) {}
 
+  onSelect(item: IPreviewable): void {
+    this.selection.select(item);
+  }
 
 }

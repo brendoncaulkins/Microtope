@@ -1,20 +1,41 @@
-import { Component,Input } from '@angular/core';
-import { Rankable } from 'src/app/models/IRankable';
-import { SelectedService } from 'src/app/services/selected.service';
-import { selectionComponent } from '../selectionComponent';
+import {Component, Input, OnInit} from '@angular/core';
+import {Observable} from 'rxjs';
+import {filter, flatMap, map, take} from 'rxjs/operators';
+import {IPreviewable} from 'src/app/models/IPreviewable';
+import {IRankable} from 'src/app/models/IRankable';
+import {SelectedService} from 'src/app/services/selected.service';
+import {topNCurry} from 'src/app/utils/IRankable.functions';
 
 @Component({
   selector: 'app-top-rankable',
   templateUrl: './top-rankable.component.html',
   styleUrls: ['./top-rankable.component.css']
 })
-export class TopRankableComponent<T extends Rankable,IPreviewable> extends selectionComponent<T> {
-  
-  @Input() items: T[];
-  constructor(private injectedSelectionService:SelectedService<T>) {super(injectedSelectionService);}
+export class TopRankableComponent<T extends IPreviewable & IRankable> implements OnInit {
+  private TOP_COUNT = 3;
 
-  topN(items:T[],n:number):T[]{
-    return items.slice(0,n);
-    //return items.sort((i1,i2)=> i1.compare(i2)).slice(0,n);
+  sortedItems: Observable<T[]>;
+
+  @Input() items: Observable<T[]>;
+
+  constructor(public selection: SelectedService<T>) { }
+
+  ngOnInit() {
+    this.sortedItems = this.items.pipe(
+      map(topNCurry(this.TOP_COUNT))
+    ) as Observable<T[]>;
   }
+
+  onSelect(item: T): void {
+    this.sortedItems.pipe(
+      take(1),      // this will cause automatic unsubscribe after first emit
+      flatMap(items => items),  // flatten array
+      filter(i => this.helperEquals(i, item))
+    ).subscribe(x => this.selection.select(x));
+  }
+
+  private helperEquals(first: T, second: T): boolean {
+    return first.id === second.id && first.name === second.name  && first.coins === second.coins && first.steps === second.steps;
+  }
+
 }

@@ -1,0 +1,35 @@
+
+.rankbox {
+    margin:0 0 2em;
+    list-style-type:none;
+    padding:0;
+    margin-left:  25%;
+    margin-right: 25%;
+    max-width: 50%;
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+}
+
+.rankitem {
+    cursor:pointer;
+    background-color: var(--darker-bg-color);
+    margin: 10px 5px 0px 5px;
+    padding: 10px 0px 10px 0px;
+    border-radius:15px;
+    flex-grow: 1;
+}
+
+.rankitem:hover {
+    color: rgb(182, 144, 182);
+    background-color: rgb(123, 59, 139);;
+    left: .1em;
+}
+.rankitem.selected {
+    background-color: rgb(106, 28, 143);
+    color: white;
+}
+.rankitem.selected:hover {
+    background-color: rgb(185, 84, 185);
+    color: white;
+}

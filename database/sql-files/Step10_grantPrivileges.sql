@@ -43,6 +43,7 @@ GRANT SELECT ON microtope.health TO 'auditor'@'%';
 
 -- The API can change player names, but nothing else about the player
 GRANT INSERT,UPDATE (player_name) ON microtope.players TO 'api'@'%';
+GRANT INSERT,UPDATE (team_name) ON microtope.teams TO 'api'@'%';
 
 -- "HIGH SECURITY" LOGIN/LOGOUT TABLE RELATED
 

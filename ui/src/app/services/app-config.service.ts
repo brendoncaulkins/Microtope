@@ -11,7 +11,7 @@ import {IConfig} from '../models/IConfig';
   providedIn: 'root'
 })
 export class AppConfigService {
-  
+
   constructor(private http: HttpClient) {}
 
   private getConfig(configLocationURL: string): Observable<IConfig> {
@@ -31,15 +31,14 @@ export class AppConfigService {
         return this.defaultConfig();
       })
     );
-
   }
 
-  private defaultConfig(): Observable<IConfig>{
-    const defaultConfig ={
-      api_url:"http://defaulturl.com",
-      api_user: "defaulter",
-      api_pwd:"unusable"
-    }
+  private defaultConfig(): Observable<IConfig> {
+    const defaultConfig = {
+      api_url: 'http://defaulturl.com',
+      api_user: 'defaulter',
+      api_pwd: 'unusable'
+    };
     return of( defaultConfig as IConfig);
   }
 }

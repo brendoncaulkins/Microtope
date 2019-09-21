@@ -1,1 +1,43 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Colour Theme! Important */
+:root{
+    --main-bg-color: #F2EDED;
+    --darker-bg-color: #D0D7D7; 
+    --primary-color: #8F3AE9;
+    --secondary-color:#BD09B7;
+    --primary-text-color: #3F2B17;
+    --secondary-text-color: #E73B63;
+}
+
+body {
+    background: var(--main-bg-color);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h1 {
+    font-size: 3em;
+    color: var(--primary-text-color);
+    background: var(--primary-color);
+    padding: 10px 0px 10px 0px;
+}
+
+h2{
+    font-size:2em;
+    color:var(--primary-text-color);
+    margin: 30px 10% 5px 10%;
+    padding: 15px 0 20px 0;
+    border: dotted;
+    border-color: var(--primary-text-color);
+    border-radius:10px 10px 10px 10px;
+    background: var(--secondary-color);
+}
+
+h3{
+    color:var(--secondary-text-color);
+    background:var(--primary-color);
+    padding: 15px 0px 15px 0px;
+    margin: 10px 20% 10px 20%;
+    border-radius:10px 10px 10px 10px;
+}
+  

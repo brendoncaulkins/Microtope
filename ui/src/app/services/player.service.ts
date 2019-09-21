@@ -13,14 +13,28 @@ import { IPreviewableService } from './IPreviewable.service';
 })
 export class PlayerService extends IPreviewableService<Player> {
 
-  constructor(private config:AppConfigService, private http: HttpClient) {super();}
+  private PLAYER_API = '/api/player';
+  private PLAYER_SUMMARY_API = '/api/player_summary';
+
+  constructor(private config: AppConfigService, private http: HttpClient) {super(); }
 
   public getAll(): Observable<Player[]> {
     return this.config.loadAppConfig().pipe(
-      tap(con => console.log("Got Config with base_url:" + con.api_url)),
-      map(con => con.api_url+"/api/player_summary"),
-      tap(url=> console.log("HTTPRequesting:" +url)),
+      tap(con => console.log('Got Config with base_url:' + con.api_url)),
+      map(con => con.api_url + this.PLAYER_SUMMARY_API),
+      tap(url => console.log('HTTPRequesting:' + url)),
       switchMap(url => this.http.get<Player[]>(url))
+    );
+  }
+
+  public updatePlayer(player: Player): void {
+    this.config.loadAppConfig().pipe(
+      tap(con => console.log('Got Config with base_url:' + con.api_url)),
+      map(con => con.api_url + this.PLAYER_API),
+      tap(url => console.log('HTTPRequesting:' + url)),
+      switchMap(url =>
+        this.http.put(url + '/' + player.id, {id: player.id, name: player.name} )
+      )
     );
   }
 

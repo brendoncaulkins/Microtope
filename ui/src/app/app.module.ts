@@ -1,26 +1,21 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { AppConfigService } from './services/app-config.service'
-
-import {environment} from '../environments/environment.prod'
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SplitscreenComponent } from './components/splitscreen/splitscreen.component';
 import { TeamSplitscreenPageComponent } from './components/team-splitscreen-page/team-splitscreen-page.component';
 import { PlayerSplitscreenPageComponent } from './components/player-splitscreen-page/player-splitscreen-page.component';
 import { PlayerDetailComponent } from './components/player-detail/player-detail.component';
 import { TeamDetailComponent } from './components/team-detail/team-detail.component';
 
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClientModule} from '@angular/common/http';
 import { IPreviewableListComponent } from './components/ipreviewable-list/ipreviewable-list.component';
 import { TopRankableComponent } from './components/top-rankable/top-rankable.component';
-
+import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
 
 @NgModule({
   declarations: [
     AppComponent,
-    SplitscreenComponent,
     TeamSplitscreenPageComponent,
     PlayerSplitscreenPageComponent,
     PlayerDetailComponent,
@@ -31,9 +26,11 @@ import { TopRankableComponent } from './components/top-rankable/top-rankable.com
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AppModule { }

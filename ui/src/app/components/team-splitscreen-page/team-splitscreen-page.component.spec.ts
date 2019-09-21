@@ -19,7 +19,9 @@ describe('TeamSplitscreenPageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('has no items - should be created', () => {
+    // component.teams = []
+
     expect(component).toBeTruthy();
   });
 });

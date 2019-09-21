@@ -36,12 +36,22 @@ admin[(Microworld)] > show tables;
 
 You can now select and join and do everything you want with your database.
 
+## Using Timewalking Queries
+
+From now on the database supports system-versioned queries. All of the base tables have system-versioning.
+
+To access the data as of a certain period of time, you can do a query like this:
+
+`SELECT player_id, player_name FROM players FOR SYSTEM_TIME AS OF ('2019-09-21 07:27:00');`
+
+A simple select statement will return the latest valid data.
+
+For more information, see [The MariaDB-Dokumentation on Temporal Databases](https://mariadb.com/kb/en/library/temporal-data-tables/)
+
 ## ToDo
 
 - Smarter storing of passwords for user-generation
-- Some kind of additional Healthcheck?
-- Auto-Versioning and timewalking
-- Timezone is maybe required
+- Timezone is maybe required (My Docker-Image is 2 Hours behind my real-time in germany)
 
 ## Sources
 

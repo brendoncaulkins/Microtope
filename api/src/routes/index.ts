@@ -5,7 +5,7 @@ import * as team_route from "./team";
 
 export const register = ( app: express.Application, host: string, user: string,
                           pwd: string, port: number, dbname: string ) => {
-    // API does "only" healthcheck 
+    // API does "only" healthcheck
     api_route.register( app, host, user, pwd, port, dbname );
     // Everything related to teams
     team_route.register( app, host, user, pwd, port, dbname );

@@ -1,17 +1,14 @@
-<div *ngIf="player">
+<div *ngIf="this.selectedPlayerService.selected$ | async as player" class="playercard">
 
-    <h3>Player #{{player.id}} Details</h3>
+    <h3 class="splitscreenh3">Player #{{player.id}} Details</h3>
     <div><span>id: </span>{{player.id}}</div>
-    <div><span>name:</span> placeholder for inputvar</div>
-    <div><span>coins:</span>
-    <span *ngIf="player.coins; else noCoinsBlock"> {{player.coins}}</span>
-    <ng-template #noCoinsBlock> 0 </ng-template>
+    <div>
+        <label>name:
+          <input [(ngModel)]="player.name" placeholder="unnamed"/>
+        </label>
     </div>
+    <div>coins:{{player.coins ? player.coins : 0}}</div>
+    <div>steps:{{player.steps ? player.steps : 0}}</div>
     <button (click)="onClose()">close</button>
-    <!--<div>
-    <label>name:
-        <input [(ngModel)]={{player.player_name}}/>
-      </label>
-    </div>
-   -->
+    <button (click)="onSave(player)">safe</button>
  </div>
