@@ -1,0 +1,37 @@
+Angular:
+- ui/*
+
+Typescript:
+- ui/src/*
+- api/*
+
+Java:
+- pulser/src/*
+- worker/src/*
+
+Test:
+- pulser/src/test/*
+- worker/src/test/*
+- api/test/*
+
+Documentation:
+- ./**/*.md
+
+Database:
+- database/*
+
+Docker:
+- ./**/Dockerfile
+- ./**/docker-compose.yml
+
+Configuration:
+- ./**/*.yml
+- ./**/*.yaml
+- ./**/*.json
+
+Git:
+- .github/*
+
+Integration:
+- ./meta/docker-compose.yml
+- azure-pipelines.yml
