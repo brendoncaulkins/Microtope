@@ -8,8 +8,6 @@ WORKDIR /app
 # Copy project files to the docker image
 COPY . .
 
-RUN mvn dependency:resolve
-
 RUN mvn package verify
 
 #### STAGE 2
