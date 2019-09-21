@@ -52,7 +52,6 @@ For more information, see [The MariaDB-Dokumentation on Temporal Databases](http
 
 - Smarter storing of passwords for user-generation
 - Timezone is maybe required (My Docker-Image is 2 Hours behind my real-time in germany)
-- Timewalking Views
 
 ## Sources
 
