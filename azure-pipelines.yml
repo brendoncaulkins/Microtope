@@ -9,9 +9,6 @@ schedules:
         - master
 
 stages:
-- stage: Preflight
-  displayName: Preflight Static Quality Checks 
-  jobs:
 
 - stage: Compile
   displayName: Compile and Docker Java Sources
