@@ -105,21 +105,21 @@ stages:
         repository: microptope/ui
         Dockerfile: 'ui/Dockerfile'
         buildContext: 'ui/'
-  - job: DockerBuildPulser
-    displayName: Fullbuild Pulser
-    steps:
-    - task: Docker@2
-      inputs: 
-        command: 'build'
-        repository: microptope/pulser
-        Dockerfile: 'pulser/BuildDockerfile'
-        buildContext: 'pulser/'
-  - job: DockerBuildWorker
-    displayName: Fullbuild Worker
-    steps:
-    - task: Docker@2
-      inputs: 
-        command: 'build'
-        repository: microptope/worker
-        Dockerfile: 'worker/BuildDockerfile'
-        buildContext: 'worker/'
+#  - job: DockerBuildPulser
+#    displayName: Fullbuild Pulser
+#    steps:
+#    - task: Docker@2
+#      inputs: 
+#        command: 'build'
+#        repository: microptope/pulser
+#        Dockerfile: 'pulser/BuildDockerfile'
+#        buildContext: 'pulser/'
+#  - job: DockerBuildWorker
+#    displayName: Fullbuild Worker
+#    steps:
+#    - task: Docker@2
+#      inputs: 
+#        command: 'build'
+#        repository: microptope/worker
+#        Dockerfile: 'worker/BuildDockerfile'
+#        buildContext: 'worker/'
