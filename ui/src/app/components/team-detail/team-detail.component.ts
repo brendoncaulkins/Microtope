@@ -9,30 +9,20 @@ import { TeamService } from 'src/app/services/team.service';
   templateUrl: './team-detail.component.html',
   styleUrls: ['./team-detail.component.css']
 })
-export class TeamDetailComponent implements OnInit, OnDestroy {
+export class TeamDetailComponent {
 
-  selectedTeamSub: Subscription;
-  constructor( private selectionService:SelectedService<Team>, private teamService:TeamService) { }
+  constructor(
+    public selectedTeamService: SelectedService<Team>
+    , private teamService: TeamService
+  ) { }
 
-  @Input() team:Team;
-
-  ngOnInit() {
-    this.selectedTeamSub= this.selectionService.selected$.subscribe(
-      x => {this.team = x}
-    );
+  onClose() {
+    this.selectedTeamService.deselect();
   }
 
-  ngOnDestroy(){
-    this.selectedTeamSub && this.selectedTeamSub.unsubscribe();
+  onSave(team: Team) {
+    console.log('Saving current player...');
+    this.teamService.updateTeam(team);
   }
 
-  onClose(){
-    this.selectionService.deselect();
-  }
-
-  onSave(){
-    console.log("Saving current player...")
-    this.teamService.updateTeam(this.team);
-  }
-  
 }

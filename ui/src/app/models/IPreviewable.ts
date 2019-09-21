@@ -1,4 +1,4 @@
-export interface IPreviewable{
-    id:number;
-    name?:string;
+export interface IPreviewable {
+    id: number;
+    name?: string;
 }

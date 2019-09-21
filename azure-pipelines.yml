@@ -9,16 +9,7 @@ schedules:
         - master
 
 stages:
-- stage: Preflight
-  displayName: Preflight Static Quality Checks 
-  jobs:
 
-  - job: WhiteSource
-    displayName: WhiteSource Scan 
-    steps:
-      - task: WhiteSource Bolt@19
-        inputs:
-          cwd: 'api'
 - stage: Compile
   displayName: Compile and Docker Java Sources
   jobs:
@@ -52,7 +43,6 @@ stages:
       - task: Docker@2    
         inputs:
           command: 'build'
-          repository: microptope/worker:0.1
           Dockerfile: 'worker/Dockerfile'
           buildContext: 'worker/'
 
@@ -80,7 +70,6 @@ stages:
       - task: Docker@2
         inputs:
           command: 'build'
-          repository: microptope/pulser:0.1
           Dockerfile: 'pulser/Dockerfile'
           buildContext: 'pulser/'
 
@@ -95,7 +84,7 @@ stages:
     - task: Docker@2
       inputs:
         command: 'build'
-        repository: microptope/api:0.1
+        repository: microptope/api
         Dockerfile: 'api/Dockerfile'
         buildContext: 'api/'
   - job: DockerDatabase
@@ -104,7 +93,7 @@ stages:
     - task: Docker@2
       inputs: 
        command: 'build'
-       repository: microptope/database:0.1
+       repository: microptope/database
        Dockerfile: 'database/Dockerfile'
        buildContext: 'database/'
   - job: DockerUI
@@ -113,7 +102,7 @@ stages:
     - task: Docker@2
       inputs: 
         command: 'build'
-        repository: microptope/ui:0.1
+        repository: microptope/ui
         Dockerfile: 'ui/Dockerfile'
         buildContext: 'ui/'
 #  - job: DockerBuildPulser
@@ -122,7 +111,7 @@ stages:
 #    - task: Docker@2
 #      inputs: 
 #        command: 'build'
-#        repository: microptope/pulser:0.1
+#        repository: microptope/pulser
 #        Dockerfile: 'pulser/BuildDockerfile'
 #        buildContext: 'pulser/'
 #  - job: DockerBuildWorker
@@ -131,6 +120,6 @@ stages:
 #    - task: Docker@2
 #      inputs: 
 #        command: 'build'
-#        repository: microptope/worker:0.1
+#        repository: microptope/worker
 #        Dockerfile: 'worker/BuildDockerfile'
 #        buildContext: 'worker/'

@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 
 import { AppConfigService } from './app-config.service';
 
-import {Team} from "../models/Team.model";
+import {Team} from '../models/Team.model';
 import { IPreviewableService } from './IPreviewable.service';
 
 
@@ -14,29 +14,24 @@ import { IPreviewableService } from './IPreviewable.service';
 })
 export class TeamService extends IPreviewableService<Team> {
 
-  private TEAM_API:string = "/api/team";
-  private TEAM_SUMMARY_API:string = "/api/team_summary"
+  private TEAM_API = '/api/team';
+  private TEAM_SUMMARY_API = '/api/team_summary';
 
-  constructor(private config:AppConfigService, private http: HttpClient) {super();}
+  constructor(private config: AppConfigService, private http: HttpClient) {super(); }
 
   public getAll(): Observable<Team[]> {
     return this.config.loadAppConfig().pipe(
-      tap(con => console.log("Got Config with base_url:" + con.api_url)),
-      map(con => con.api_url+this.TEAM_SUMMARY_API),
-      tap(url=> console.log("HTTPRequesting:" +url)),
+      map(con => con.api_url + this.TEAM_SUMMARY_API),
+      tap(url => console.log('HTTPRequesting:' + url)),
       switchMap(url => this.http.get<Team[]>(url))
     );
   }
 
-  public updateTeam(team:Team):void{
+  public updateTeam(team: Team): void {
+    console.log('Updating Team');
     this.config.loadAppConfig().pipe(
-      tap(con => console.log("Got Config with base_url:" + con.api_url)),
-      map(con => con.api_url+this.TEAM_API),
-      tap(url=> console.log("HTTPRequesting:" +url)),
-      switchMap(url => 
-        this.http.put(url+"/"+team.id, {id:team.id, name:team.name} )
-      )
-    );
+      map(con => con.api_url + this.TEAM_API)
+    ).subscribe(url => this.http.put(url + '/' + team.id, {id: team.id, name: team.name} ));
   }
 
 }

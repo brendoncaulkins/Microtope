@@ -1,48 +1,41 @@
-import {Component, Input, OnInit, OnDestroy} from '@angular/core';
-import { IRankable} from 'src/app/models/IRankable';
+import {Component, Input, OnInit} from '@angular/core';
+import {Observable} from 'rxjs';
+import {filter, flatMap, map, take} from 'rxjs/operators';
+import {IPreviewable} from 'src/app/models/IPreviewable';
+import {IRankable} from 'src/app/models/IRankable';
 import {SelectedService} from 'src/app/services/selected.service';
-import { Observable, Subscription } from 'rxjs';
-import { topN } from 'src/app/utils/IRankable.functions';
-import { IPreviewable } from 'src/app/models/IPreviewable';
-import { tap,filter, map } from 'rxjs/operators';
+import {topNCurry} from 'src/app/utils/IRankable.functions';
 
 @Component({
   selector: 'app-top-rankable',
   templateUrl: './top-rankable.component.html',
   styleUrls: ['./top-rankable.component.css']
 })
-export class TopRankableComponent<T extends IPreviewable & IRankable> implements OnInit,OnDestroy{
+export class TopRankableComponent<T extends IPreviewable & IRankable> implements OnInit {
   private TOP_COUNT = 3;
 
-  selectionSub: Subscription;
-  selectedItem:T;
-  
-  rankingSub: Subscription;
-  sortedItems: T[] = [];
+  sortedItems: Observable<T[]>;
 
   @Input() items: Observable<T[]>;
 
   constructor(public selection: SelectedService<T>) { }
 
   ngOnInit() {
-    this.selectionSub= this.selection.selected$.subscribe(
-      newSelection => {this.selectedItem = newSelection});
-
-    this.rankingSub = this.items.subscribe(
-      newItems => {this.sortedItems =  (topN(newItems,this.TOP_COUNT) as T[])  } 
-    )
+    this.sortedItems = this.items.pipe(
+      map(topNCurry(this.TOP_COUNT))
+    ) as Observable<T[]>;
   }
 
-  ngOnDestroy(){
-    this.selectionSub && this.selectionSub.unsubscribe();
-    this.rankingSub && this.rankingSub.unsubscribe();
+  onSelect(item: T): void {
+    this.sortedItems.pipe(
+      take(1),      // this will cause automatic unsubscribe after first emit
+      flatMap(items => items),  // flatten array
+      filter(i => this.helperEquals(i, item))
+    ).subscribe(x => this.selection.select(x));
   }
 
-  onSelect(item:T): void {
-    this.items.pipe(
-      map(xs=>xs.filter(x=> x==item)),
-      map(xs=>xs[0])
-    ).subscribe(x=>this.selection.select(x))
+  private helperEquals(first: T, second: T): boolean {
+    return first.id === second.id && first.name === second.name  && first.coins === second.coins && first.steps === second.steps;
   }
 
 }

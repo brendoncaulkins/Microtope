@@ -20,8 +20,8 @@ describe('TeamSplitscreenPageComponent', () => {
   });
 
   it('has no items - should be created', () => {
-    //component.teams = []
-    
+    // component.teams = []
+
     expect(component).toBeTruthy();
   });
 });

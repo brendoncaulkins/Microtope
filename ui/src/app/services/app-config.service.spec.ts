@@ -7,16 +7,16 @@ import { HttpClient } from 'selenium-webdriver/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('AppConfigService', () => {
-  
-let service:AppConfigService;
+
+let service: AppConfigService;
 let httpClientSpy: jasmine.SpyObj<HttpClient>;
 
 beforeEach(() => {
 
-  const httpSpy = jasmine.createSpyObj('HttpClient', ['get','put','push']);
+  const httpSpy = jasmine.createSpyObj('HttpClient', ['get', 'put', 'push']);
 
   TestBed.configureTestingModule({
-    imports:[ HttpClientTestingModule ],
+    imports: [ HttpClientTestingModule ],
     // Provide both the service-to-test and its (spy) dependency
     providers: [
       AppConfigService,
@@ -28,7 +28,7 @@ beforeEach(() => {
   httpClientSpy = TestBed.get(HttpClient);
 });
 
-  it('should be created', () => {
+it('should be created', () => {
     const service: AppConfigService = TestBed.get(AppConfigService);
     expect(service).toBeTruthy();
   });

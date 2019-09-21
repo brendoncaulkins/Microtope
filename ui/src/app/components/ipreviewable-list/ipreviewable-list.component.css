@@ -13,23 +13,23 @@
     cursor: pointer;
     position: relative;
     left: 0;
-    background-color: #EEE;
+    background-color: var(--darker-bg-color);
     margin: .5em;
     padding: .3em 0;
     height: 1.6em;
     border-radius: 4px;
 }
 .allPreviewables li:hover {
-    color: #607D8B;
-    background-color: #DDD;
+    color: rgb(182, 144, 182);
+    background-color: rgb(123, 59, 139);;
     left: .1em;
 }
 .allPreviewables li.selected {
-    background-color: #CFD8DC;
+    background-color: rgb(106, 28, 143);
     color: white;
 }
 .allPreviewables li.selected:hover {
-    background-color: #BBD8DC;
+    background-color: rgb(185, 84, 185);
     color: white;
 }
 .allPreviewables .badge {

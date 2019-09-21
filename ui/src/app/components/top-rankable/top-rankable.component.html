@@ -1,9 +1,12 @@
 <h3 class="splitscreenh3">Top Elements </h3>
 <ul class="rankbox">
-    <li class="rankitem" *ngFor="let item of sortedItems; let n = index" (click)="onSelect(item)" [class.selected]="item === selectedItem">
-        <div>rank: {{n+1}}</div>
-        <span class="idBadge">{{item.id}}</span>
-        <span *ngIf="item.name; else elseBlock"> {{item.name}} </span>
-        <ng-template #elseBlock> Unnamed</ng-template>
-    </li>
+  <li class="rankitem"
+      *ngFor="let item of sortedItems | async; let n = index"
+      (click)="onSelect(item)"
+      [class.selected]="item === (this.selection.selected$ | async)">
+    <div>rank: {{n + 1}}</div>
+    <span class="idBadge">{{item.id}}</span>
+    <span *ngIf="item.name; else elseBlock"> {{item.name}} </span>
+    <ng-template #elseBlock> Unnamed</ng-template>
+  </li>
 </ul>

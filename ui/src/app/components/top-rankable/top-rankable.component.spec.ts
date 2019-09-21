@@ -14,12 +14,12 @@ describe(`${TopRankableComponent.constructor.name}`, () => {
   });
 
   it('should return empty Array if given empty Array', () => {
-    
+
     const fixture = TestBed.createComponent(TopRankableComponent);
     const comp = fixture.componentInstance;
 
     // Simulate "Input"
-    //comp.items = [];
+    // comp.items = [];
 
     // Trigger change detection, this is where ngOninit runs
     fixture.detectChanges();
