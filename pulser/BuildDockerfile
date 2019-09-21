@@ -8,6 +8,8 @@ WORKDIR /app
 # Copy project files to the docker image
 COPY . .
 
+RUN mvn dependency:resolve
+
 RUN mvn package verify
 
 #### STAGE 2
@@ -26,9 +28,9 @@ RUN apk update && apk add bash
 
 RUN mkdir -p $dir
 
-COPY --from=builder ./target/pulser-0.1-jar-with-dependencies.jar $dir
+COPY --from=builder /app/target/pulser-0.1-jar-with-dependencies.jar $dir
 
-COPY --from=builder ./utils/wait-for-it.sh $dir
+COPY --from=builder /app/utils/wait-for-it.sh $dir
 
 WORKDIR $dir
 
