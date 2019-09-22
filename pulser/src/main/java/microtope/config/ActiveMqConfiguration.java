@@ -53,7 +53,7 @@ public class ActiveMqConfiguration {
         	return new ActiveMqConfiguration();
     	}
     	
-    	if (!ValueChecker.goodURL(addressToConnect)) {
+    	if (!ValueChecker.goodUrl(addressToConnect)) {
     		logger.warn(addressToConnect + " does not look like valid IP Adress or Domain Name!");
     		logger.warn("trying to connect to " + addressToConnect + " anyway...");
     	}
