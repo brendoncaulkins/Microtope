@@ -1,0 +1,15 @@
+on: 
+  pull_request:
+    paths:
+      - 'ui/*'
+
+name: Build UI in Docker
+jobs:
+  buildUI:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: buildUI
+      uses: actions/docker/cli@master
+      with:
+        args: build ./ui
