@@ -7,15 +7,19 @@ Typescript:
 
 Java:
 - pulser/src/*
+- pulser/pom.xml
 - worker/src/*
+- worker/pom.xml
 
 Test:
 - pulser/src/test/*
 - worker/src/test/*
 - api/test/*
+- ui/src/**/*.spec.ts
 
 Documentation:
 - ./**/*.md
+- meta/docu/*
 
 Database:
 - database/*
@@ -25,9 +29,22 @@ Docker:
 - ./**/docker-compose.yml
 
 Configuration:
+- .github/*.yml
+- .github/*.yaml
+- .github/**/*.yml
+- .github/**/*.yaml
+- .github/workflow/*
+- .meta/*.yml
+- meta/*.yaml
+- meta/**/*.yml
+- meta/**/*.yaml
+- meta/**/*.json
+- worker/pom.xml
+- pulser/pom.xml
 - ./**/*.yml
 - ./**/*.yaml
 - ./**/*.json
+- ./**/*.xml
 
 Git:
 - .github/*
