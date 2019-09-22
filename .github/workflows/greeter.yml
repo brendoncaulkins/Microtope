@@ -1,5 +1,5 @@
 name: "Close stale issues"
-on: [Issues,Pull-Request]
+on: [Issues,Pull-Requests]
 jobs:
   stale:
     runs-on: ubuntu-latest
