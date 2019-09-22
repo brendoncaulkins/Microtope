@@ -9,6 +9,10 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
+  "browserslist": [
+    "last 3 chrome versions",
+    "last 3 firefox versions"
+  ],
   "private": true,
   "dependencies": {
     "@angular/animations": "~9.0.0-next.6",
