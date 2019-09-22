@@ -1,5 +1,6 @@
 name: "Greet Newcomers"
-on: [issue,pull-request]
+on: [pull-request]
+
 jobs:
   stale:
     runs-on: ubuntu-latest
