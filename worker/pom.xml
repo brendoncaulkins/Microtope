@@ -167,7 +167,39 @@
                 </execution>
             </executions>
 			</plugin>
-      
+			
+       <plugin>
+	       <groupId>org.apache.maven.plugins</groupId>
+	       <artifactId>maven-checkstyle-plugin</artifactId>
+	       <version>3.1.0</version>
+	       <dependencies>
+                <dependency>
+                    <groupId>com.puppycrawl.tools</groupId>
+                    <artifactId>checkstyle</artifactId>
+                    <version>8.24</version>
+                </dependency>
+            </dependencies>
+            <configuration>
+			 <configLocation>src/main/resources/checkstyle.xml</configLocation>
+	         <encoding>UTF-8</encoding>
+	         <violationSeverity>warning</violationSeverity>
+	         <consoleOutput>true</consoleOutput>
+	         <failOnViolation>true</failOnViolation>
+	         <failsOnError>true</failsOnError>
+	         <maxAllowedVialoations>20</maxAllowedVialoations>
+	         <linkXRef>false</linkXRef>
+            </configuration>
+            <executions>
+		       <execution>
+			    <id>verify</id>
+	       		<phase>verify</phase>
+		       <goals>
+		         <goal>check</goal>
+		       </goals>
+		     </execution>
+	       </executions>
+    	</plugin>
+   		
 	       		
 	            <plugin>
 	                <groupId>org.apache.maven.plugins</groupId>
@@ -222,4 +254,26 @@
 	  </plugins>
   
   </build>
+  <reporting>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>3.1.0</version>
+	       <configuration>
+			    <configLocation>src/main/resources/checkstyle.xml</configLocation>
+	         <encoding>UTF-8</encoding>
+	         <consoleOutput>true</consoleOutput>
+	         <linkXRef>false</linkXRef>
+	       </configuration>
+          <reportSets>
+            <reportSet>
+              <reports>
+                <report>checkstyle</report>
+              </reports>
+            </reportSet>
+          </reportSets>
+        </plugin>
+      </plugins>
+    </reporting>
 </project>
