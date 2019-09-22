@@ -1,12 +1,12 @@
 package microtope.worker;
 
-import microtope.config.ActiveMQConfig;
+import microtope.config.ActiveMqConfiguration;
 
 public class MessageRecieverHelpers {
 
-	public static final ActiveMQConfig validConf () {
+	public static final ActiveMqConfiguration validConf () {
 		String[] testArgs= new String[] {"Adress","1005","Queue","User","Pwd"};
-		return ActiveMQConfig.createActiveMQConfigFromArgs(testArgs);
+		return ActiveMqConfiguration.createActiveMqConfigFromArgs(testArgs);
 	}
 	
 }

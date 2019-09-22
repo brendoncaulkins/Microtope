@@ -51,7 +51,7 @@ public class SQLConfig {
         	return new SQLConfig();
     	}
     	
-    	if(!ValueChecker.goodURL(adress_to_check)) {
+    	if(!ValueChecker.goodUrl(adress_to_check)) {
     		logger.warn( adress_to_check + " does not look like valid IP Adress or Domain Name!");
     		logger.warn("trying to connect to " + adress_to_check + " anyway...");
     	}

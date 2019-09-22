@@ -9,7 +9,7 @@ import javax.jms.JMSException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import microtope.config.ActiveMQConfig;
+import microtope.config.ActiveMqConfiguration;
 import microtope.config.SQLConfig;
 
 public class App 
@@ -20,7 +20,7 @@ public class App
     {
         logger.info( "Starting Worker" );
         
-        ActiveMQConfig amqconf = ActiveMQConfig.emptyConfig();
+        ActiveMqConfiguration amqconf = ActiveMqConfiguration.emptyConfig();
         SQLConfig sqlconf = SQLConfig.emptyConfig();
         
         if(args.length!=10) {
@@ -29,20 +29,20 @@ public class App
         }
         else {
         	String[] amqargs = Arrays.copyOfRange(args, 0,5);
-        	amqconf = ActiveMQConfig.createActiveMQConfigFromArgs(amqargs);
+        	amqconf = ActiveMqConfiguration.createActiveMqConfigFromArgs(amqargs);
         	String[] sqlargs = Arrays.copyOfRange(args, 5, 10);
         	sqlconf = SQLConfig.createSQLConfigFromArgs(sqlargs);
         	
             logger.info( "args[] are ok, starting worker ..." );
 
-            AMQMessageReciever rec = new AMQMessageReciever(amqconf);
-			rec.open(rec.createConnectionFromConfig());
+            AMQMessageReciever reciever = new AMQMessageReciever(amqconf);
+			reciever.open(reciever.createConnectionFromConfig());
             
             var mariadbwriter = new MariaDBWriter(sqlconf);
             mariadbwriter.open(mariadbwriter.buildConnectionFromConfig());
             var listener = new DBInsertListener(mariadbwriter);
             
-            rec.registerMessageListener(listener);
+            reciever.registerMessageListener(listener);
         }
     }
 

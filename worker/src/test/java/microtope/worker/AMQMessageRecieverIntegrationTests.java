@@ -110,7 +110,7 @@ class AMQMessageRecieverIntegrationTests {
 		        var session = vmConnection.createSession(false,
 		                Session.AUTO_ACKNOWLEDGE);
 		        
-		        Destination destination = session.createQueue(MessageRecieverHelpers.validConf().queue_to_connect); 
+		        Destination destination = session.createQueue(MessageRecieverHelpers.validConf().queueToConnect); 
 		        var producer = session.createProducer(destination);
 		        producer.send(session.createTextMessage("Hello World!"));
 			     // Take some time for processing

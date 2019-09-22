@@ -12,7 +12,7 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import microtope.config.ActiveMQConfig;
+import microtope.config.ActiveMqConfiguration;
  
 public class AMQMessageReciever implements Closeable, MessageReciever{
 	
@@ -21,10 +21,10 @@ public class AMQMessageReciever implements Closeable, MessageReciever{
 	Connection connection; 
 	Session session;
 	
-	private ActiveMQConfig amqConfig;
+	private ActiveMqConfiguration amqConfig;
 	private MessageConsumer consumer;
 
-    public AMQMessageReciever (ActiveMQConfig amqconf){
+    public AMQMessageReciever (ActiveMqConfiguration amqconf){
         if(amqconf.isEmpty())
         	throw new IllegalArgumentException("AMQConf is Empty!");
         amqConfig=amqconf;        
@@ -40,7 +40,7 @@ public class AMQMessageReciever implements Closeable, MessageReciever{
         
         //Destination represents here our queue on the AMQ-Server. 
         //The queue will be created automatically on the server.
-        Destination destination = session.createQueue(amqConfig.queue_to_connect); 
+        Destination destination = session.createQueue(amqConfig.queueToConnect); 
         
         // MessageConsumer is used for receiving (consuming) messages
         consumer = session.createConsumer(destination);
@@ -65,13 +65,13 @@ public class AMQMessageReciever implements Closeable, MessageReciever{
 
 	
 	public Connection createConnectionFromConfig() throws JMSException {
-		var url = String.format( "tcp://%s:%s" , this.amqConfig.adress_to_connect, amqConfig.port_to_connect);
+		var url = String.format( "tcp://%s:%s" , this.amqConfig.addressToConnect, amqConfig.portToConnect);
 		logger.info( "Sender connecting to " + url );
 		
         // Getting JMS connection from the server
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
         
-        return connectionFactory.createConnection(amqConfig.user_to_connect,amqConfig.pwd_to_connect);
+        return connectionFactory.createConnection(amqConfig.userToConnect,amqConfig.passwordToConnect);
 	}
 	
 	@Override
