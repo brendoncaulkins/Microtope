@@ -1,6 +1,6 @@
 name: "Greet Newcomers"
 
-on: [issue,pull_request]
+on: [issues,pull_request]
 
 jobs:
   stale:
