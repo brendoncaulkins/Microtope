@@ -4,33 +4,34 @@ import java.io.IOException;
 
 import javax.jms.JMSException;
 
+import microtope.config.ActiveMqConfiguration;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import microtope.config.ActiveMQConfig;
-
-public class App 
-{
+public class App {
+	
 	private static Logger logger = LogManager.getLogger(App.class);
 
-    public static void main( String[] args ) throws JMSException, IOException, InterruptedException
-    {
-        logger.info( "Starting AMQ-Sender" );
-        logger.debug( "Recieved " + args + " as arguments" );
-        ActiveMQConfig amqconf= ActiveMQConfig.emptyConfig();
+    public static void main(String[] args) throws JMSException, IOException, InterruptedException {
+        logger.info("Starting AMQ-Sender");
+        logger.debug("Recieved " + args + " as arguments");
+        ActiveMqConfiguration amqconf = ActiveMqConfiguration.emptyConfig();
         
-        amqconf= ActiveMQConfig.createActiveMQConfigFromArgs(args);
+        amqconf = ActiveMqConfiguration.createActiveMqConfigFromArgs(args);
         
-        AMQMessageSender sender = new AMQMessageSender(amqconf);
+        ActiveMqMessageSender sender = new ActiveMqMessageSender(amqconf);
         
-        logger.info( "Creating Worker...");
-        Worker w = Worker.randomWorker(sender, 50);
+        logger.info("Creating Worker...");
+        Worker worker = Worker.randomWorker(sender, 50);
         
         sender.open(sender.createConnectionFromConfig());
         
-        w.work();
+        worker.work();
         
-        while(!w.finished){}
+        while (!worker.finished) {
+        	
+        }
         
         sender.close();
     }

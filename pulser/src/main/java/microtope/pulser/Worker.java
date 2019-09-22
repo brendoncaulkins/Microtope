@@ -2,69 +2,70 @@ package microtope.pulser;
 
 import javax.jms.JMSException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import microtope.data.DataGenerator;
 import microtope.data.MessageGenerator;
 import microtope.data.Team;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Worker {
 	
 	private static Logger logger = LogManager.getLogger(Worker.class);
 
-	
-	int player;
-	int team_id;
+	private final int playerId;
+	private final int teamId;
 	MessageSender sender;
 	
-	int numberOfMessages=0;
+	private int numberOfMessages = 0;
 	
-	private int TIMEOUT = 100;
-	private double COINQUOTA=0.1; //Every 10th Event will be Coin
+	private int timeout = 100;
+	private double coinQuota = 0.1; //Every 10th Event will be Coin
 	
 	public boolean finished = false;
 	
-	public Worker(int player, int team_id, MessageSender sender, int numberOfMessages){
+	public Worker(int playerId, int teamId, MessageSender sender, int numberOfMessages) {
 		
-		this.player=player;
-		this.sender=sender;
-		this.numberOfMessages=numberOfMessages;
-		this.team_id=team_id;
+		this.playerId = playerId;
+		this.sender = sender;
+		this.numberOfMessages = numberOfMessages;
+		this.teamId = teamId;
 		
-		logger.debug("Worker created with Team " + team_id + " and player " + player );
+		logger.debug("Worker created with Team " + teamId + " and playerId " + playerId);
 	}
 	
 	public void work() throws JMSException, InterruptedException {
-		logger.debug("Worker starts work with " + numberOfMessages + " messages to send" );
-		sender.sendMessage(MessageGenerator.createLoginMessage(player,team_id));
-		for(int i=0;i<numberOfMessages;i++) {
-			Thread.sleep(TIMEOUT);
+		logger.debug("Worker starts work with " + numberOfMessages + " messages to send");
+		sender.sendMessage(MessageGenerator.createLoginMessage(playerId,teamId));
+		for (int i = 0;i < numberOfMessages;i++) {
+			Thread.sleep(timeout);
 			sendRandomizedMessage();
 		}
-		logger.debug("Worker send his messages" );
-		sender.sendMessage(MessageGenerator.createLogoutMessage(player));
+		logger.debug("Worker send his messages");
+		sender.sendMessage(MessageGenerator.createLogoutMessage(playerId));
 		finished = true;
-		logger.trace("Worker finished" );
+		logger.trace("Worker finished");
 	}
 	
 	public void sendRandomizedMessage() {
 		try {
 			String message;
-			if(Math.random()<COINQUOTA)
-				message = MessageGenerator.createCoinMessage(player, team_id, DataGenerator.getRandomCoins());
-			else
-				message = MessageGenerator.createStepMessage(player, DataGenerator.getRandomSteps());
+			if (Math.random() < coinQuota) {
+				message = MessageGenerator.createCoinMessage(playerId, teamId, DataGenerator.getRandomCoins());	
+			} else {
+				message = MessageGenerator.createStepMessage(playerId, DataGenerator.getRandomSteps());	
+			}
+			
 			sender.sendMessage(message);
 		} catch (JMSException e) {
 			logger.error(e);
 		}
 	}
 	
-	public static Worker randomWorker(MessageSender sender, int messages){
+	public static Worker randomWorker(MessageSender sender, int messages) {
 		Team t = DataGenerator.getRandomTeam();
-		int player = DataGenerator.getRandomPlayerNumber();
-		Worker w = new Worker (player,t.ordinal(), sender, messages);
+		int playerId = DataGenerator.getRandomPlayerNumber();
+		Worker w = new Worker(playerId,t.ordinal(), sender, messages);
 		return w;
 	}
 	

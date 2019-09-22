@@ -13,7 +13,7 @@ class ValueCheckerTests {
 		//This is extra important for Kubernetes Service Discovery will look like this
 		String url_to_check="my-svc.my-namespace.svc.cluster-domain.example";
 		
-		boolean result = ValueChecker.goodURL(url_to_check);
+		boolean result = ValueChecker.goodUrl(url_to_check);
 		
 		assertTrue(result);
 	}
@@ -23,7 +23,7 @@ class ValueCheckerTests {
 		//This is extra important for Kubernetes Service Discovery will look like this
 		String url_to_check="auto-generated-name.my-svc.my-namespace.svc.cluster-domain.example";
 		
-		boolean result = ValueChecker.goodURL(url_to_check);
+		boolean result = ValueChecker.goodUrl(url_to_check);
 		
 		assertTrue(result);
 	}
@@ -32,7 +32,7 @@ class ValueCheckerTests {
 	public void testURLChecker_noWWW_shouldBeTrue() {
 		String url_to_check="google.com";
 		
-		boolean result = ValueChecker.goodURL(url_to_check);
+		boolean result = ValueChecker.goodUrl(url_to_check);
 		
 		assertTrue(result);
 	}
@@ -40,7 +40,7 @@ class ValueCheckerTests {
 	@Test void testURLChecker_singleName_shouldBeFalse() {
 		String url_to_check="ebay";
 		
-		boolean result = ValueChecker.goodURL(url_to_check);
+		boolean result = ValueChecker.goodUrl(url_to_check);
 		
 		assertFalse(result);
 	}
@@ -49,7 +49,7 @@ class ValueCheckerTests {
 	public void testURLChecker_validIP4_shouldBeTrue() {
 		String url_to_check="127.0.0.1";
 		
-		boolean result = ValueChecker.goodURL(url_to_check);
+		boolean result = ValueChecker.goodUrl(url_to_check);
 		
 		assertTrue(result);
 	}
@@ -58,7 +58,7 @@ class ValueCheckerTests {
 	public void testURLChecker_someGarbage_shouldBeFalse() {
 		String url_to_check="Some Garbage @@";
 		
-		boolean result = ValueChecker.goodURL(url_to_check);
+		boolean result = ValueChecker.goodUrl(url_to_check);
 		
 		assertFalse(result);
 	}
@@ -67,7 +67,7 @@ class ValueCheckerTests {
 	public void testURLChecker_validDomainName_shouldBeTrue() {
 		String url_to_check="www.google.com";
 		
-		boolean result = ValueChecker.goodURL(url_to_check);
+		boolean result = ValueChecker.goodUrl(url_to_check);
 		
 		assertTrue(result);
 	}
@@ -76,7 +76,7 @@ class ValueCheckerTests {
 	public void testURLChecker_validDomainNameWithPath_shouldBeFalse() {
 		String url_to_check="www.hosebund.de/hosen";
 		
-		boolean result = ValueChecker.goodURL(url_to_check);
+		boolean result = ValueChecker.goodUrl(url_to_check);
 		
 		assertFalse(result);
 	}
@@ -85,7 +85,7 @@ class ValueCheckerTests {
 	public void testURLChecker_validURLWithProtocoll_shouldBeFalse() {
 		String url_to_check="https://www.google.de";
 		
-		boolean result = ValueChecker.goodURL(url_to_check);
+		boolean result = ValueChecker.goodUrl(url_to_check);
 		
 		assertFalse(result);
 	}
@@ -94,7 +94,7 @@ class ValueCheckerTests {
 	public void testURLChecker_validURLWithPort_shouldBeFalse() {
 		String url_to_check="hosenbund.de:61616";
 		
-		boolean result = ValueChecker.goodURL(url_to_check);
+		boolean result = ValueChecker.goodUrl(url_to_check);
 		
 		assertFalse(result);
 	}
@@ -103,7 +103,7 @@ class ValueCheckerTests {
 	public void testURLChecker_nullURL_shouldBeFalse() {
 		String url_to_check=null;
 		
-		boolean result = ValueChecker.goodURL(url_to_check);
+		boolean result = ValueChecker.goodUrl(url_to_check);
 		
 		assertFalse(result);
 	}
@@ -112,7 +112,7 @@ class ValueCheckerTests {
 	public void testURLChecker_emptyURL_shouldBeFalse() {
 		String url_to_check="";
 		
-		boolean result = ValueChecker.goodURL(url_to_check);
+		boolean result = ValueChecker.goodUrl(url_to_check);
 		
 		assertFalse(result);
 	}

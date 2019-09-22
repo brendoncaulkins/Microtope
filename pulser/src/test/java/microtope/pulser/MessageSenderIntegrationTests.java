@@ -41,7 +41,7 @@ class MessageSenderIntegrationTests {
 	@Test
 	void testOpen_withVMConnection_shouldWork(){
 			try {
-				AMQMessageSender sender= new AMQMessageSender(AMQHelpers.validConf());
+				ActiveMqMessageSender sender= new ActiveMqMessageSender(AMQHelpers.validConf());
 				
 				var vmConnection = connectionFactory.createConnection();
 				
@@ -60,7 +60,7 @@ class MessageSenderIntegrationTests {
 	@Test
 	void testOpenAndCloseConnection_withVMConnection_shouldWork(){
 			try {
-				AMQMessageSender sender= new AMQMessageSender(AMQHelpers.validConf());
+				ActiveMqMessageSender sender= new ActiveMqMessageSender(AMQHelpers.validConf());
 				
 				var vmConnection = connectionFactory.createConnection();
 				
@@ -81,7 +81,7 @@ class MessageSenderIntegrationTests {
 	@Test
 	void testOpenAndSendMessage_withVMConnection_shouldWork(){
 			try {
-				AMQMessageSender sender= new AMQMessageSender(AMQHelpers.validConf());
+				ActiveMqMessageSender sender= new ActiveMqMessageSender(AMQHelpers.validConf());
 				
 				var vmConnection = connectionFactory.createConnection();
 				
@@ -100,7 +100,7 @@ class MessageSenderIntegrationTests {
 	@Test
 	void testOpenAndSendMessageAndClose_withVMConnection_shouldWork(){
 			try {
-				AMQMessageSender sender= new AMQMessageSender(AMQHelpers.validConf());
+				ActiveMqMessageSender sender= new ActiveMqMessageSender(AMQHelpers.validConf());
 				
 				var vmConnection = connectionFactory.createConnection();
 				

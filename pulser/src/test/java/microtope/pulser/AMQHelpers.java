@@ -1,11 +1,11 @@
 package microtope.pulser;
 
-import microtope.config.ActiveMQConfig;
+import microtope.config.ActiveMqConfiguration;
 
 public class AMQHelpers {
 
-	public static ActiveMQConfig validConf() {
+	public static ActiveMqConfiguration validConf() {
 		String[] testArgs= new String[] {"Adress","1005","Queue","User","Pwd"};
-		return ActiveMQConfig.createActiveMQConfigFromArgs(testArgs);
+		return ActiveMqConfiguration.createActiveMqConfigFromArgs(testArgs);
 	}
 }
