@@ -1,0 +1,16 @@
+name: Build API in Docker
+
+on: 
+  pull_request:
+    paths:
+      - 'api/'
+
+jobs:
+  buildAPI:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: buildAPI
+      uses: actions/docker/cli@master
+      with:
+        args: build ./api
