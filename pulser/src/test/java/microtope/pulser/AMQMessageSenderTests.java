@@ -18,7 +18,7 @@ class AMQMessageSenderTests {
 		ActiveMqConfiguration empty = ActiveMqConfiguration.emptyConfig();
 		
 		assertThrows(IllegalArgumentException.class,
-				() -> new AMQMessageSender(empty));
+				() -> new ActiveMqMessageSender(empty));
 	}
 
 	@Test
@@ -27,7 +27,7 @@ class AMQMessageSenderTests {
 		var testConf = ActiveMqConfiguration.createActiveMqConfigFromArgs(testArgs);
 		
 		try {
-			AMQMessageSender sender= new AMQMessageSender(testConf);
+			ActiveMqMessageSender sender= new ActiveMqMessageSender(testConf);
 			return;
 		} catch (JMSException e) {
 			fail();
@@ -37,7 +37,7 @@ class AMQMessageSenderTests {
 	@Test
 	void testOpen_ConfigIsOk_ButSenderIsOffline_shouldThrowJMSException() {
 		try {
-			AMQMessageSender sender= new AMQMessageSender(AMQHelpers.validConf());
+			ActiveMqMessageSender sender= new ActiveMqMessageSender(AMQHelpers.validConf());
 			
 			assertThrows(JMSException.class, () -> sender.open(sender.createConnectionFromConfig()));
 		} catch (JMSException e) {
@@ -48,7 +48,7 @@ class AMQMessageSenderTests {
 	@Test
 	void testClose_WasNeverOpened_shouldNotThrowAnyExceptions() {
 		try {
-			AMQMessageSender sender= new AMQMessageSender(AMQHelpers.validConf());
+			ActiveMqMessageSender sender= new ActiveMqMessageSender(AMQHelpers.validConf());
 			sender.close();
 			
 			return;
@@ -62,7 +62,7 @@ class AMQMessageSenderTests {
 	@Test
 	void testSendMessage_WasNeverOpened_shouldNotThrowAnyExceptions() {
 		try {
-			AMQMessageSender sender= new AMQMessageSender(AMQHelpers.validConf());
+			ActiveMqMessageSender sender= new ActiveMqMessageSender(AMQHelpers.validConf());
 			sender.sendMessage("Hello World");
 			
 			return;

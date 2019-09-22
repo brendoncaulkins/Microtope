@@ -21,7 +21,7 @@ public class App
         
         amqconf= ActiveMqConfiguration.createActiveMqConfigFromArgs(args);
         
-        AMQMessageSender sender = new AMQMessageSender(amqconf);
+        ActiveMqMessageSender sender = new ActiveMqMessageSender(amqconf);
         
         logger.info( "Creating Worker...");
         Worker w = Worker.randomWorker(sender, 50);
