@@ -33,6 +33,7 @@ Configuration:
 - .github/*.yaml
 - .github/**/*.yml
 - .github/**/*.yaml
+- .github/workflow/*
 - .meta/*.yml
 - meta/*.yaml
 - meta/**/*.yml
