@@ -1,0 +1,16 @@
+name: Build DB Docker Image
+
+on: 
+  pull_request:
+    paths:
+      - 'database/*'
+
+jobs:
+  buildDB:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: buildDB
+      uses: actions/docker/cli@master
+      with:
+        args: build ./database
