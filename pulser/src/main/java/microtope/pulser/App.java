@@ -7,7 +7,7 @@ import javax.jms.JMSException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import microtope.config.ActiveMQConfig;
+import microtope.config.ActiveMqConfiguration;
 
 public class App 
 {
@@ -17,9 +17,9 @@ public class App
     {
         logger.info( "Starting AMQ-Sender" );
         logger.debug( "Recieved " + args + " as arguments" );
-        ActiveMQConfig amqconf= ActiveMQConfig.emptyConfig();
+        ActiveMqConfiguration amqconf= ActiveMqConfiguration.emptyConfig();
         
-        amqconf= ActiveMQConfig.createActiveMQConfigFromArgs(args);
+        amqconf= ActiveMqConfiguration.createActiveMqConfigFromArgs(args);
         
         AMQMessageSender sender = new AMQMessageSender(amqconf);
         

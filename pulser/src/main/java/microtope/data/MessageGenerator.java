@@ -2,19 +2,23 @@ package microtope.data;
 
 public abstract class MessageGenerator {
 	
-	public static String createLoginMessage(int player_id,int team_id) {
-		return String.format("E: Player %d logged in for team %d", player_id, team_id+1 );
+	public static String createLoginMessage(int playerId,int teamId) {
+		String loginMessageFormat = "E: Player %d logged in for team %d";
+		return String.format(loginMessageFormat, playerId, teamId + 1);
 	}
 	
-	public static String createLogoutMessage(int playerNumber) {	
-		return String.format("E: Player %d logged out", playerNumber);
+	public static String createLogoutMessage(int playerId) {	
+		String logoutMessageFormat = "E: Player %d logged out";
+		return String.format(logoutMessageFormat, playerId);
 	}
 	
-	public static String createCoinMessage(int playerNumber, int team_id, int amount) {
-		return String.format("E: Player %d collected %d coins for Team %d", playerNumber, amount, team_id+1);
+	public static String createCoinMessage(int playerId, int teamID, int amount) {
+		String coinMessageFormat = "E: Player %d collected %d coins for Team %d";
+		return String.format(coinMessageFormat, playerId, amount, teamID + 1);
 	}
 	
-	public static String createStepMessage(int playerNumber, int steps) {
-		return String.format("M: Player %d moved %d steps", playerNumber, steps);
+	public static String createStepMessage(int playerId, int steps) {
+		String stepMessageFormat = "M: Player %d moved %d steps";
+		return String.format(stepMessageFormat, playerId, steps);
 	}
 }

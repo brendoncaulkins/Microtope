@@ -1,79 +1,80 @@
 package microtope.config;
 
+import microtope.pulser.ValueChecker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import microtope.pulser.ValueChecker;
+public class ActiveMqConfiguration {
+	private static Logger logger = LogManager.getLogger(ActiveMqConfiguration.class);
 
-public class ActiveMQConfig {
-	private static Logger logger = LogManager.getLogger(ActiveMQConfig.class);
-
-    public String adress_to_connect = null;
-    public String port_to_connect = null;
-    public String queue_to_connect = null;
-    public String user_to_connect=null;
-    public String pwd_to_connect=null;
+    public String addressToConnect = null;
+    public String portToConnect = null;
+    public String queueToConnect = null;
+    public String userToConnect = null;
+    public String passwordToConnect = null;
     
     
     // Both Constructors are private to use the Factory Methods!
     
     //Empty Constructor to yield default values
-    private ActiveMQConfig() {}
+    private ActiveMqConfiguration() {
+    	
+    }
     
     //Constructor with Args
-    private ActiveMQConfig(String address, String port, String queue, String user, String pwd) {
-    	adress_to_connect=address;
-    	port_to_connect=port;
-    	queue_to_connect=queue;
-    	user_to_connect=user;
-    	pwd_to_connect=pwd;
+    private ActiveMqConfiguration(String address, String port, String queue, String user, String pwd) {
+    	addressToConnect = address;
+    	portToConnect = port;
+    	queueToConnect = queue;
+    	userToConnect = user;
+    	passwordToConnect = pwd;
     }
     
-    public static ActiveMQConfig createActiveMQConfigFromArgs(String[] args) {
-        if(args.length!=5) {
-        	logger.error( "Did not get enough args!" );
-        	logger.error( "The args have to be: ActiveMQ_IP ActiveMQ_Port ActiveMQ_Queue ActiveMQ_User ActiveMQ_Pwd" );
-        	return new ActiveMQConfig();
+    public static ActiveMqConfiguration createActiveMqConfigFromArgs(String[] args) {
+        if (args.length != 5) {
+        	logger.error("Did not get enough args!");
+        	logger.error("The args have to be: ActiveMQ_IP ActiveMQ_Port ActiveMQ_Queue ActiveMQ_User ActiveMQ_Pwd");
+        	return new ActiveMqConfiguration();
         }
         
-        var adress_to_check = args[0];
-    	var port_to_check = args[1];
-    	var queue_to_check = args[2];
-    	if(adress_to_check==null || adress_to_check.isEmpty()) {
-    		logger.error( "Recieved null or empty Adress" );
-        	return new ActiveMQConfig();
+        var addressToConnect = args[0];
+    	var portToConnect = args[1];
+    	var queueToConnect = args[2];
+    	if (addressToConnect == null || addressToConnect.isEmpty()) {
+    		logger.error("Recieved null or empty Adress");
+        	return new ActiveMqConfiguration();
     	}
-    	if(port_to_check==null || port_to_check.isEmpty()) {
-    		logger.error( "Recieved null or empty port" );
-        	return new ActiveMQConfig();
+    	if (portToConnect == null || portToConnect.isEmpty()) {
+    		logger.error("Recieved null or empty port");
+        	return new ActiveMqConfiguration();
     	}
-    	if(queue_to_check==null || queue_to_check.isEmpty()) {
-    		logger.error( "Recieved null or empty topic" );
-        	return new ActiveMQConfig();
+    	if (queueToConnect == null || queueToConnect.isEmpty()) {
+    		logger.error("Recieved null or empty topic");
+        	return new ActiveMqConfiguration();
     	}
     	
-    	if(!ValueChecker.goodURL(adress_to_check)) {
-    		logger.warn( adress_to_check + " does not look like valid IP Adress or Domain Name!");
-    		logger.warn("trying to connect to " + adress_to_check + " anyway...");
+    	if (!ValueChecker.goodURL(addressToConnect)) {
+    		logger.warn(addressToConnect + " does not look like valid IP Adress or Domain Name!");
+    		logger.warn("trying to connect to " + addressToConnect + " anyway...");
     	}
-    	if(!ValueChecker.goodPort(port_to_check)) {
-    		logger.error( port_to_check + " is not a valid Port!");
-    		return new ActiveMQConfig();
+    	if (!ValueChecker.goodPort(portToConnect)) {
+    		logger.error(portToConnect + " is not a valid Port!");
+    		return new ActiveMqConfiguration();
         }
     	//TODO: ValueChecker for Queue-Names?
-    	logger.info( "args[] are ok, starting sender ..." );
+    	logger.info("args[] are ok, starting sender ...");
     	
-    	return(new ActiveMQConfig(adress_to_check,port_to_check,queue_to_check,args[3],args[4]));
+    	return (new ActiveMqConfiguration(addressToConnect,portToConnect,queueToConnect,args[3],args[4]));
     }
     
-    public static ActiveMQConfig emptyConfig() {
-    	return new ActiveMQConfig();
+    public static ActiveMqConfiguration emptyConfig() {
+    	return new ActiveMqConfiguration();
     }
     
     public boolean isEmpty() {
-    	   return adress_to_connect == null &&
-    	    port_to_connect == null &&
-    	    queue_to_connect == null;
+    	   return addressToConnect == null 
+    			   && portToConnect == null 
+    			   && queueToConnect == null;
    }
     
 }

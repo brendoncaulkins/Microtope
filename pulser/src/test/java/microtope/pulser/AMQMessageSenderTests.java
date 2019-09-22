@@ -9,13 +9,13 @@ import javax.jms.JMSException;
 import org.junit.jupiter.api.Test;
 
 
-import microtope.config.ActiveMQConfig;
+import microtope.config.ActiveMqConfiguration;
 
 class AMQMessageSenderTests {
 
 	@Test
 	void testConstructor_withEmptyAMQConfig_shouldThrowError() {
-		ActiveMQConfig empty = ActiveMQConfig.emptyConfig();
+		ActiveMqConfiguration empty = ActiveMqConfiguration.emptyConfig();
 		
 		assertThrows(IllegalArgumentException.class,
 				() -> new AMQMessageSender(empty));
@@ -24,7 +24,7 @@ class AMQMessageSenderTests {
 	@Test
 	void testConstructor_ConfigIsOk_shouldBeBuild() {
 		String[] testArgs= new String[] {"Adress","1005","Queue","User","Pwd"};
-		var testConf = ActiveMQConfig.createActiveMQConfigFromArgs(testArgs);
+		var testConf = ActiveMqConfiguration.createActiveMqConfigFromArgs(testArgs);
 		
 		try {
 			AMQMessageSender sender= new AMQMessageSender(testConf);

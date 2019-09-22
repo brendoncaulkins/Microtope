@@ -16,20 +16,14 @@ public abstract class DataGenerator {
 		return teams[rndIndex];
 	}
 	
-	/*
-	 * returns a number between 10 and 50
-	 */
 	public static int getRandomSteps() {
-		var noise = makeNoise(MAXSTEPS-BASESTEPS);
-		return BASESTEPS+noise;
+		var noise = makeNoise(MAXSTEPS - BASESTEPS);
+		return BASESTEPS + noise;
 	}
 	
-	/*
-	 * returns a number between 1 and 3
-	 */
 	public static int getRandomCoins() {
-		var noise = makeNoise(MAXCOINS-BASECOINS);
-		return BASECOINS+noise;
+		var noise = makeNoise(MAXCOINS - BASECOINS);
+		return BASECOINS + noise;
 	}
 	
 	public static int getRandomPlayerNumber() {
@@ -37,6 +31,6 @@ public abstract class DataGenerator {
 	}
 	
 	private static int makeNoise(int range) {
-		return (int)(Math.random()*range);
-	};
+		return (int)(Math.random() * range);
+	}
 }
