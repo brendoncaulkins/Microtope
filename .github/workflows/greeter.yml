@@ -1,5 +1,5 @@
-name: "Close stale issues"
-on: [Issues,pull-request]
+name: "Greet Newcomers"
+on: [issue,pull-request]
 jobs:
   stale:
     runs-on: ubuntu-latest
