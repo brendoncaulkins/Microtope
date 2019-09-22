@@ -54,7 +54,7 @@ class AMQMessageRecieverIntegrationTests {
 		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("vm://localhost?broker.persistent=false");
 
 			try {
-				var reciever = new AMQMessageReciever(MessageRecieverHelpers.validConf());
+				var reciever = new ActiveMqMessageReciever(MessageRecieverHelpers.validConf());
 				
 				var vmConnection = connectionFactory.createConnection();
 				
@@ -75,7 +75,7 @@ class AMQMessageRecieverIntegrationTests {
 		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("vm://localhost?broker.persistent=false");
 
 			try {
-				var reciever = new AMQMessageReciever(MessageRecieverHelpers.validConf());
+				var reciever = new ActiveMqMessageReciever(MessageRecieverHelpers.validConf());
 				
 				var vmConnection = connectionFactory.createConnection();
 				
@@ -100,7 +100,7 @@ class AMQMessageRecieverIntegrationTests {
 
 			try {
 				// Setup Side to test
-				var reciever = new AMQMessageReciever(MessageRecieverHelpers.validConf());			
+				var reciever = new ActiveMqMessageReciever(MessageRecieverHelpers.validConf());			
 				var vmConnection = connectionFactory.createConnection();
 				reciever.open(vmConnection);
 				var fake = new FakeMessageListener();

@@ -17,18 +17,18 @@ class AMQMessageRecieverTests {
 		ActiveMqConfiguration conf = ActiveMqConfiguration.emptyConfig();
 		
 		assertThrows(IllegalArgumentException.class,
-				() -> {new AMQMessageReciever(conf);});
+				() -> {new ActiveMqMessageReciever(conf);});
 	}
 	
 	@Test
 	void testConstructor_validActiveMQConfig_ButNoConnection_shouldBeBuild() {
-		var testReciever = new AMQMessageReciever(MessageRecieverHelpers.validConf());
+		var testReciever = new ActiveMqMessageReciever(MessageRecieverHelpers.validConf());
 		return;
 	}
 	
 	@Test
 	void testCreateConnectionFromConfig_validActiveMQConfig_ButNoConnection_shouldThrowJMSException() {
-		var testReciever = new AMQMessageReciever(MessageRecieverHelpers.validConf());
+		var testReciever = new ActiveMqMessageReciever(MessageRecieverHelpers.validConf());
 
 		assertThrows(JMSException.class,
 				() -> testReciever.createConnectionFromConfig());
@@ -36,7 +36,7 @@ class AMQMessageRecieverTests {
 	
 	@Test
 	void testOpen_validActiveMQConfig_ButNoConnection_shouldThrowJMSException() {
-		var testReciever = new AMQMessageReciever(MessageRecieverHelpers.validConf());
+		var testReciever = new ActiveMqMessageReciever(MessageRecieverHelpers.validConf());
 
 		assertThrows(JMSException.class,
 				() -> testReciever.open(testReciever.createConnectionFromConfig()));
@@ -45,7 +45,7 @@ class AMQMessageRecieverTests {
 	@Test
 	void testClose_WasNeverOpen_ShouldNotThrowException() {
 		try {
-			var testReciever = new AMQMessageReciever(MessageRecieverHelpers.validConf());
+			var testReciever = new ActiveMqMessageReciever(MessageRecieverHelpers.validConf());
 			testReciever.close();
 			return;
 		}
@@ -57,7 +57,7 @@ class AMQMessageRecieverTests {
 
 	@Test
 	void testRegisterMessageListener_WasNeverOpen_ShouldNotThrowException() {
-		var testReciever = new AMQMessageReciever(MessageRecieverHelpers.validConf());
+		var testReciever = new ActiveMqMessageReciever(MessageRecieverHelpers.validConf());
 		
 		var fakeListener = new FakeMessageListener();
 		testReciever.registerMessageListener(fakeListener);

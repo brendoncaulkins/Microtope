@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 import org.junit.jupiter.api.Test;
 
-import microtope.config.SQLConfig;
+import microtope.config.SqlConfig;
 import microtope.messages.CoinMessage;
 import microtope.messages.LoginMessage;
 import microtope.messages.LogoutMessage;
@@ -17,7 +17,7 @@ class MariaDBWriterTests {
 
 	@Test
 	void testConstructor_emptySQLConfig_ShouldThrowIllegalArgumentException() {
-		SQLConfig conf = SQLConfig.emptyConfig();
+		SqlConfig conf = SqlConfig.emptyConfig();
 		assertThrows(IllegalArgumentException.class, () -> {
 			new MariaDBWriter(conf);
 		});
@@ -134,10 +134,10 @@ class MariaDBWriterTests {
 		}
 	}
 	
-	private SQLConfig validSQLConf() {
+	private SqlConfig validSQLConf() {
 		String[] testArgs= new String[] {"Adress","1005","Queue","User","Pwd"};
 		
-		SQLConfig conf = SQLConfig.createSQLConfigFromArgs(testArgs);
+		SqlConfig conf = SqlConfig.createSqlConfigFromArgs(testArgs);
 		return conf;
 	}
 }

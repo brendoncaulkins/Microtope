@@ -10,7 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import microtope.config.ActiveMqConfiguration;
-import microtope.config.SQLConfig;
+import microtope.config.SqlConfig;
 
 public class App 
 {
@@ -21,7 +21,7 @@ public class App
         logger.info( "Starting Worker" );
         
         ActiveMqConfiguration amqconf = ActiveMqConfiguration.emptyConfig();
-        SQLConfig sqlconf = SQLConfig.emptyConfig();
+        SqlConfig sqlconf = SqlConfig.emptyConfig();
         
         if(args.length!=10) {
         	logger.error( "The args have to be: ActiveMQ_IP ActiveMQ_Port ActiveMQ_Queue ActiveMQ_User ActiveMQ_Pwd" );
@@ -31,11 +31,11 @@ public class App
         	String[] amqargs = Arrays.copyOfRange(args, 0,5);
         	amqconf = ActiveMqConfiguration.createActiveMqConfigFromArgs(amqargs);
         	String[] sqlargs = Arrays.copyOfRange(args, 5, 10);
-        	sqlconf = SQLConfig.createSQLConfigFromArgs(sqlargs);
+        	sqlconf = SqlConfig.createSqlConfigFromArgs(sqlargs);
         	
             logger.info( "args[] are ok, starting worker ..." );
 
-            AMQMessageReciever reciever = new AMQMessageReciever(amqconf);
+            ActiveMqMessageReciever reciever = new ActiveMqMessageReciever(amqconf);
 			reciever.open(reciever.createConnectionFromConfig());
             
             var mariadbwriter = new MariaDBWriter(sqlconf);
