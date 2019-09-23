@@ -7,8 +7,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import microtope.config.SqlConfig;
 import microtope.messages.CoinMessage;
@@ -16,42 +14,45 @@ import microtope.messages.LoginMessage;
 import microtope.messages.LogoutMessage;
 import microtope.messages.StepMessage;
 
-public class MariaDBWriter implements Closeable, DBWriter{
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+public class MariaDbWriter implements Closeable, DatabaseWriter {
 	
 	Connection con;
-	private static Logger logger = LogManager.getLogger(MariaDBWriter.class);
-	private SqlConfig sqlconf;
-	
+	private static Logger logger = LogManager.getLogger(MariaDbWriter.class);
+	private final SqlConfig sqlconf;
 
-	public MariaDBWriter(SqlConfig sqlconf){
-		if(sqlconf.isEmpty())
-			throw new IllegalArgumentException("Recieved Empty SQLConf!");
-		this.sqlconf=sqlconf;
+	public MariaDbWriter(SqlConfig sqlconf) {
+		if (sqlconf.isEmpty()) {
+			throw new IllegalArgumentException("Recieved Empty SQLConf!");	
+		}
+		this.sqlconf = sqlconf;
 	}
 	
 	public void open(Connection con) throws SQLException {
-		this.con=con;
+		this.con = con;
 		healthcheck();
 	}
 	
 	protected Connection buildConnectionFromConfig() throws SQLException {
 		var url = String.format("jdbc:mysql://%s:%s/%s",sqlconf.addressToConnect,sqlconf.portToConnect,sqlconf.databaseToConnect);
-	    logger.debug("Trying to connect to "+url+" as "+sqlconf.userToConnect+ " with Password [REDACTED] ");
-	    var con =  DriverManager.getConnection(url,sqlconf.userToConnect, sqlconf.passwordToConnect);
+	    logger.debug("Trying to connect to " + url + " as " + sqlconf.userToConnect + " with Password [REDACTED]");
+	    var con =  DriverManager.getConnection(url, sqlconf.userToConnect, sqlconf.passwordToConnect);
 	    logger.info("Connection to " + url + " established");
 	    return con;
 	}
 	
 	private void healthcheck() throws SQLException {
 		logger.info("performing healthcheck for mariadb writer");
-		if(isOpenAndReady()) {
+		if (isOpenAndReady()) {
 			PreparedStatement stmt = con.prepareStatement("SELECT status from health;");
 			
 			logger.debug("executing prepared statement for healthcheck...");
-		    ResultSet rs=stmt.executeQuery();
+		    ResultSet rs = stmt.executeQuery();
 		    logger.debug("recieved resultset ... recieved:");
 		    
-		    while(rs.next()){  
+		    while (rs.next()) {  
 		    	logger.info(rs.getString("status"));  
 		    }
 		    logger.info("healthcheck passed!");
@@ -62,7 +63,7 @@ public class MariaDBWriter implements Closeable, DBWriter{
 	@Override
 	public void writeLogin(LoginMessage msg) {
 		try {
-			if(isOpenAndReady()) {
+			if (isOpenAndReady()) {
 				writePlayer(msg.getPlayerId(),msg.getTeamId());
 				logger.debug("Created Player - now inserting login");
 				PreparedStatement stmt = con.prepareStatement("INSERT INTO audits (player_id, action, recorded) VALUES (? ,'login', ?);");
@@ -82,7 +83,7 @@ public class MariaDBWriter implements Closeable, DBWriter{
 	@Override
 	public void writeLogout(LogoutMessage msg) {
 		try {
-			if(isOpenAndReady()) {
+			if (isOpenAndReady()) {
 				PreparedStatement stmt = con.prepareStatement("INSERT INTO audits (player_id, action, recorded) VALUES (? ,'logout', ?);");
 				
 				stmt.setInt(1, msg.getPlayerId());
@@ -96,10 +97,11 @@ public class MariaDBWriter implements Closeable, DBWriter{
 			logger.error(e);
 		}		
 	}
+	
 	@Override
 	public void writeSteps(StepMessage msg) {
 		try {
-			if(isOpenAndReady()) {
+			if (isOpenAndReady()) {
 				PreparedStatement stmt = con.prepareStatement("INSERT INTO steps (player_id, steps, recorded) VALUES (? , ?, ?);");
 				
 				stmt.setInt(1, msg.getPlayerId());
@@ -116,29 +118,29 @@ public class MariaDBWriter implements Closeable, DBWriter{
 	}
 	
 	@Override
-	public void writePlayer(int player_id, int team_id) {
+	public void writePlayer(int playerId, int teamId) {
 		// This writes the player if it does not exist
-		logger.debug("writing player " + player_id + " with team " + team_id);
+		logger.debug("writing player " + playerId + " with team " + teamId);
 		try {
-			if(isOpenAndReady()) {
+			if (isOpenAndReady()) {
 				PreparedStatement stmt = con.prepareStatement("INSERT IGNORE INTO players (player_id, team_id) VALUES (? , ?)");
 				
-				stmt.setInt(1, player_id);
-				stmt.setInt(2, team_id);
+				stmt.setInt(1, playerId);
+				stmt.setInt(2, teamId);
 				
 			    stmt.executeQuery();
 			    
 			    logger.debug("Creating Player worked - not sure if player already existed!");
 			}
-		}catch(SQLException e) {
-			logger.error("Recieved SQL Exception while Creating Player " + player_id,e);
+		} catch (SQLException e) {
+			logger.error("Recieved SQL Exception while Creating Player " + playerId,e);
 		}
 	}
 	
 	@Override
 	public void writeCoins(CoinMessage msg) {
 		try {
-			if(isOpenAndReady()) {
+			if (isOpenAndReady()) {
 				PreparedStatement stmt = con.prepareStatement("INSERT INTO coins (player_id, value, recorded) VALUES (? , ?, ?);");
 				
 				stmt.setInt(1, msg.getPlayerId());
@@ -156,7 +158,7 @@ public class MariaDBWriter implements Closeable, DBWriter{
 	
 	private boolean isOpenAndReady() {
 		try {
-			if(con==null || con.isClosed()) {
+			if (con == null || con.isClosed()) {
 				logger.error("connection is null or closed!");
 				return false;
 			}
@@ -178,7 +180,7 @@ public class MariaDBWriter implements Closeable, DBWriter{
 		}
 	}
 	
-	private java.sql.Timestamp convertUtilToSql(java.util.Date uDate) {
-		return new java.sql.Timestamp(uDate.getTime());
+	private java.sql.Timestamp convertUtilToSql(java.util.Date utilDate) {
+		return new java.sql.Timestamp(utilDate.getTime());
     }
 }

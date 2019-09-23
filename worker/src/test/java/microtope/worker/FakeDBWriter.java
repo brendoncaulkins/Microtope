@@ -8,7 +8,7 @@ import microtope.messages.LoginMessage;
 import microtope.messages.LogoutMessage;
 import microtope.messages.StepMessage;
 
-public class FakeDBWriter implements DBWriter {
+public class FakeDBWriter implements DatabaseWriter {
 	
 	public AmqMessage lastMessage = null;
 	

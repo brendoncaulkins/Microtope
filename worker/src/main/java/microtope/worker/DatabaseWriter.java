@@ -7,11 +7,11 @@ import microtope.messages.LoginMessage;
 import microtope.messages.LogoutMessage;
 import microtope.messages.StepMessage;
 
-public interface DBWriter {
+public interface DatabaseWriter {
 
 	void writeSteps(StepMessage msg);
 
-	void writePlayer(int player_id, int team_id) throws SQLException;
+	void writePlayer(int playerId, int teamId) throws SQLException;
 
 	void writeCoins(CoinMessage msg);
 	
