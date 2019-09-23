@@ -2,7 +2,7 @@ package microtope.messages;
 
 import java.util.Date;
 
-public interface AMQMessage {
+public interface AmqMessage {
 	
 	public void setTimeStamp(Date date);
 	

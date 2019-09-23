@@ -63,16 +63,16 @@ public class MariaDBWriter implements Closeable, DBWriter{
 	public void writeLogin(LoginMessage msg) {
 		try {
 			if(isOpenAndReady()) {
-				writePlayer(msg.getPlayer_Id(),msg.getTeam_Id());
+				writePlayer(msg.getPlayerId(),msg.getTeamId());
 				logger.debug("Created Player - now inserting login");
 				PreparedStatement stmt = con.prepareStatement("INSERT INTO audits (player_id, action, recorded) VALUES (? ,'login', ?);");
 				
-				stmt.setInt(1, msg.getPlayer_Id());
+				stmt.setInt(1, msg.getPlayerId());
 				stmt.setTimestamp(2, convertUtilToSql(msg.getTimeStamp()));
 				
 			    stmt.executeQuery();
 
-				logger.debug("Inserted Login for player " + msg.getPlayer_Id());
+				logger.debug("Inserted Login for player " + msg.getPlayerId());
 			}
 		} catch (SQLException e) {
 			logger.error(e);
@@ -85,12 +85,12 @@ public class MariaDBWriter implements Closeable, DBWriter{
 			if(isOpenAndReady()) {
 				PreparedStatement stmt = con.prepareStatement("INSERT INTO audits (player_id, action, recorded) VALUES (? ,'logout', ?);");
 				
-				stmt.setInt(1, msg.getPlayer_Id());
+				stmt.setInt(1, msg.getPlayerId());
 				stmt.setTimestamp(2, convertUtilToSql(msg.getTimeStamp()));
 				
 			    stmt.executeQuery();
 
-				logger.debug("Inserted Logout for player " + msg.getPlayer_Id());
+				logger.debug("Inserted Logout for player " + msg.getPlayerId());
 			}
 		} catch (SQLException e) {
 			logger.error(e);
@@ -102,13 +102,13 @@ public class MariaDBWriter implements Closeable, DBWriter{
 			if(isOpenAndReady()) {
 				PreparedStatement stmt = con.prepareStatement("INSERT INTO steps (player_id, steps, recorded) VALUES (? , ?, ?);");
 				
-				stmt.setInt(1, msg.getPlayer_Id());
+				stmt.setInt(1, msg.getPlayerId());
 				stmt.setInt(2, msg.getSteps());
 				stmt.setTimestamp(3, convertUtilToSql(msg.getTimeStamp()));
 				
 			    stmt.executeQuery();
 
-				logger.debug("Inserted " + msg.getSteps() + " steps for player " + msg.getPlayer_Id());
+				logger.debug("Inserted " + msg.getSteps() + " steps for player " + msg.getPlayerId());
 			}
 		} catch (SQLException e) {
 			logger.error(e);
@@ -141,13 +141,13 @@ public class MariaDBWriter implements Closeable, DBWriter{
 			if(isOpenAndReady()) {
 				PreparedStatement stmt = con.prepareStatement("INSERT INTO coins (player_id, value, recorded) VALUES (? , ?, ?);");
 				
-				stmt.setInt(1, msg.getPlayer_Id());
+				stmt.setInt(1, msg.getPlayerId());
 				stmt.setInt(2, msg.getCoins());
 				stmt.setTimestamp(3, convertUtilToSql(msg.getTimeStamp()));
 				
 			    stmt.executeQuery();
 
-				logger.debug("Inserted " + msg.getCoins() + " coins for player " + msg.getPlayer_Id());
+				logger.debug("Inserted " + msg.getCoins() + " coins for player " + msg.getPlayerId());
 			}
 		} catch (SQLException e) {
 			logger.error(e);

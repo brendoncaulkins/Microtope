@@ -1,8 +1,5 @@
 package microtope.messages;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.util.Date;
 import java.util.regex.Pattern;
 
@@ -10,23 +7,25 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
 
-public abstract class AMQMessageParser {
-	private static Logger logger = LogManager.getLogger(AMQMessageParser.class);
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+public final class AmqMessageParser {
+	private static Logger logger = LogManager.getLogger(AmqMessageParser.class);
 	
 	private static final Pattern loginPattern = Pattern.compile("E: Player (\\d+) logged in for team (\\d+)");
 	private static final Pattern logoutPattern = Pattern.compile("E: Player (\\d+) logged out");
 	private static final Pattern coinPattern = Pattern.compile("E: Player (\\d+) collected (\\d+) coins for Team (\\d+)");
 	private static final Pattern stepPattern = Pattern.compile("M: Player (\\d+) moved (\\d+) steps");
 	
-	public static AMQMessage parseJMSMessage(Message message) {
+	public static AmqMessage parseJmsMessage(Message message) {
 		try {
 			if (message instanceof TextMessage) {
 	            TextMessage textMessage = (TextMessage) message;
-	            AMQMessage toReturn = parseTextMessage(textMessage.getText());
+	            AmqMessage toReturn = parseTextMessage(textMessage.getText());
 	            toReturn.setTimeStamp(new Date(message.getJMSTimestamp()));
 	            return toReturn;
-	        }
-			else {
+	        } else {
 				logger.warn("recieved Message but it is no TextMessage");
 				return new BadMessage();
 			}
@@ -36,39 +35,39 @@ public abstract class AMQMessageParser {
 		}
 	}
 	
-	public static AMQMessage parseTextMessage(String msg) {
+	public static AmqMessage parseTextMessage(String msg) {
 		logger.trace("parsing message " + msg);
 		
-		if(!msg.startsWith("M: ") && !msg.startsWith("E: ")) {
+		if (!msg.startsWith("M: ") && !msg.startsWith("E: ")) {
 			logger.debug("Recieved a Message with strange format");
 			return new BadMessage();
 		}
 	
 		var loginMatcher = loginPattern.matcher(msg);
-		if(loginMatcher.matches()) {
-			int player_id = Integer.parseInt(loginMatcher.group(1));
-			int team_id = Integer.parseInt(loginMatcher.group(2));
-			return new LoginMessage(player_id,team_id);
+		if (loginMatcher.matches()) {
+			int playerId = Integer.parseInt(loginMatcher.group(1));
+			int teamId = Integer.parseInt(loginMatcher.group(2));
+			return new LoginMessage(playerId,teamId);
 		}
 		
 		var logoutMatcher = logoutPattern.matcher(msg);
-		if(logoutMatcher.matches()) {
-			int player_id = Integer.parseInt(logoutMatcher.group(1));
-			return new LogoutMessage(player_id);
+		if (logoutMatcher.matches()) {
+			int playerId = Integer.parseInt(logoutMatcher.group(1));
+			return new LogoutMessage(playerId);
 		}
 		
 		var stepMatcher = stepPattern.matcher(msg);
-		if(stepMatcher.matches()) {
-			int player_id = Integer.parseInt(stepMatcher.group(1));
+		if (stepMatcher.matches()) {
+			int playerId = Integer.parseInt(stepMatcher.group(1));
 			int steps = Integer.parseInt(stepMatcher.group(2));
-			return new StepMessage(player_id,steps);
+			return new StepMessage(playerId,steps);
 		}
 		
 		var coinMatcher = coinPattern.matcher(msg);
-		if(coinMatcher.matches()) {
-			int player_id = Integer.parseInt(coinMatcher.group(1));
+		if (coinMatcher.matches()) {
+			int playerId = Integer.parseInt(coinMatcher.group(1));
 			int coins = Integer.parseInt(coinMatcher.group(2));
-			return new CoinMessage(player_id,coins);
+			return new CoinMessage(playerId,coins);
 		}
 		
 		return new BadMessage();

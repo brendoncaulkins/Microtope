@@ -1,30 +1,31 @@
 package microtope.messages;
 
-public class CoinMessage extends AMQBaseMessage implements PlayerRelatedMessage {
+public class CoinMessage extends AmqBaseMessage implements PlayerRelatedMessage {
 	
-	private final int player;
+	private final int playerId;
 	private final int coins;
 	
-	public CoinMessage (int player, int coins){
-		this.player=player;
-		this.coins=coins;
+	public CoinMessage(int playerId, int coins) {
+		this.playerId = playerId;
+		this.coins = coins;
 	}
 
-	public int getPlayer_Id() {
-		return player;
+	public int getPlayerId() {
+		return playerId;
 	}
 
 	public int getCoins() {
 		return coins;
 	}
 
-	
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof CoinMessage)) return false;
+		if (!(o instanceof CoinMessage)) {
+			return false;
+		}
 		var otherParsed = (CoinMessage) o;
 		
-		return otherParsed.getPlayer_Id() == getPlayer_Id() 
+		return otherParsed.getPlayerId() == getPlayerId() 
 				&& otherParsed.getCoins() == getCoins();
 	}
 }

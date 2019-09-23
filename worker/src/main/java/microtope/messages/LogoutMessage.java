@@ -1,23 +1,25 @@
 package microtope.messages;
 
-public class LogoutMessage extends AMQBaseMessage implements PlayerRelatedMessage {
+public class LogoutMessage extends AmqBaseMessage implements PlayerRelatedMessage {
 	
-	private final int player_id;
+	private final int playerId;
 	
-	public LogoutMessage(int player_id) {
-		this.player_id=player_id;
+	public LogoutMessage(int playerId) {
+		this.playerId = playerId;
 	}
 	
-	public int getPlayer_Id() {
-		return player_id;
+	public int getPlayerId() {
+		return playerId;
 	}
 	
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof LogoutMessage)) return false;
+		if (!(o instanceof LogoutMessage)) {
+			return false;
+		}
 		var otherParsed = (LogoutMessage) o;
 		
-		return otherParsed.getPlayer_Id() == getPlayer_Id();
+		return otherParsed.getPlayerId() == getPlayerId();
 	}
 	
 }

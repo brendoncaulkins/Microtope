@@ -6,8 +6,8 @@ import javax.jms.MessageListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import microtope.messages.AMQMessage;
-import microtope.messages.AMQMessageParser;
+import microtope.messages.AmqMessage;
+import microtope.messages.AmqMessageParser;
 import microtope.messages.BadMessage;
 import microtope.messages.CoinMessage;
 import microtope.messages.LoginMessage;
@@ -29,7 +29,7 @@ public class DBInsertListener implements MessageListener {
 	
 	@Override
 	public void onMessage(Message message) {
-		AMQMessage msg = AMQMessageParser.parseJMSMessage(message);
+		AmqMessage msg = AmqMessageParser.parseJmsMessage(message);
 		
 		if(msg instanceof BadMessage) {
 			logger.debug("Recieved bad Message - not doing anything");
