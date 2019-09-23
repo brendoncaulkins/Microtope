@@ -59,7 +59,6 @@ public class MariaDbWriter implements Closeable, DatabaseWriter {
 		}
 	}
 
-
 	@Override
 	public void writeLogin(LoginMessage msg) {
 		try {
