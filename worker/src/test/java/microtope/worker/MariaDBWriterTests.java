@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 import org.junit.jupiter.api.Test;
 
-import microtope.config.SQLConfig;
+import microtope.config.SqlConfig;
 import microtope.messages.CoinMessage;
 import microtope.messages.LoginMessage;
 import microtope.messages.LogoutMessage;
@@ -17,23 +17,23 @@ class MariaDBWriterTests {
 
 	@Test
 	void testConstructor_emptySQLConfig_ShouldThrowIllegalArgumentException() {
-		SQLConfig conf = SQLConfig.emptyConfig();
+		SqlConfig conf = SqlConfig.emptyConfig();
 		assertThrows(IllegalArgumentException.class, () -> {
-			new MariaDBWriter(conf);
+			new MariaDbWriter(conf);
 		});
 		
 	}
 
 	@Test
 	void testConstructor_validSQLConfig_butIsOffline_ShouldbeBuild() {
-		var test = new MariaDBWriter(validSQLConf());
+		var test = new MariaDbWriter(validSQLConf());
 
 		return;
 	}
 	
 	@Test
 	void testOpen_validSQLConfig_butIsOffline_ShouldThrowSQLException() {
-		var test = new MariaDBWriter(validSQLConf());
+		var test = new MariaDbWriter(validSQLConf());
 		
 		assertThrows(SQLException.class, () -> {
 			test.open(test.buildConnectionFromConfig());
@@ -42,7 +42,7 @@ class MariaDBWriterTests {
 
 	@Test
 	void testBuildConnectionFromConf_validSQLConfig_butIsOffline_ShouldThrowSQLException() {
-		var test = new MariaDBWriter(validSQLConf());
+		var test = new MariaDbWriter(validSQLConf());
 		
 		assertThrows(SQLException.class, () -> {
 			test.buildConnectionFromConfig();
@@ -51,7 +51,7 @@ class MariaDBWriterTests {
 	
 	@Test
 	void testWriteSteps_wasNeverOpen_shouldFailWithoutError() {
-		var test = new MariaDBWriter(validSQLConf());
+		var test = new MariaDbWriter(validSQLConf());
 		
 		var msg = new StepMessage(1000,10);
 		
@@ -59,7 +59,7 @@ class MariaDBWriterTests {
 	}
 	@Test
 	void testWriteCoins_wasNeverOpen_shouldFailWithoutError() {
-		var test = new MariaDBWriter(validSQLConf());
+		var test = new MariaDbWriter(validSQLConf());
 		
 		var msg = new CoinMessage(1000,10);
 		
@@ -67,7 +67,7 @@ class MariaDBWriterTests {
 	}
 	@Test
 	void testWriteLogin_wasNeverOpen_shouldFailWithoutError() {
-		var test = new MariaDBWriter(validSQLConf());
+		var test = new MariaDbWriter(validSQLConf());
 		
 		var msg = new LoginMessage(1000,10);
 		
@@ -76,14 +76,14 @@ class MariaDBWriterTests {
 	
 	@Test
 	void testWritePlayer_wasNeverOpen_shouldFailWithoutError() {
-		var test = new MariaDBWriter(validSQLConf());
+		var test = new MariaDbWriter(validSQLConf());
 		
 		test.writePlayer(10,10);
 	}
 	
 	@Test
 	void testWriteLogout_wasNeverOpen_shouldFailWithoutError() {
-		var test = new MariaDBWriter(validSQLConf());
+		var test = new MariaDbWriter(validSQLConf());
 		
 		var msg = new LogoutMessage(1000);
 		
@@ -92,7 +92,7 @@ class MariaDBWriterTests {
 	
 	@Test
 	void testWriteLogout_withFailingConnection_shouldFailWithoutError() {
-		var test = new MariaDBWriter(validSQLConf());
+		var test = new MariaDbWriter(validSQLConf());
 		var con = new FakeConnection();
 		
 		con.throwsSQLException=true;
@@ -109,7 +109,7 @@ class MariaDBWriterTests {
 	
 	@Test
 	void testClose_wasNeverOpen_shouldFailWithoutError() {
-		var test = new MariaDBWriter(validSQLConf());
+		var test = new MariaDbWriter(validSQLConf());
 		try {
 			test.close();
 			return;
@@ -120,7 +120,7 @@ class MariaDBWriterTests {
 	
 	@Test
 	void testOpen_withFakeSQLCon_WhichThrowsSQLException_shouldFailWithoutError() {
-		var test = new MariaDBWriter(validSQLConf());
+		var test = new MariaDbWriter(validSQLConf());
 		var con = new FakeConnection();
 		
 		con.throwsSQLException=true;
@@ -134,10 +134,10 @@ class MariaDBWriterTests {
 		}
 	}
 	
-	private SQLConfig validSQLConf() {
+	private SqlConfig validSQLConf() {
 		String[] testArgs= new String[] {"Adress","1005","Queue","User","Pwd"};
 		
-		SQLConfig conf = SQLConfig.createSQLConfigFromArgs(testArgs);
+		SqlConfig conf = SqlConfig.createSqlConfigFromArgs(testArgs);
 		return conf;
 	}
 }

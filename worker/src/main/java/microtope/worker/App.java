@@ -6,43 +6,41 @@ import java.util.Arrays;
 
 import javax.jms.JMSException;
 
+import microtope.config.ActiveMqConfiguration;
+import microtope.config.SqlConfig;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import microtope.config.ActiveMQConfig;
-import microtope.config.SQLConfig;
-
-public class App 
-{
+public class App {
+	
 	private static Logger logger = LogManager.getLogger(App.class);
 
-    public static void main( String[] args ) throws IOException, InterruptedException, SQLException, JMSException
-    {
-        logger.info( "Starting Worker" );
+    public static void main(String[] args) throws IOException, InterruptedException, SQLException, JMSException {
+        logger.info("Starting Worker");
         
-        ActiveMQConfig amqconf = ActiveMQConfig.emptyConfig();
-        SQLConfig sqlconf = SQLConfig.emptyConfig();
+        ActiveMqConfiguration amqconf = ActiveMqConfiguration.emptyConfig();
+        SqlConfig sqlconf = SqlConfig.emptyConfig();
         
-        if(args.length!=10) {
-        	logger.error( "The args have to be: ActiveMQ_IP ActiveMQ_Port ActiveMQ_Queue ActiveMQ_User ActiveMQ_Pwd" );
+        if (args.length != 10) {
+        	logger.error("The args have to be: ActiveMQ_IP ActiveMQ_Port ActiveMQ_Queue ActiveMQ_User ActiveMQ_Pwd");
         	throw new IllegalArgumentException("Did not get enough args!");
-        }
-        else {
+        }  else {
         	String[] amqargs = Arrays.copyOfRange(args, 0,5);
-        	amqconf = ActiveMQConfig.createActiveMQConfigFromArgs(amqargs);
+        	amqconf = ActiveMqConfiguration.createActiveMqConfigFromArgs(amqargs);
         	String[] sqlargs = Arrays.copyOfRange(args, 5, 10);
-        	sqlconf = SQLConfig.createSQLConfigFromArgs(sqlargs);
+        	sqlconf = SqlConfig.createSqlConfigFromArgs(sqlargs);
         	
-            logger.info( "args[] are ok, starting worker ..." );
+            logger.info("args[] are ok, starting worker ...");
 
-            AMQMessageReciever rec = new AMQMessageReciever(amqconf);
-			rec.open(rec.createConnectionFromConfig());
+            ActiveMqMessageReciever reciever = new ActiveMqMessageReciever(amqconf);
+			reciever.open(reciever.createConnectionFromConfig());
             
-            var mariadbwriter = new MariaDBWriter(sqlconf);
+            var mariadbwriter = new MariaDbWriter(sqlconf);
             mariadbwriter.open(mariadbwriter.buildConnectionFromConfig());
-            var listener = new DBInsertListener(mariadbwriter);
+            var listener = new DatabaseInsertListener(mariadbwriter);
             
-            rec.registerMessageListener(listener);
+            reciever.registerMessageListener(listener);
         }
     }
 

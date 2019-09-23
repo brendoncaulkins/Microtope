@@ -16,7 +16,7 @@ class DBInsertListenerTests {
 	public void testConstructor_FakeDBWriter_shouldBeBuild() {
 		FakeDBWriter mock = new FakeDBWriter();
 		
-		DBInsertListener testObject = new DBInsertListener(mock);
+		DatabaseInsertListener testObject = new DatabaseInsertListener(mock);
 		
 		return;
 	}
@@ -24,14 +24,14 @@ class DBInsertListenerTests {
 	@Test
 	public void testConstructor_NullDBWriter_shouldThrowError() {
 		assertThrows(IllegalArgumentException.class, 
-				() -> {new DBInsertListener(null);}
+				() -> {new DatabaseInsertListener(null);}
 		);		
 	}
 	
 	@Test
 	public void testOnMessage_MessageIsCoins_ShouldWriteCoins() {
 		FakeDBWriter mock = new FakeDBWriter();	
-		DBInsertListener testObject = new DBInsertListener(mock);
+		DatabaseInsertListener testObject = new DatabaseInsertListener(mock);
 		
 		TextMessage message = new ActiveMQTextMessage( );
 		try {
@@ -47,7 +47,7 @@ class DBInsertListenerTests {
 	@Test
 	public void testOnMessage_MessageIsSteps_ShouldWriteSteps() {
 		FakeDBWriter mock = new FakeDBWriter();	
-		DBInsertListener testObject = new DBInsertListener(mock);
+		DatabaseInsertListener testObject = new DatabaseInsertListener(mock);
 		
 		TextMessage message = new ActiveMQTextMessage( );
 		try {
@@ -63,7 +63,7 @@ class DBInsertListenerTests {
 	@Test
 	public void testOnMessage_MessageIsLogin_ShouldWriteLogin() {
 		FakeDBWriter mock = new FakeDBWriter();	
-		DBInsertListener testObject = new DBInsertListener(mock);
+		DatabaseInsertListener testObject = new DatabaseInsertListener(mock);
 		
 		TextMessage message = new ActiveMQTextMessage( );
 		try {
@@ -79,7 +79,7 @@ class DBInsertListenerTests {
 	@Test
 	public void testOnMessage_MessageIsLogout_ShouldWriteLogout() {
 		FakeDBWriter mock = new FakeDBWriter();	
-		DBInsertListener testObject = new DBInsertListener(mock);
+		DatabaseInsertListener testObject = new DatabaseInsertListener(mock);
 		
 		TextMessage message = new ActiveMQTextMessage( );
 		try {
@@ -95,7 +95,7 @@ class DBInsertListenerTests {
 	@Test
 	public void testOnMessage_MessageIsNotTypeOfTextMessage_ShouldNotTouchWriter() {
 		FakeDBWriter mock = new FakeDBWriter();	
-		DBInsertListener testObject = new DBInsertListener(mock);
+		DatabaseInsertListener testObject = new DatabaseInsertListener(mock);
 		
 		Message message = new ActiveMQBytesMessage( );
 		
@@ -108,7 +108,7 @@ class DBInsertListenerTests {
 	@Test
 	public void testOnMessage_MessageIsBadMessage_ShouldNotTouchWriter() {
 		FakeDBWriter mock = new FakeDBWriter();	
-		DBInsertListener testObject = new DBInsertListener(mock);
+		DatabaseInsertListener testObject = new DatabaseInsertListener(mock);
 		
 		TextMessage message = new ActiveMQTextMessage( );
 		try {

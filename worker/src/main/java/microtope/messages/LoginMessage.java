@@ -1,27 +1,31 @@
 package microtope.messages;
 
-public class LoginMessage extends AMQBaseMessage implements PlayerRelatedMessage {
-	private final int player_id;
-	private final int team_id;
+public class LoginMessage extends AmqBaseMessage implements PlayerRelatedMessage {
+	
+	private final int playerId;
+	private final int teamId;
 
 	public LoginMessage(int player,int team) {
-		this.player_id=player;
-		this.team_id=team;
+		this.playerId = player;
+		this.teamId = team;
 	}
 	
-	public int getPlayer_Id() {
-		return player_id;
+	public int getPlayerId() {
+		return playerId;
 	}
-	public int getTeam_Id() {
-		return team_id;
+	
+	public int getTeamId() {
+		return teamId;
 	}
 	
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof LoginMessage)) return false;
+		if (!(o instanceof LoginMessage)) {
+			 return false;	
+		}
 		var otherParsed = (LoginMessage) o;
 		
-		return otherParsed.getPlayer_Id() == getPlayer_Id() 
-				&& otherParsed.getTeam_Id() == getTeam_Id();
+		return otherParsed.getPlayerId() == getPlayerId() 
+				&& otherParsed.getTeamId() == getTeamId();
 	}
 }

@@ -1,34 +1,32 @@
-import { TestBed } from '@angular/core/testing';
+import {HttpClient} from '@angular/common/http';
+import {of} from 'rxjs';
+import {AppConfigService} from './app-config.service';
 
-import { PlayerService } from './player.service';
-import { HttpClient } from '@angular/common/http';
-import { AppConfigService } from './app-config.service';
-
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {PlayerService} from './player.service';
 
 describe('PlayerService', () => {
 
-  let playerService: PlayerService;
-  let valueServiceSpy: jasmine.SpyObj<AppConfigService>;
+  let httpSpy: jasmine.SpyObj<HttpClient>;
+  let confSpy: jasmine.SpyObj<AppConfigService>;
 
-  beforeAll(async () => {
-    const confSpy = jasmine.createSpyObj('AppConfigService', ['getValue']);
-
-    TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
-      providers: [
-        PlayerService,
-        { provide: AppConfigService, useValue: confSpy }
-      ]
-    });
-
-    // Inject both the service-to-test and its (spy) dependency
-    valueServiceSpy = TestBed.get(AppConfigService);
-    playerService = TestBed.get(PlayerService);
+  beforeEach(async () => {
+    httpSpy = jasmine.createSpyObj<HttpClient>(['get', 'put']);
+    confSpy = jasmine.createSpyObj<AppConfigService>(['getValue', 'loadAppConfig']);
   });
 
-  it('should be created', () => {
-    const service: PlayerService = TestBed.get(PlayerService);
-    expect(service).toBeTruthy();
+  it('should be created', (doneFn) => {
+    // Arrange
+    const service: PlayerService = new PlayerService(confSpy, httpSpy);
+    confSpy.loadAppConfig.and.returnValue(of({api_url: 'fooUrl'} as any));
+    httpSpy.get.and.returnValue(of([]));
+
+    // Act
+    service.getAll().subscribe(() => {
+
+      // Assert
+      expect(confSpy.loadAppConfig).toHaveBeenCalled();
+      expect(httpSpy.get).toHaveBeenCalledWith('fooUrl/api/player_summary');
+      doneFn();
+    });
   });
 });

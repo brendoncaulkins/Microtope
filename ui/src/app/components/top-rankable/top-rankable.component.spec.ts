@@ -1,4 +1,5 @@
 import {TestBed} from '@angular/core/testing';
+import {of} from 'rxjs';
 import {SelectedService} from '../../services/selected.service';
 import {TopRankableComponent} from './top-rankable.component';
 
@@ -24,6 +25,6 @@ describe(`${TopRankableComponent.constructor.name}`, () => {
     // Trigger change detection, this is where ngOninit runs
     fixture.detectChanges();
 
-    expect(comp.sortedItems).toBe([]);
+    expect(comp.sortedItems).toBe(of([]));
   });
 });

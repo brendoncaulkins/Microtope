@@ -10,7 +10,7 @@ class BaseMessageTests {
 
 	@Test
 	void testGetTimeStamp_nothingSetYet_shouldBeZeroDate() {
-		AMQMessage testObject = new StepMessage(30705,10);
+		AmqMessage testObject = new StepMessage(30705,10);
 		
 		Date zeroDate = new Date(0);
 		
@@ -20,7 +20,7 @@ class BaseMessageTests {
 	
 	@Test
 	void testSetTimeStamp_shouldBeNewDate() {
-		AMQMessage testObject = new StepMessage(30705,10);
+		AmqMessage testObject = new StepMessage(30705,10);
 		Date expectedDate = new Date(10);
 		Date toSet= new Date(10);
 		
@@ -31,7 +31,7 @@ class BaseMessageTests {
 	
 	@Test
 	void testGetTimeStamp_ofBadMessage_shouldBeNull() {
-		AMQMessage bad = new BadMessage();
+		AmqMessage bad = new BadMessage();
 		
 		assertNull(bad.getTimeStamp());
 	}

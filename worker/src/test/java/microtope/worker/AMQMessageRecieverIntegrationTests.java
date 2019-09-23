@@ -54,7 +54,7 @@ class AMQMessageRecieverIntegrationTests {
 		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("vm://localhost?broker.persistent=false");
 
 			try {
-				var reciever = new AMQMessageReciever(MessageRecieverHelpers.validConf());
+				var reciever = new ActiveMqMessageReciever(MessageRecieverHelpers.validConf());
 				
 				var vmConnection = connectionFactory.createConnection();
 				
@@ -75,7 +75,7 @@ class AMQMessageRecieverIntegrationTests {
 		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("vm://localhost?broker.persistent=false");
 
 			try {
-				var reciever = new AMQMessageReciever(MessageRecieverHelpers.validConf());
+				var reciever = new ActiveMqMessageReciever(MessageRecieverHelpers.validConf());
 				
 				var vmConnection = connectionFactory.createConnection();
 				
@@ -100,7 +100,7 @@ class AMQMessageRecieverIntegrationTests {
 
 			try {
 				// Setup Side to test
-				var reciever = new AMQMessageReciever(MessageRecieverHelpers.validConf());			
+				var reciever = new ActiveMqMessageReciever(MessageRecieverHelpers.validConf());			
 				var vmConnection = connectionFactory.createConnection();
 				reciever.open(vmConnection);
 				var fake = new FakeMessageListener();
@@ -110,7 +110,7 @@ class AMQMessageRecieverIntegrationTests {
 		        var session = vmConnection.createSession(false,
 		                Session.AUTO_ACKNOWLEDGE);
 		        
-		        Destination destination = session.createQueue(MessageRecieverHelpers.validConf().queue_to_connect); 
+		        Destination destination = session.createQueue(MessageRecieverHelpers.validConf().queueToConnect); 
 		        var producer = session.createProducer(destination);
 		        producer.send(session.createTextMessage("Hello World!"));
 			     // Take some time for processing

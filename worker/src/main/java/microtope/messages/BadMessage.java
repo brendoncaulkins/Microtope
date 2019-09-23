@@ -2,14 +2,18 @@ package microtope.messages;
 
 import java.util.Date;
 
-public class BadMessage implements AMQMessage {
+public class BadMessage implements AmqMessage {
 	
 	@Override
 	public boolean equals(Object o) {
 		return (o instanceof BadMessage) ? true : false;
 	}
 
-	public void setTimeStamp(Date date) {}
+	public void setTimeStamp(Date date) {
+		
+	}
 
-	public Date getTimeStamp() {return null;}
+	public Date getTimeStamp() {
+		return null;
+	}
 }

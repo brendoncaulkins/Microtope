@@ -2,15 +2,15 @@ package microtope.worker;
 
 import java.sql.SQLException;
 
-import microtope.messages.AMQMessage;
+import microtope.messages.AmqMessage;
 import microtope.messages.CoinMessage;
 import microtope.messages.LoginMessage;
 import microtope.messages.LogoutMessage;
 import microtope.messages.StepMessage;
 
-public class FakeDBWriter implements DBWriter {
+public class FakeDBWriter implements DatabaseWriter {
 	
-	public AMQMessage lastMessage = null;
+	public AmqMessage lastMessage = null;
 	
 	public boolean wroteSteps,wrotePlayer,wroteCoins,wroteLogin,wroteLogout;
 	

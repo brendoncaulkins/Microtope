@@ -22,7 +22,7 @@
 		<dependency>
 	  <groupId>org.apache.activemq</groupId>
 	  <artifactId>activemq-all</artifactId>
-	  <version>5.15.9</version>
+	  <version>5.15.10</version>
 	</dependency>
 	<!-- https://mvnrepository.com/artifact/javax.jms/javax.jms-api -->
 	<dependency>
@@ -78,7 +78,7 @@
       </plugin>
 		<plugin>
           <artifactId>maven-failsafe-plugin</artifactId>
-          <version>3.0.0-M1</version>
+          <version>3.0.0-M3</version>
     		</plugin>
         <plugin>
             <groupId>org.jacoco</groupId>
@@ -110,7 +110,7 @@
                        	<rule>
 						    <element>BUNDLE</element>
 						    <excludes>
-						      <exclude>*MariaDBWriter</exclude>
+						      <exclude>*MariaDbWriter</exclude>
 						    </excludes>
 						    <limits>
 						      <limit>
@@ -133,7 +133,7 @@
 						  <rule>
 						    <element>PACKAGE</element>
 						    <excludes>
-						      <exclude>*MariaDBWriter</exclude>
+						      <exclude>*MariaDbWriter</exclude>
 						    </excludes>
 						    <limits>
 						      <limit>
@@ -147,7 +147,7 @@
 						    <element>CLASS</element>
 						    <excludes>
 						      <exclude>*Test</exclude>
-						      <exclude>*MariaDBWriter</exclude>
+						      <exclude>*MariaDbWriter</exclude>
 						    </excludes>
 						    <limits>
 						      <limit>
@@ -167,12 +167,44 @@
                 </execution>
             </executions>
 			</plugin>
-      
+			
+       <plugin>
+	       <groupId>org.apache.maven.plugins</groupId>
+	       <artifactId>maven-checkstyle-plugin</artifactId>
+	       <version>3.1.0</version>
+	       <dependencies>
+                <dependency>
+                    <groupId>com.puppycrawl.tools</groupId>
+                    <artifactId>checkstyle</artifactId>
+                    <version>8.24</version>
+                </dependency>
+            </dependencies>
+            <configuration>
+			 <configLocation>src/main/resources/checkstyle.xml</configLocation>
+	         <encoding>UTF-8</encoding>
+	         <violationSeverity>warning</violationSeverity>
+	         <consoleOutput>true</consoleOutput>
+	         <failOnViolation>true</failOnViolation>
+	         <failsOnError>true</failsOnError>
+	         <maxAllowedVialoations>20</maxAllowedVialoations>
+	         <linkXRef>false</linkXRef>
+            </configuration>
+            <executions>
+		       <execution>
+			    <id>verify</id>
+	       		<phase>verify</phase>
+		       <goals>
+		         <goal>check</goal>
+		       </goals>
+		     </execution>
+	       </executions>
+    	</plugin>
+   		
 	       		
 	            <plugin>
 	                <groupId>org.apache.maven.plugins</groupId>
 	                <artifactId>maven-compiler-plugin</artifactId>
-	                <version>3.8.0</version>
+	                <version>3.8.1</version>
 	                <configuration>
 	                    <release>12</release>
 	                </configuration>
@@ -222,4 +254,26 @@
 	  </plugins>
   
   </build>
+  <reporting>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>3.1.0</version>
+	       <configuration>
+			    <configLocation>src/main/resources/checkstyle.xml</configLocation>
+	         <encoding>UTF-8</encoding>
+	         <consoleOutput>true</consoleOutput>
+	         <linkXRef>false</linkXRef>
+	       </configuration>
+          <reportSets>
+            <reportSet>
+              <reports>
+                <report>checkstyle</report>
+              </reports>
+            </reportSet>
+          </reportSets>
+        </plugin>
+      </plugins>
+    </reporting>
 </project>

@@ -1,29 +1,30 @@
 package microtope.messages;
 
-public class StepMessage extends AMQBaseMessage  implements PlayerRelatedMessage {
+public class StepMessage extends AmqBaseMessage  implements PlayerRelatedMessage {
 	private final int steps;
-	private final int player;
+	private final int playerId;
 	
-	public StepMessage(int player, int steps) {
-		this.player=player;
-		this.steps=steps;
+	public StepMessage(int playerId, int steps) {
+		this.playerId = playerId;
+		this.steps = steps;
 	}
 
 	public int getSteps() {
 		return steps;
 	}
 
-	public int getPlayer_Id() {
-		return player;
+	public int getPlayerId() {
+		return playerId;
 	}
 	
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof StepMessage)) 
+		if (!(o instanceof StepMessage)) {
 			return false;
+		}
 		var otherParsed = (StepMessage) o;
 		
-		return otherParsed.getPlayer_Id() == getPlayer_Id()
+		return otherParsed.getPlayerId() == getPlayerId()
 				&& otherParsed.getSteps() == getSteps();
 	}
 }
