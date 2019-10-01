@@ -2,6 +2,8 @@
 # Created by https://www.gitignore.io/api/node,java,code,maven,angular,eclipse,intellij,visualstudio,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=node,java,code,maven,angular,eclipse,intellij,visualstudio,visualstudiocode
 
+.editorconfig
+
 ### Angular ###
 ## Angular ##
 # compiled output
