@@ -26,4 +26,4 @@ jobs:
     - name: build Pulser From Docker
       uses: actions/docker/cli@master
       with:
-        args: build -f BuildDockerfile ./pulser
+        args: build -f ./pulser/BuildDockerfile ./pulser

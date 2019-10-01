@@ -24,4 +24,4 @@ jobs:
     - name: build Worker From Docker
       uses: actions/docker/cli@master
       with:
-        args: build -f BuildDockerfile ./worker
+        args: build -f /.worker/BuildDockerfile ./worker
