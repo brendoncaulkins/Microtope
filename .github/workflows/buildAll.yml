@@ -24,7 +24,7 @@ jobs:
       with:
         args: build ./database  
 
-  buildPulser:
+  buildPulserAsMavenJob:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -44,7 +44,7 @@ jobs:
       with:
         args: build ./ui
 
-  buildWorker:
+  buildWorkerAsMavenJob:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -54,3 +54,21 @@ jobs:
         java-version: 12
     - name: Build with Maven  
       run: mvn package verify --file worker/pom.xml
+
+  buildWorkerFromDocker:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: build Worker From Docker
+      uses: actions/docker/cli@master
+      with:
+        args: build -f /worker/BuildDockerfile ./worker
+
+  buildPulserFromDocker:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: build Pulser From Docker
+      uses: actions/docker/cli@master
+      with:
+        args: build -f ./pulser/BuildDockerfile ./pulser
