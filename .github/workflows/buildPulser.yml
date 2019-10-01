@@ -27,3 +27,17 @@ jobs:
       uses: actions/docker/cli@master
       with:
         args: build -f ./pulser/BuildDockerfile ./pulser
+        
+  PublishToGithub:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        username: ${{ secrets.DOCKER_GITHUB_USERNAME }}
+        password: ${{ secrets.DOCKER_GITHUB_PASSWORD }}
+        registry: docker.pkg.github.com
+        cache: true
+        workdir: ./pulser
+        dockerfile: BuildDockerfile
