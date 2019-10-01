@@ -1,15 +1,20 @@
 Angular:
 - ui/*
+- ./.github/workflows/buildUI.yml
 
 Typescript:
 - ui/src/*
 - api/*
+- ./.github/workflows/buildUI.yml
+- ./.github/workflows/buildAPI.yml
 
 Java:
 - pulser/src/*
 - pulser/pom.xml
 - worker/src/*
 - worker/pom.xml
+- ./.github/workflows/buildPulser.yml
+- ./.github/workflows/buildWorker.yml
 
 Test:
 - pulser/src/test/*
