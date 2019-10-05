@@ -3,7 +3,7 @@ name: Build API in Docker
 on: 
   pull_request:
     paths:
-      - 'api/'
+      - 'api/*'
 
 jobs:
   buildAPI:

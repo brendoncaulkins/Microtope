@@ -64,7 +64,7 @@ public class ActiveMqConfiguration {
     	//TODO: ValueChecker for Queue-Names?
     	logger.info("args[] are ok, starting sender ...");
     	
-    	return (new ActiveMqConfiguration(addressToConnect,portToConnect,queueToConnect,args[3],args[4]));
+    	return new ActiveMqConfiguration(addressToConnect,portToConnect,queueToConnect,args[3],args[4]);
     }
     
     public static ActiveMqConfiguration emptyConfig() {

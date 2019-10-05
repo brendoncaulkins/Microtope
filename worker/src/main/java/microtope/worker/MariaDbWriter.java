@@ -56,6 +56,9 @@ public class MariaDbWriter implements Closeable, DatabaseWriter {
 		    	logger.info(rs.getString("status"));  
 		    }
 		    logger.info("healthcheck passed!");
+		    
+		    rs.close();
+		    stmt.close();
 		}
 	}
 
@@ -70,9 +73,14 @@ public class MariaDbWriter implements Closeable, DatabaseWriter {
 				stmt.setInt(1, msg.getPlayerId());
 				stmt.setTimestamp(2, convertUtilToSql(msg.getTimeStamp()));
 				
-			    stmt.executeQuery();
-
-				logger.debug("Inserted Login for player " + msg.getPlayerId());
+			    int resultCode = stmt.executeUpdate();
+			    if (resultCode > 0) {
+			    	logger.debug("Inserted Login for player " + msg.getPlayerId());    	
+			    } else {
+			    	logger.warn("Inserting PlayerLogin " + msg.getPlayerId() + " had a failure");
+			    }
+			    
+			    stmt.close();
 			}
 		} catch (SQLException e) {
 			logger.error(e);
@@ -88,32 +96,43 @@ public class MariaDbWriter implements Closeable, DatabaseWriter {
 				stmt.setInt(1, msg.getPlayerId());
 				stmt.setTimestamp(2, convertUtilToSql(msg.getTimeStamp()));
 				
-			    stmt.executeQuery();
-
-				logger.debug("Inserted Logout for player " + msg.getPlayerId());
+				int resultCode = stmt.executeUpdate();
+			    if (resultCode > 0) {
+			    	logger.debug("Inserted Logout for player " + msg.getPlayerId());    	
+			    } else {
+			    	logger.warn("Inserting PlayerLogout " + msg.getPlayerId() + " had a failure");
+			    }
+				
+			    stmt.close();
 			}
 		} catch (SQLException e) {
 			logger.error(e);
-		}		
+		}
 	}
 	
 	@Override
 	public void writeSteps(StepMessage msg) {
+		PreparedStatement stmt;
 		try {
 			if (isOpenAndReady()) {
-				PreparedStatement stmt = con.prepareStatement("INSERT INTO steps (player_id, steps, recorded) VALUES (? , ?, ?);");
+				stmt  = con.prepareStatement("INSERT INTO steps (player_id, steps, recorded) VALUES (? , ?, ?);");
 				
 				stmt.setInt(1, msg.getPlayerId());
 				stmt.setInt(2, msg.getSteps());
 				stmt.setTimestamp(3, convertUtilToSql(msg.getTimeStamp()));
 				
-			    stmt.executeQuery();
-
-				logger.debug("Inserted " + msg.getSteps() + " steps for player " + msg.getPlayerId());
+				int resultCode = stmt.executeUpdate();
+			    if (resultCode > 0) {
+					logger.debug("Inserted " + msg.getSteps() + " steps for player " + msg.getPlayerId());
+			    } else {
+			    	logger.warn("Inserting StepMessage for #" + msg.getPlayerId() + " had a failure");
+			    }
+			    
+			    stmt.close();
 			}
 		} catch (SQLException e) {
 			logger.error(e);
-		}
+		} 
 	}
 	
 	@Override
@@ -127,9 +146,14 @@ public class MariaDbWriter implements Closeable, DatabaseWriter {
 				stmt.setInt(1, playerId);
 				stmt.setInt(2, teamId);
 				
-			    stmt.executeQuery();
+				int resultCode = stmt.executeUpdate();
+			    if (resultCode > 0) {
+				    logger.debug("Creating Player worked - not sure if player already existed!");
+			    } else {
+			    	logger.warn("Inserting Player for #" + playerId + " had a failure");
+			    }
 			    
-			    logger.debug("Creating Player worked - not sure if player already existed!");
+			    stmt.close();
 			}
 		} catch (SQLException e) {
 			logger.error("Recieved SQL Exception while Creating Player " + playerId,e);
@@ -146,9 +170,14 @@ public class MariaDbWriter implements Closeable, DatabaseWriter {
 				stmt.setInt(2, msg.getCoins());
 				stmt.setTimestamp(3, convertUtilToSql(msg.getTimeStamp()));
 				
-			    stmt.executeQuery();
+				int resultCode = stmt.executeUpdate();
+			    if (resultCode > 0) {
+					logger.debug("Inserted " + msg.getCoins() + " coins for player " + msg.getPlayerId());
+				} else {
+			    	logger.warn("Inserting Coins for Player#" + msg.getPlayerId() + " had a failure");
+			    }
 
-				logger.debug("Inserted " + msg.getCoins() + " coins for player " + msg.getPlayerId());
+			    stmt.close();
 			}
 		} catch (SQLException e) {
 			logger.error(e);

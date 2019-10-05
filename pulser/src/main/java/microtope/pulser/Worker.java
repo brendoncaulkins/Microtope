@@ -36,15 +36,20 @@ public class Worker {
 	
 	public void work() throws JMSException, InterruptedException {
 		logger.debug("Worker starts work with " + numberOfMessages + " messages to send");
-		sender.sendMessage(MessageGenerator.createLoginMessage(playerId,teamId));
-		for (int i = 0;i < numberOfMessages;i++) {
-			Thread.sleep(timeout);
-			sendRandomizedMessage();
+		
+		synchronized (this) {
+			sender.sendMessage(MessageGenerator.createLoginMessage(playerId,teamId));
+			for (int i = 0;i < numberOfMessages;i++) {
+				this.wait(timeout);
+				sendRandomizedMessage();
+			}
+			logger.debug("Worker send his messages");
+			sender.sendMessage(MessageGenerator.createLogoutMessage(playerId));
+			finished = true;
+			logger.trace("Worker finished");
+			
+			notify();
 		}
-		logger.debug("Worker send his messages");
-		sender.sendMessage(MessageGenerator.createLogoutMessage(playerId));
-		finished = true;
-		logger.trace("Worker finished");
 	}
 	
 	public void sendRandomizedMessage() {

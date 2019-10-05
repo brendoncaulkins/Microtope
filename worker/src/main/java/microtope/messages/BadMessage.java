@@ -6,7 +6,7 @@ public class BadMessage implements AmqMessage {
 	
 	@Override
 	public boolean equals(Object o) {
-		return (o instanceof BadMessage) ? true : false;
+		return o instanceof BadMessage ? true : false;
 	}
 
 	public void setTimeStamp(Date date) {
@@ -16,4 +16,10 @@ public class BadMessage implements AmqMessage {
 	public Date getTimeStamp() {
 		return null;
 	}
+	
+	@Override
+	public int hashCode() {
+		return 42;
+	}
+	
 }

@@ -80,6 +80,21 @@
           <artifactId>maven-failsafe-plugin</artifactId>
           <version>3.0.0-M3</version>
     		</plugin>
+    		
+    	<!-- Required for Spotbugs-->
+        <plugin>
+           <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-site-plugin</artifactId>
+           <version>3.7.1</version>
+       </plugin>
+
+    	<!-- Required for Spotbugs-->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-project-info-reports-plugin</artifactId>
+            <version>3.0.0</version>
+		</plugin>
+        
         <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
@@ -133,13 +148,13 @@
 						  <rule>
 						    <element>PACKAGE</element>
 						    <excludes>
-						      <exclude>*MariaDbWriter</exclude>
+						      <exclude>*worker</exclude>
 						    </excludes>
 						    <limits>
 						      <limit>
 						        <counter>LINE</counter>
 						        <value>COVEREDRATIO</value>
-						        <minimum>65%</minimum>
+						        <minimum>70%</minimum>
 						      </limit>
 						    </limits>
 						  </rule>
@@ -158,7 +173,7 @@
 						        <limit>
 						        <counter>INSTRUCTION</counter>
 						        <value>COVEREDRATIO</value>
-						        <minimum>0.60</minimum>
+						        <minimum>60%</minimum>
 						      </limit>
 						    </limits>
 						  </rule>
@@ -200,7 +215,24 @@
 	       </executions>
     	</plugin>
    		
-	       		
+		<plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-pmd-plugin</artifactId>
+            <version>3.12.0</version>
+	        <configuration>
+	            <failOnViolation>true</failOnViolation> <!-- this is actually true by default, but can be disabled -->
+	            <printFailingErrors>true</printFailingErrors>
+	            <allowedViolations>3</allowedViolations>
+	        </configuration>
+	        <executions>
+	          <execution>
+	            <goals>
+	              <goal>check</goal>
+	            </goals>
+	          </execution>
+	        </executions>
+     	 </plugin>
+     	 	       		
 	            <plugin>
 	                <groupId>org.apache.maven.plugins</groupId>
 	                <artifactId>maven-compiler-plugin</artifactId>
@@ -250,10 +282,28 @@
 			      </configuration>
 			    </plugin>
 
+    	<plugin>
+		  <groupId>com.github.spotbugs</groupId>
+		  <artifactId>spotbugs-maven-plugin</artifactId>
+		  <version>3.1.12.2</version>
+		  <configuration>
+		  	<maxAllowedViolations> 10</maxAllowedViolations>
+		  </configuration>
+ 			<executions>
+		       <execution>
+			    <id>verify</id>
+	       		<phase>verify</phase>
+		       <goals>
+		         <goal>check</goal>
+		       </goals>
+		     </execution>
+	       </executions>
+		</plugin>
 
 	  </plugins>
   
   </build>
+
   <reporting>
       <plugins>
         <plugin>
@@ -274,6 +324,14 @@
             </reportSet>
           </reportSets>
         </plugin>
+        
+    <plugin>
+		  <groupId>com.github.spotbugs</groupId>
+		  <artifactId>spotbugs-maven-plugin</artifactId>
+		  <version>3.1.12.2</version>
+		</plugin>    
+		        
+        
       </plugins>
     </reporting>
 </project>
