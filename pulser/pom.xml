@@ -17,6 +17,7 @@
   <name>sender</name>
 
   <dependencies>
+  
   	<!-- ActiveMQ Related -->
 		<dependency>
 		  <groupId>org.apache.activemq</groupId>
