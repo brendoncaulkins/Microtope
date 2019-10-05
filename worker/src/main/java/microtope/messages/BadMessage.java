@@ -16,4 +16,10 @@ public class BadMessage implements AmqMessage {
 	public Date getTimeStamp() {
 		return null;
 	}
+	
+	@Override
+	public int hashCode() {
+		return 42;
+	}
+	
 }

@@ -148,13 +148,13 @@
 						  <rule>
 						    <element>PACKAGE</element>
 						    <excludes>
-						      <exclude>*MariaDbWriter</exclude>
+						      <exclude>*worker</exclude>
 						    </excludes>
 						    <limits>
 						      <limit>
 						        <counter>LINE</counter>
 						        <value>COVEREDRATIO</value>
-						        <minimum>65%</minimum>
+						        <minimum>70%</minimum>
 						      </limit>
 						    </limits>
 						  </rule>
@@ -173,7 +173,7 @@
 						        <limit>
 						        <counter>INSTRUCTION</counter>
 						        <value>COVEREDRATIO</value>
-						        <minimum>0.60</minimum>
+						        <minimum>60%</minimum>
 						      </limit>
 						    </limits>
 						  </rule>

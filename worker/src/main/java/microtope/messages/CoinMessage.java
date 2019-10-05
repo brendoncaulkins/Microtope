@@ -1,5 +1,7 @@
 package microtope.messages;
 
+import java.util.Objects;
+
 public class CoinMessage extends AmqBaseMessage implements PlayerRelatedMessage {
 	
 	private final int playerId;
@@ -27,5 +29,10 @@ public class CoinMessage extends AmqBaseMessage implements PlayerRelatedMessage 
 		
 		return otherParsed.getPlayerId() == getPlayerId() 
 				&& otherParsed.getCoins() == getCoins();
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(playerId, coins, timestamp);
 	}
 }

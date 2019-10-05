@@ -7,10 +7,11 @@ public class AmqBaseMessage implements AmqMessage {
 	protected Date timestamp = new Date(0);
 
 	public void setTimeStamp(Date date) {
-		this.timestamp = date;
+		this.timestamp = (Date) date.clone();
 	}
 
 	public Date getTimeStamp() {
-		return timestamp;
+		return (Date) timestamp.clone();
 	}
+	
 }

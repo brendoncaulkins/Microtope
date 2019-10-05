@@ -90,50 +90,6 @@ class MariaDBWriterTests {
 		test.writeLogout(msg);
 	}
 	
-	@Test
-	void testWriteLogout_withFailingConnection_shouldFailWithoutError() {
-		var test = new MariaDbWriter(validSQLConf());
-		var con = new FakeConnection();
-		
-		con.throwsSQLException=true;
-		try {
-			test.open(con);
-			var msg = new LogoutMessage(1000);
-			test.writeLogout(msg);
-			return;
-		} catch (SQLException e) {
-
-			fail();
-		}
-	}
-	
-	@Test
-	void testClose_wasNeverOpen_shouldFailWithoutError() {
-		var test = new MariaDbWriter(validSQLConf());
-		try {
-			test.close();
-			return;
-		} catch (IOException e) {
-			fail();
-		}
-	}
-	
-	@Test
-	void testOpen_withFakeSQLCon_WhichThrowsSQLException_shouldFailWithoutError() {
-		var test = new MariaDbWriter(validSQLConf());
-		var con = new FakeConnection();
-		
-		con.throwsSQLException=true;
-		
-		try {
-			test.open(con);
-			return;
-		} catch (SQLException e) {
-
-			fail();
-		}
-	}
-	
 	private SqlConfig validSQLConf() {
 		String[] testArgs= new String[] {"Adress","1005","Queue","User","Pwd"};
 		

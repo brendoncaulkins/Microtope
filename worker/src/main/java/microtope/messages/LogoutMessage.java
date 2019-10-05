@@ -1,5 +1,7 @@
 package microtope.messages;
 
+import java.util.Objects;
+
 public class LogoutMessage extends AmqBaseMessage implements PlayerRelatedMessage {
 	
 	private final int playerId;
@@ -22,4 +24,8 @@ public class LogoutMessage extends AmqBaseMessage implements PlayerRelatedMessag
 		return otherParsed.getPlayerId() == getPlayerId();
 	}
 	
+	@Override
+	public int hashCode() {
+		return Objects.hash(playerId, timestamp);
+	}
 }
