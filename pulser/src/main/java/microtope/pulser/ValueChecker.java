@@ -69,7 +69,7 @@ public abstract class ValueChecker {
 	        }
 	        for (String s : parts) {
 	            int i = Integer.parseInt(s);
-	            if ((i < 0) || (i > 255)) {
+	            if (i < 0 || i > 255) {
 	                return false;
 	            }
 	        }

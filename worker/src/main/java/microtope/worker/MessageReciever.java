@@ -5,6 +5,6 @@ import javax.jms.MessageListener;
 
 public interface MessageReciever extends Closeable {
 
-	public void registerMessageListener(MessageListener msglst);
+	void registerMessageListener(MessageListener msglst);
 	
 }

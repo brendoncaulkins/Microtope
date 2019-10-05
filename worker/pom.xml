@@ -215,7 +215,24 @@
 	       </executions>
     	</plugin>
    		
-	       		
+		<plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-pmd-plugin</artifactId>
+            <version>3.12.0</version>
+	        <configuration>
+	            <failOnViolation>true</failOnViolation> <!-- this is actually true by default, but can be disabled -->
+	            <printFailingErrors>true</printFailingErrors>
+	            <allowedViolations>3</allowedViolations>
+	        </configuration>
+	        <executions>
+	          <execution>
+	            <goals>
+	              <goal>check</goal>
+	            </goals>
+	          </execution>
+	        </executions>
+     	 </plugin>
+     	 	       		
 	            <plugin>
 	                <groupId>org.apache.maven.plugins</groupId>
 	                <artifactId>maven-compiler-plugin</artifactId>

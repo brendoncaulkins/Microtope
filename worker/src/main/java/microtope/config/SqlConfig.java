@@ -62,7 +62,7 @@ public class SqlConfig {
     	//TODO: ValueChecker for Queue-Names?
     	logger.info("args[] are ok, starting sender ...");
     	
-    	return (new SqlConfig(addressToCheck,portToCheck,queueToCheck,args[3],args[4]));
+    	return new SqlConfig(addressToCheck,portToCheck,queueToCheck,args[3],args[4]);
     }
     
     public static SqlConfig emptyConfig() {
