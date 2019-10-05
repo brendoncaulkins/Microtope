@@ -11,10 +11,10 @@ describe('PlayerService', () => {
 
   beforeEach(async () => {
     httpSpy = jasmine.createSpyObj<HttpClient>(['get', 'put']);
-    confSpy = jasmine.createSpyObj<AppConfigService>(['getValue', 'loadAppConfig']);
+    confSpy = jasmine.createSpyObj<AppConfigService>(['loadAppConfig']);
   });
 
-  it('should be created', (doneFn) => {
+  it('should be created', doneFn => {
     // Arrange
     const service: PlayerService = new PlayerService(confSpy, httpSpy);
     confSpy.loadAppConfig.and.returnValue(of({api_url: 'fooUrl'} as any));
