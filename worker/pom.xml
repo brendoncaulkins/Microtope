@@ -80,6 +80,21 @@
           <artifactId>maven-failsafe-plugin</artifactId>
           <version>3.0.0-M3</version>
     		</plugin>
+    		
+    	<!-- Required for Spotbugs-->
+        <plugin>
+           <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-site-plugin</artifactId>
+           <version>3.7.1</version>
+       </plugin>
+
+    	<!-- Required for Spotbugs-->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-project-info-reports-plugin</artifactId>
+            <version>3.0.0</version>
+		</plugin>
+        
         <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
@@ -250,10 +265,28 @@
 			      </configuration>
 			    </plugin>
 
+    	<plugin>
+		  <groupId>com.github.spotbugs</groupId>
+		  <artifactId>spotbugs-maven-plugin</artifactId>
+		  <version>3.1.12.2</version>
+		  <configuration>
+		  	<maxAllowedViolations> 10</maxAllowedViolations>
+		  </configuration>
+ 			<executions>
+		       <execution>
+			    <id>verify</id>
+	       		<phase>verify</phase>
+		       <goals>
+		         <goal>check</goal>
+		       </goals>
+		     </execution>
+	       </executions>
+		</plugin>
 
 	  </plugins>
   
   </build>
+
   <reporting>
       <plugins>
         <plugin>
@@ -274,6 +307,14 @@
             </reportSet>
           </reportSets>
         </plugin>
+        
+    <plugin>
+		  <groupId>com.github.spotbugs</groupId>
+		  <artifactId>spotbugs-maven-plugin</artifactId>
+		  <version>3.1.12.2</version>
+		</plugin>    
+		        
+        
       </plugins>
     </reporting>
 </project>
