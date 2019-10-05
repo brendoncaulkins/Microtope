@@ -50,9 +50,11 @@ Configuration:
 - ./**/*.yaml
 - ./**/*.json
 - ./**/*.xml
+- .gitignore
 
 Git:
 - .github/*
+- .gitignore
 
 Integration:
 - ./meta/docker-compose.yml
