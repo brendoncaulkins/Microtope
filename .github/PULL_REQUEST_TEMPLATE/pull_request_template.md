@@ -1,26 +1,23 @@
-**Short Summary of your changes**
+Short summary of your changes
 
-** Reasons: **
+**Reasons:**
 
-Why did you do this change?
 - It's faster
 - It's a new feature
 
-** Changes: **
+**Changes:**
 
-What did you change? 
 - Altered Pom.xml
 - Upgraded Docker-Image Version
 
-** Possible Risks: **
+**Possible Risks:**
 
 Mention any possible Risk to come up with
 
-** Related Issues: **
+**Related Issues:**
 
 Mention any related issue
- 
 
-** Additional Info: **
+**Additional Info:**
 
 Feel free to add Screenshots, blame persons
