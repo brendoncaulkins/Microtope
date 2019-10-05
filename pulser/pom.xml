@@ -180,6 +180,7 @@
 						    <element>CLASS</element>
 						    <excludes>
 						      <exclude>*Test</exclude>
+						      <exclude>*App</exclude>
 						    </excludes>
 						    <limits>
 						      <limit>

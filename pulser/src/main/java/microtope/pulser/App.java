@@ -1,6 +1,10 @@
 package microtope.pulser;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.jms.JMSException;
 
@@ -13,7 +17,7 @@ public class App {
 	
 	private static Logger logger = LogManager.getLogger(App.class);
 
-    public static void main(String[] args) throws JMSException, IOException, InterruptedException {
+    public static void main(String[] args) throws JMSException, IOException, InterruptedException, ExecutionException {
         logger.info("Starting AMQ-Sender");
         logger.debug("Recieved " + args + " as arguments");
         ActiveMqConfiguration amqconf = ActiveMqConfiguration.emptyConfig();
@@ -27,11 +31,15 @@ public class App {
         
         sender.open(sender.createConnectionFromConfig());
         
-        worker.work();
-        
-        while (!worker.finished) {
-        	
-        }
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+		Future<?> future = executor.submit(() -> {
+			try {
+				worker.work();
+			} catch (JMSException | InterruptedException e) {
+				logger.error(e);
+			}
+		});
+		future.get(); // wait for completion of work
         
         sender.close();
     }

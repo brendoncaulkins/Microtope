@@ -34,7 +34,11 @@ class WorkerTests {
 		Worker worker = Worker.randomWorker(sender, 1);
 		 
 		try {
+			
 			worker.work();
+			while(!worker.finished) {
+				worker.wait();
+			}
 			
 			assertTrue(((FakeMessageSender) sender).sendMessage);
 		} catch (JMSException e) {
