@@ -35,9 +35,10 @@ jobs:
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
+        name: microtope/pulser
         username: ${{ secrets.DOCKER_GITHUB_USERNAME }}
         password: ${{ secrets.DOCKER_GITHUB_PASSWORD }}
         registry: docker.pkg.github.com
-        cache: true
+        chache: true
         workdir: ./pulser
         dockerfile: BuildDockerfile
