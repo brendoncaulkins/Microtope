@@ -17,7 +17,7 @@ jobs:
         username: ${{ secrets.DOCKER_GITHUB_USERNAME }}
         password: ${{ secrets.DOCKER_GITHUB_TOKEN }}
         registry: docker.pkg.github.com
-        chache: true
+        cache: true
         workdir: ./pulser
         dockerfile: BuildDockerfile
 
@@ -32,7 +32,7 @@ jobs:
         username: ${{ secrets.DOCKER_GITHUB_USERNAME }}
         password: ${{ secrets.DOCKER_GITHUB_TOKEN }}
         registry: docker.pkg.github.com
-        chache: true
+        cache: true
         workdir: ./worker
         dockerfile: BuildDockerfile
 
@@ -47,7 +47,7 @@ jobs:
         username: ${{ secrets.DOCKER_GITHUB_USERNAME }}
         password: ${{ secrets.DOCKER_GITHUB_TOKEN }}
         registry: docker.pkg.github.com
-        chache: true
+        cache: true
         workdir: ./database
         dockerfile: Dockerfile
 
@@ -62,7 +62,7 @@ jobs:
         username: ${{ secrets.DOCKER_GITHUB_USERNAME }}
         password: ${{ secrets.DOCKER_GITHUB_TOKEN }}
         registry: docker.pkg.github.com
-        chache: true
+        cache: true
         workdir: ./ui
         dockerfile: Dockerfile
 
@@ -77,6 +77,6 @@ jobs:
         username: ${{ secrets.DOCKER_GITHUB_USERNAME }}
         password: ${{ secrets.DOCKER_GITHUB_TOKEN }}
         registry: docker.pkg.github.com
-        chache: true
+        cache: true
         workdir: ./api
         dockerfile: Dockerfile
