@@ -1,0 +1,82 @@
+name: publish docker packages
+
+on:
+  release:
+    types: [published]
+
+jobs: 
+
+  PublishPulserToGithub:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Build Pulser and Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: docker.pkg.github.com/twonki/microtope/pulser
+        username: ${{ secrets.DOCKER_GITHUB_USERNAME }}
+        password: ${{ secrets.DOCKER_GITHUB_TOKEN }}
+        registry: docker.pkg.github.com
+        chache: true
+        workdir: ./pulser
+        dockerfile: BuildDockerfile
+
+  PublishWorkerToGithub:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Build Worker and Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: docker.pkg.github.com/twonki/microtope/worker
+        username: ${{ secrets.DOCKER_GITHUB_USERNAME }}
+        password: ${{ secrets.DOCKER_GITHUB_TOKEN }}
+        registry: docker.pkg.github.com
+        chache: true
+        workdir: ./worker
+        dockerfile: BuildDockerfile
+
+  PublishDatabaseToGithub:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Build Database and Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: docker.pkg.github.com/twonki/microtope/database
+        username: ${{ secrets.DOCKER_GITHUB_USERNAME }}
+        password: ${{ secrets.DOCKER_GITHUB_TOKEN }}
+        registry: docker.pkg.github.com
+        chache: true
+        workdir: ./database
+        dockerfile: Dockerfile
+
+  PublishUiToGithub:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Build UI and Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: docker.pkg.github.com/twonki/microtope/ui
+        username: ${{ secrets.DOCKER_GITHUB_USERNAME }}
+        password: ${{ secrets.DOCKER_GITHUB_TOKEN }}
+        registry: docker.pkg.github.com
+        chache: true
+        workdir: ./ui
+        dockerfile: Dockerfile
+
+  PublishAPIToGithub:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Build API and Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: docker.pkg.github.com/twonki/microtope/database
+        username: ${{ secrets.DOCKER_GITHUB_USERNAME }}
+        password: ${{ secrets.DOCKER_GITHUB_TOKEN }}
+        registry: docker.pkg.github.com
+        chache: true
+        workdir: ./api
+        dockerfile: Dockerfile
