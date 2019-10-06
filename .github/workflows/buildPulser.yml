@@ -6,10 +6,8 @@ on:
       - 'pulser/*'
 
 jobs:
-  build:
-
+  buildFromMaven:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v1
     - name: Set up JDK 12
@@ -27,18 +25,3 @@ jobs:
       uses: actions/docker/cli@master
       with:
         args: build -f ./pulser/BuildDockerfile ./pulser
-        
-  PublishToGithub:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - name: Publish to Registry
-      uses: elgohr/Publish-Docker-Github-Action@master
-      with:
-        name: docker.pkg.github.com/twonki/microtope/pulser
-        username: ${{ secrets.DOCKER_GITHUB_USERNAME }}
-        password: ${{ secrets.DOCKER_GITHUB_TOKEN }}
-        registry: docker.pkg.github.com
-        chache: true
-        workdir: ./pulser
-        dockerfile: BuildDockerfile
