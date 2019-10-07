@@ -8,12 +8,10 @@ WORKDIR /app
 # Copy project files to the docker image
 COPY . .
 
-RUN npm install @angular/cli@latest -g
-
 RUN npm ci
 
 # Build Angular Application in Production
-RUN ng build --prod
+RUN npm run build:prod
 
 #### STAGE 2
 #### Deploying the application
