@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   ui:
-    image: microtope/ui
+    image: docker.pkg.github.com/twonki/microtope/ui
     volumes:
       - ./configs/docker_compose/ui/:/usr/share/nginx/html/config/
     ports:
@@ -29,7 +29,7 @@ services:
       ARTEMIS_PASSWORD: Artemis
       
   pulser:
-    image: microtope/pulser
+    image: docker.pkg.github.com/twonki/microtope/pulser
     depends_on: 
       - amq
       - worker
@@ -41,7 +41,7 @@ services:
       - spawn
   
   db:
-    image: microtope/database
+    image: docker.pkg.github.com/twonki/microtope/database
     networks: 
       - backend
       - transistor
@@ -50,7 +50,7 @@ services:
       TZ: "Europe/Berlin"
   
   worker:
-    image: microtope/worker
+    image: docker.pkg.github.com/twonki/microtope/worker
     networks:
       - backend
     environment:
@@ -66,7 +66,7 @@ services:
       - db
   
   api:
-    image: microtope/api
+    image: docker.pkg.github.com/twonki/microtope/api
     networks:
       - transistor
     environment:
