@@ -1,8 +1,22 @@
 import {IRankable} from '../models/IRankable';
+import { Observable } from 'rxjs';
+import { take, map, flatMap } from 'rxjs/operators';
+import { ɵisListLikeIterable } from '@angular/core';
 
 export function compare(first: IRankable, second: IRankable): number {
   const coinCompare = compareCoins(first, second);
   return coinCompare === 0 ? compareSteps(first, second) : coinCompare;
+}
+
+
+// Returns the first n IRankables in the Observable inputted
+// Per Rxjs logic, this Observable is a fresh new copy, and does not alter the initial Observable
+export function topN(input:  Observable<IRankable[]>, n:number) : Observable<IRankable[]> {
+  return input.pipe(
+      map(list => list.slice()),
+      map(iRankList => iRankList.sort((a,b) => compare(a,b))),
+      map(sortedIRankList => sortedIRankList.slice(0,n))
+    )
 }
 
 function compareRankables(
@@ -10,15 +24,15 @@ function compareRankables(
   second: IRankable,
   propToCompare: keyof IRankable
 ): number {
-  const fVal = first[propToCompare];
-  const sVal = second[propToCompare];
+  const firstVal = first[propToCompare];
+  const secondVal = second[propToCompare];
 
   // if one arg has invalid prop
-  if (!fVal || !sVal) {
-    return !!fVal ? -1 : !!sVal ? 1 : 0;
+  if (!firstVal || !secondVal) {
+    return !!firstVal ? -1 : !!secondVal ? 1 : 0;
   }
 
-  return !(fVal - sVal) ? 0 : fVal > sVal ? -1 : 1;
+  return !(firstVal - secondVal) ? 0 : firstVal > secondVal ? -1 : 1;
 }
 
 function compareCoins(first: IRankable, second: IRankable): number {
@@ -29,8 +43,3 @@ function compareSteps(first: IRankable, second: IRankable): number {
   return compareRankables(first, second, 'steps');
 }
 
-export const topNCurry = (n: number) =>
-  (rankables: IRankable[]) =>
-    rankables.slice()
-             .sort((a, b) => compare(a, b))
-             .slice(0, n);

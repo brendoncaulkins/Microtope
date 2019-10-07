@@ -1,37 +1,52 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
-import {filter, flatMap, map, take} from 'rxjs/operators';
+import {Component, Input, OnInit, OnDestroy} from '@angular/core';
+import {Observable, Subscription} from 'rxjs';
+import {filter, flatMap, map, take, first} from 'rxjs/operators';
 import {IPreviewable} from 'src/app/models/IPreviewable';
 import {IRankable} from 'src/app/models/IRankable';
 import {SelectedService} from 'src/app/services/selected.service';
-import {topNCurry} from 'src/app/utils/IRankable.functions';
+import {topN} from 'src/app/utils/IRankable.functions';
 
 @Component({
   selector: 'app-top-rankable',
   templateUrl: './top-rankable.component.html',
   styleUrls: ['./top-rankable.component.css']
 })
-export class TopRankableComponent<T extends IPreviewable & IRankable> implements OnInit {
+export class TopRankableComponent<T extends IPreviewable & IRankable> implements OnInit,OnDestroy {
+
   private TOP_COUNT = 3;
 
-  sortedItems: Observable<T[]>;
+  sortedItems : Observable<T[]>;
+
+  selectionSub : Subscription;
+  selectedItem: T;
 
   @Input() items: Observable<T[]>;
 
   constructor(public selection: SelectedService<T>) { }
 
   ngOnInit() {
-    this.sortedItems = this.items.pipe(
-      map(topNCurry(this.TOP_COUNT))
-    ) as Observable<T[]>;
+    this.sortedItems = (topN(this.items,this.TOP_COUNT) as Observable<T[]>);
+
+    this.selectionSub = this.selection.selected$.subscribe(
+      x => this.sortedItems.pipe(
+        // Flatten Observable T[] to T[]
+        flatMap( items => items),
+        // Check if any fits the newly selected item
+        first(i => this.helperEquals(i,x))
+      ).toPromise()
+      // If it exists, update local field
+        .then(foundSelection => this.selectedItem = foundSelection)
+      // Else set selected Item to null
+        .catch(x => this.selectedItem = null)
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.selectionSub.unsubscribe();
   }
 
   onSelect(item: T): void {
-    this.sortedItems.pipe(
-      take(1),      // this will cause automatic unsubscribe after first emit
-      flatMap(items => items),  // flatten array
-      filter(i => this.helperEquals(i, item))
-    ).subscribe(x => this.selection.select(x));
+   this.selection.select(item);
   }
 
   private helperEquals(first: T, second: T): boolean {
