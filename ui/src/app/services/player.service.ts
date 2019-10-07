@@ -28,13 +28,15 @@ export class PlayerService extends IPreviewableService<Player> {
   }
 
   public updatePlayer(player: Player): void {
+    console.log("Invoked UpdatePlayer with " + JSON.stringify(player));
     this.config.loadAppConfig().pipe(
       tap(con => console.log('Got Config with base_url:' + con.api_url)),
       map(con => con.api_url + this.PLAYER_API),
       tap(url => console.log('HTTPRequesting:' + url)),
       switchMap(url =>
         this.http.put(url + '/' + player.id, {id: player.id, name: player.name} )
-      )
+      ),
+      tap(x => console.log("request has been sucessfully run"))
     );
   }
 

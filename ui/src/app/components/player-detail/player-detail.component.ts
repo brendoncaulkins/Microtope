@@ -22,6 +22,7 @@ export class PlayerDetailComponent {
 
   onSave(player: Player) {
     console.log('Saving current player...');
+    console.log("currentPlayer is: " + JSON.stringify(player));
     this.playerService.updatePlayer(player);
   }
 
