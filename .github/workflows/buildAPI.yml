@@ -4,12 +4,8 @@ on:
   pull_request:
     paths:
       - 'api/*'
-    branches:
-      - master
-      - dev
 
 jobs:
-  
   lint:
     runs-on: ubuntu-latest
     steps: 
@@ -20,7 +16,6 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.LINTER_TOCKEN }}
         TARGET: ./api/Dockerfile
-
   BuildWithDocker:
     runs-on: ubuntu-latest
     steps:  
