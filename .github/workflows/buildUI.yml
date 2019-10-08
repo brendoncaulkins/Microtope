@@ -2,14 +2,23 @@ on:
   pull_request:
     paths:
       - 'ui/*'
+    branches: 
+      - master
+      - dev
 
 name: Build UI in Docker
+
 jobs:
-  buildUI:
+  BuildWithDocker:
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - name: buildUI
-      uses: actions/docker/cli@master
-      with:
-        args: build ./ui
+    steps:  
+      - uses: whoan/docker-build-with-cache-action@v1
+        name: Build UI in Docker
+        with:
+          username: ${{ secrets.DOCKER_GITHUB_USERNAME }}
+          password: ${{ secrets.DOCKER_GITHUB_TOKEN }}
+          image_name: microtope/ui
+          image_tag: latest
+          context: ./ui
+          dockerfile: Dockerfile
+          push_image_and_stages: false 
