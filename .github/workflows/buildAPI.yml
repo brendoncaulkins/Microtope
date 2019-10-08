@@ -1,16 +1,35 @@
-name: Build API in Docker
+name: API CI Action on PR
 
 on: 
   pull_request:
     paths:
       - 'api/*'
+    branches:
+      - master
+      - dev
 
 jobs:
-  buildAPI:
+  
+  lint:
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - name: buildAPI
-      uses: actions/docker/cli@master
-      with:
-        args: build ./api
+    steps: 
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: lint
+      uses: luke142367/Docker-Lint-Action@v1.0.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.LINTER_TOCKEN }}
+        TARGET: ./api/Dockerfile
+
+  BuildWithDocker:
+    runs-on: ubuntu-latest
+    steps:  
+      - uses: whoan/docker-build-with-cache-action@v1
+        name: Build in Docker
+        with:
+          image_name: microtope/api
+          image_tag: latest
+          context: ./api
+          dockerfile: Dockerfile
+          push_image_and_stages: false 
+
