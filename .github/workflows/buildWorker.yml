@@ -4,6 +4,9 @@ on:
   pull_request:
     paths:
       - 'worker/*'
+    branches: 
+      - master
+      - dev
 
 jobs:
   buildFromMaven:
@@ -19,9 +22,15 @@ jobs:
 
   buildFromDocker:
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - name: build Worker From Docker
-      uses: actions/docker/cli@master
-      with:
-        args: build -f ./worker/BuildDockerfile ./worker
+    steps:  
+      - uses: whoan/docker-build-with-cache-action@v1
+        name: Build Worker in Docker
+        with:
+          username: ${{ secrets.DOCKER_GITHUB_USERNAME }}
+          password: ${{ secrets.DOCKER_GITHUB_TOKEN }}
+          image_name: microtope/worker
+          image_tag: latest
+          registry: docker.pkg.github.com
+          context: ./worker
+          dockerfile: BuildDockerfile
+          push_image_and_stages: false 
