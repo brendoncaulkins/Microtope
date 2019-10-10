@@ -8,8 +8,9 @@ on:
       - master
       - dev'
 
+
 jobs:
-  buildFromMaven:
+  buildWithMaven:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -20,7 +21,7 @@ jobs:
     - name: Build with Maven  
       run: mvn package verify --file pulser/pom.xml
 
-  buildFromDocker:
+  BuildWithDocker:
     runs-on: ubuntu-latest
     steps:  
       - uses: whoan/docker-build-with-cache-action@v1

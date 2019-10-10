@@ -19,7 +19,7 @@ jobs:
           password: ${{ secrets.DOCKER_GITHUB_TOKEN }}
           image_name: microtope/ui
           image_tag: latest
-          repository: docker.pkg.github.com
+          registry: docker.pkg.github.com
           context: ./ui
           dockerfile: Dockerfile
           push_image_and_stages: false 
